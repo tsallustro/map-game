@@ -13,5 +13,8 @@ func _on_selection_changed(province_id: String) -> void:
 		label.text = "No province selected"
 		return
 
-	var p := GameState.get_province_by_id(province_id)
-	label.text = "%s\nOwner: %s\nID: %s" % [p["name"], p["owner"], province_id]
+	var province_data := GameState.get_province_by_id(province_id)
+	label.text = _build_label_text(province_id, province_data)
+
+func _build_label_text(province_id: String, province_data: Dictionary) -> String:
+	return "%s\nID: %s\nOwner: %s\nTerrain: %s" % [province_data["name"], province_id, province_data["owner"], province_data["terrain"]]

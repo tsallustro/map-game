@@ -5,17 +5,19 @@ extends Control
 
 @onready var province_btn: Button = $UI/ViewButtons/HBoxContainer/ProvinceViewButton
 @onready var owner_btn: Button = $UI/ViewButtons/HBoxContainer/OwnerViewButton
+@onready var terrain_btn: Button = $UI/ViewButtons/HBoxContainer/TerrainViewButton
 
 func _ready() -> void:
 	# Buttons -> GameState
 	province_btn.pressed.connect(_on_province_view_pressed)
 	owner_btn.pressed.connect(_on_owner_view_pressed)
+	terrain_btn.pressed.connect(_on_terrain_view_pressed)
 
 	# Keep button state in sync even if something else changes view mode later
 	GameState.view_mode_changed.connect(_on_view_mode_changed)
 
 	# Default is OWNER (GameState already defaults to this, but set explicitly)
-	GameState.set_view_mode(GameState.ViewMode.OWNER)
+	GameState.set_view_mode(Enums.ViewMode.OWNER)
 	_on_view_mode_changed(GameState.view_mode)
 
 	# Center camera on the map texture
@@ -25,13 +27,18 @@ func _ready() -> void:
 		cam.position = tex_size / 2.0
 
 func _on_province_view_pressed() -> void:
-	GameState.set_view_mode(GameState.ViewMode.PROVINCE)
+	GameState.set_view_mode(Enums.ViewMode.PROVINCE)
 
 func _on_owner_view_pressed() -> void:
-	GameState.set_view_mode(GameState.ViewMode.OWNER)
-
+	GameState.set_view_mode(Enums.ViewMode.OWNER)
+	
+func _on_terrain_view_pressed() -> void:
+	GameState.set_view_mode(Enums.ViewMode.TERRAIN)
+	
 func _on_view_mode_changed(mode: int) -> void:
 	# Visual feedback: disable active button
-	owner_btn.disabled = (mode == GameState.ViewMode.OWNER)
-	province_btn.disabled = (mode == GameState.ViewMode.PROVINCE)
+	owner_btn.disabled = (mode == Enums.ViewMode.OWNER)
+	province_btn.disabled = (mode == Enums.ViewMode.PROVINCE)
+	terrain_btn.disabled = (mode == Enums.ViewMode.TERRAIN)
+
 	print("Set view mode: "+str(mode))

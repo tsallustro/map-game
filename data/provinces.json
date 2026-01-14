@@ -1,50 +1,90 @@
 [
-  {
-	"id": "p_dark_purple",
-	"name": "Dark Purple Province",
-	"mask_color": [235, 42, 255],
-	"owner": "NWT"
-  },
-  {
-	"id": "p_blue",
-	"name": "Blue Province",
-	"mask_color": [9, 6, 255],
-	"owner": "NWT"
-  },
-  {
-	"id": "p_yellow",
-	"name": "Yellow Province",
-	"mask_color": [255, 240, 4],
-	"owner": "YEL"
-  },
-  {
-	"id": "p_orange",
-	"name": "Orange Province",
-	"mask_color": [255, 83, 8],
-	"owner": "CTR"
-  },
-  {
-	"id": "p_green",
-	"name": "Green Province",
-	"mask_color": [11, 255, 170],
-	"owner": "CTR"
-  },
-  {
-	"id": "p_teal",
-	"name": "Teal Province",
-	"mask_color": [3, 255, 238],
-	"owner": "GRB"
-  },
-  {
-	"id": "p_maroon",
-	"name": "Maroon Province",
-	"mask_color": [255, 131, 107],
-	"owner": "GRB"
-  },
-  {
-	"id": "p_light_purple",
-	"name": "Light Purple Province",
-	"mask_color": [255, 123, 206],
-	"owner": "GRB"
-  }
+	{
+		"id": "p_dark_purple",
+		"name": "Dark Purple Province",
+		"mask_color": [
+			235.0,
+			42.0,
+			255.0
+		],
+		"owner": "NWT",
+		"terrain": "PLAIN"
+	},
+	{
+		"id": "p_blue",
+		"name": "Blue Province",
+		"mask_color": [
+			9.0,
+			6.0,
+			255.0
+		],
+		"owner": "NWT",
+		"terrain": "PLAIN"
+	},
+	{
+		"id": "p_yellow",
+		"name": "Yellow Province",
+		"mask_color": [
+			255.0,
+			240.0,
+			4.0
+		],
+		"owner": "YEL",
+		"terrain": "DESERT"
+	},
+	{
+		"id": "p_orange",
+		"name": "Orange Province",
+		"mask_color": [
+			255.0,
+			83.0,
+			8.0
+		],
+		"owner": "CTR",
+		"terrain": "PLAIN"
+	},
+	{
+		"id": "p_green",
+		"name": "Green Province",
+		"mask_color": [
+			11.0,
+			255.0,
+			170.0
+		],
+		"owner": "CTR",
+		"terrain": "FOREST"
+	},
+	{
+		"id": "p_teal",
+		"name": "Teal Province",
+		"mask_color": [
+			3.0,
+			255.0,
+			238.0
+		],
+		"owner": "GRB",
+		"terrain": "PLAIN"
+	},
+	{
+		"id": "p_maroon",
+		"name": "Maroon Province",
+		"mask_color": [
+			255.0,
+			131.0,
+			107.0
+		],
+		"owner": "GRB",
+		"terrain": "MOUNTAIN"
+	},
+	{
+		"id": "p_light_purple",
+		"name": "Light Purple Province",
+		"mask_color": [
+			255.0,
+			123.0,
+			206.0
+		],
+		"owner": "GRB",
+		"terrain": "PLAIN"
+	}
 ]

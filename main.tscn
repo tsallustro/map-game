@@ -70,3 +70,7 @@ text = "Owner"
 [node name="ProvinceViewButton" type="Button" parent="UI/ViewButtons/HBoxContainer"]
 layout_mode = 2
 text = "Provinces"
+
+[node name="TerrainViewButton" type="Button" parent="UI/ViewButtons/HBoxContainer"]
+layout_mode = 2
+text = "Terrain"

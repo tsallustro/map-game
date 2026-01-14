@@ -28,6 +28,7 @@ func _build_shader_arrays() -> void:
 	# prov_colors: mask colors in province array order
 	var prov_arr := PackedColorArray()
 	var owner_arr := PackedColorArray()
+	var terrain_arr := PackedColorArray()
 
 	for p in GameState.provinces:
 		var mc: Array = p["mask_color"]
@@ -35,14 +36,17 @@ func _build_shader_arrays() -> void:
 
 		var owner_id: String = p["owner"]
 		owner_arr.append(GameState.get_country_color(owner_id))
+
+		var p_terrain_color := GameState.get_province_terrain_color_by_id(p["id"])
+		terrain_arr.append(p_terrain_color)
+
 	
-	print(prov_arr)
-	print(owner_arr)
 	_mat.set_shader_parameter("prov_colors", prov_arr)
 	_mat.set_shader_parameter("owner_colors", owner_arr)
-
+	_mat.set_shader_parameter("terrain_colors", terrain_arr)
+	
 func _on_view_mode_changed(mode: int) -> void:
-	_mat.set_shader_parameter("view_mode", 0 if mode == GameState.ViewMode.OWNER else 1)
+	_mat.set_shader_parameter("view_mode", mode)
 
 func _on_selection_changed(province_id: String) -> void:
 	if province_id == "":
