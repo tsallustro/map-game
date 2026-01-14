@@ -13,3 +13,7 @@ config_version=5
 config/name="Map Game"
 run/main_scene="uid://dwi8pqgrjflqx"
 config/features=PackedStringArray("4.5", "Forward Plus")
+
+[autoload]
+
+GameState="*res://scripts/autoload/GameState.gd"
