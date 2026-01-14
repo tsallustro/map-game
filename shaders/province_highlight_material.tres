@@ -1,4 +1,4 @@
-[gd_resource type="ShaderMaterial" load_steps=3 format=3 uid="uid://dp2p2fepnlpm5"]
+[gd_resource type="ShaderMaterial" load_steps=3 format=4 uid="uid://dp2p2fepnlpm5"]
 
 [ext_resource type="Shader" uid="uid://d3ccrx3q0ys7t" path="res://shaders/province_highlight.gdshader" id="1_smbg1"]
 [ext_resource type="Texture2D" uid="uid://dadsugfnn2aj6" path="res://assets/province_mask.png" id="2_lweku"]
@@ -6,8 +6,12 @@
 [resource]
 shader = ExtResource("1_smbg1")
 shader_parameter/mask_tex = ExtResource("2_lweku")
-shader_parameter/selected_color = Color(0, 0, 0, 1)
-shader_parameter/outline_color = Color(1, 1, 0, 0.65882355)
-shader_parameter/enabled = 0.0
+shader_parameter/view_mode = 0
+shader_parameter/prov_colors = PackedVector4Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+shader_parameter/owner_colors = PackedVector4Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+shader_parameter/outline_color = Color(1, 0.7607843, 0.38039216, 0.8039216)
+shader_parameter/enabled_outline = 1.0
 shader_parameter/tolerance = 0.002
 shader_parameter/thickness_px = 1.0
+shader_parameter/selected_color = Color(0, 0, 0, 1)
+shader_parameter/enabled_selection = 0.0

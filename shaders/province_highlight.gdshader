@@ -7,6 +7,7 @@ uniform int view_mode = 0;
 
 uniform vec4 prov_colors[8];
 uniform vec4 owner_colors[8];
+uniform vec4 terrain_colors[8];
 
 uniform vec4 outline_color : source_color = vec4(1.0, 1.0, 0.0, 1.0);
 uniform float enabled_outline = 1.0;
@@ -47,10 +48,12 @@ void fragment() {
 
 		// If match, color according to view mode, else fall back to base color
 		if (best > 0.5) {
-			if (view_mode == 1) { // Province view
-				recolor = prov_colors[idx].rgb;
-			} else { // Owner view
+			if (view_mode == 0) { // Owner view
 				recolor = owner_colors[idx].rgb;
+			} else if (view_mode == 1){ // Province view
+				recolor = prov_colors[idx].rgb;
+			}else { // Terrain view
+				recolor = terrain_colors[idx].rgb;
 			}
 		}
 	}

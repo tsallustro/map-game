@@ -1,18 +1,20 @@
 extends PanelContainer
-
 @onready var label: Label = $Label
 
-var provinces := {} # filled by Main
+func _ready() -> void:
+	GameState.data_loaded.connect(_on_data_loaded)
+	GameState.selection_changed.connect(_on_selection_changed)
 
-func set_provinces(p: Dictionary) -> void:
-	provinces = p
+func _on_data_loaded() -> void:
+	_on_selection_changed(GameState.selected_province_id)
 
-func bind_map(map_layer: Node) -> void:
-	map_layer.province_clicked.connect(_on_province_clicked)
+func _on_selection_changed(province_id: String) -> void:
+	if province_id == "":
+		label.text = "No province selected"
+		return
 
-func _on_province_clicked(key: String) -> void:
-	if provinces.has(key):
-		var p = provinces[key]
-		label.text = "%s\nOwner: %s\nKey: %s" % [p.name, p.owner, key]
-	else:
-		label.text = "Unknown province\nKey: %s" % key
+	var province_data := GameState.get_province_by_id(province_id)
+	label.text = _build_label_text(province_id, province_data)
+
+func _build_label_text(province_id: String, province_data: Dictionary) -> String:
+	return "%s\nID: %s\nOwner: %s\nTerrain: %s" % [province_data["name"], province_id, province_data["owner"], province_data["terrain"]]

@@ -1,15 +1,11 @@
 extends Node2D
-signal province_clicked(key: String)
 
 @export var mask_texture: Texture2D
-@onready var map_sprite: Sprite2D = $MapSprite
 
-var _mat: ShaderMaterial
 var _mask_image: Image
 
 func _ready() -> void:
 	_mask_image = mask_texture.get_image()
-	_mat = map_sprite.material as ShaderMaterial
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.pressed:
@@ -19,10 +15,9 @@ func _unhandled_input(event: InputEvent) -> void:
 			var world_pos: Vector2 = get_viewport().get_canvas_transform().affine_inverse() * mb.position
 			var key: String = _province_key_at_world(world_pos)
 			if key != "":
-				emit_signal("province_clicked", key)
-				_set_selected_key(key)
+				GameState.select_province_by_maskkey(key)
 			else:
-				_clear_selection()
+				GameState.clear_selection()
 
 		if mb.button_index == MOUSE_BUTTON_WHEEL_DOWN:
 			_zoom(0.9)
@@ -59,18 +54,3 @@ func _zoom(factor: float) -> void:
 func _pan(delta: Vector2) -> void:
 	var cam: Camera2D = get_viewport().get_camera_2d() as Camera2D
 	cam.position -= delta * cam.zoom.x
-	
-func _set_selected_key(key: String) -> void:
-	var parts := key.split(",")
-	if parts.size() != 3:
-		return
-
-	var r := int(parts[0])
-	var g := int(parts[1])
-	var b := int(parts[2])
-
-	_mat.set_shader_parameter("selected_color", Color(r / 255.0, g / 255.0, b / 255.0, 1.0))
-	_mat.set_shader_parameter("enabled_selection", 1.0)
-
-func _clear_selection() -> void:
-	_mat.set_shader_parameter("enabled_selection", 0.0)
