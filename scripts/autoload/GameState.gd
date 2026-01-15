@@ -4,6 +4,8 @@ signal data_loaded
 signal province_owner_changed(province_id: String, new_owner: String)
 signal view_mode_changed(mode: int)
 signal selection_changed(province_id: String)
+signal date_changed(date: int)
+signal speed_changed(speed: int)
 
 var view_mode: int = Enums.ViewMode.OWNER
 
@@ -21,9 +23,20 @@ var terrain_color : Dictionary = {}				# Enums.TerrainType.DESERT -> color
 
 # Other common vars
 var selected_province_id: String = ""
+var time := 0
+var timePerTick := 5
+var tickTimeRemaining := float(timePerTick)
+var speed := 1
 
 func _ready() -> void:
 	call_deferred("load_all")
+
+func _process(delta: float) -> void:
+	tickTimeRemaining-=(delta*speed)
+	if(tickTimeRemaining <= 0.0):
+		time = time+1
+		on_tick_update()
+		tickTimeRemaining = float(timePerTick)
 
 func load_all() -> void:
 	print("Loading JSON data...")
@@ -90,6 +103,21 @@ func set_view_mode(mode: int) -> void:
 		return
 	view_mode = mode
 	emit_signal("view_mode_changed", view_mode)
+
+# Tick/time
+func on_tick_update() -> void:
+	emit_signal("date_changed", time)
+
+func dec_speed() -> void:
+	speed = max(1, speed -1)
+	print("Speed decreased to "+str(speed))
+	emit_signal("speed_changed", speed)
+
+func inc_speed() -> void:
+	speed = min(5, speed+1)
+	print("Speed increased to "+str(speed))
+	emit_signal("speed_changed", speed)
+
 
 # Data/Index management
 func set_province_owner(province_id: String, new_owner: String) -> void:

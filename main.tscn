@@ -1,12 +1,13 @@
-[gd_scene load_steps=8 format=3 uid="uid://dwi8pqgrjflqx"]
+[gd_scene load_steps=9 format=3 uid="uid://dwi8pqgrjflqx"]
 
 [ext_resource type="Script" uid="uid://cv1uuktj52pfs" path="res://scripts/Map.gd" id="1_0xm2m"]
 [ext_resource type="Script" uid="uid://bghi1gxvig7dg" path="res://scripts/Main.gd" id="1_1bvp3"]
 [ext_resource type="Texture2D" uid="uid://dqvhad48183fa" path="res://assets/world_map.png" id="1_ig7tw"]
-[ext_resource type="Script" uid="uid://0h1v0m5v5ish" path="res://scripts/InfoPanel.gd" id="3_h2yge"]
+[ext_resource type="Script" uid="uid://0h1v0m5v5ish" path="res://scripts/UI/InfoPanel.gd" id="3_h2yge"]
 [ext_resource type="Texture2D" uid="uid://dadsugfnn2aj6" path="res://assets/province_mask.png" id="3_lquwl"]
 [ext_resource type="Material" uid="uid://dp2p2fepnlpm5" path="res://shaders/province_highlight_material.tres" id="4_7mycd"]
 [ext_resource type="Script" uid="uid://dln6ybrlg45o6" path="res://MapRenderer.gd" id="6_272bh"]
+[ext_resource type="Script" uid="uid://by54nke7cd4xi" path="res://scripts/UI/TopPanel.gd" id="7_5vw27"]
 
 [node name="Main" type="Control"]
 layout_mode = 3
@@ -35,6 +36,38 @@ centered = false
 script = ExtResource("6_272bh")
 
 [node name="UI" type="CanvasLayer" parent="."]
+
+[node name="Top Panel" type="PanelContainer" parent="UI"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 20.0
+offset_bottom = 40.0
+grow_horizontal = 2
+script = ExtResource("7_5vw27")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/Top Panel"]
+layout_mode = 2
+
+[node name="DateLabel" type="Label" parent="UI/Top Panel/HBoxContainer"]
+layout_mode = 2
+text = "Date: 0"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="UI/Top Panel/HBoxContainer"]
+layout_mode = 2
+
+[node name="SpeedLabel" type="Label" parent="UI/Top Panel/HBoxContainer/HBoxContainer2"]
+layout_mode = 2
+text = "Speed: 1"
+
+[node name="SpeedUpButton" type="Button" parent="UI/Top Panel/HBoxContainer/HBoxContainer2"]
+layout_mode = 2
+text = "+"
+
+[node name="SpeedDownButton" type="Button" parent="UI/Top Panel/HBoxContainer/HBoxContainer2"]
+layout_mode = 2
+text = "-"
 
 [node name="InfoPanel" type="PanelContainer" parent="UI"]
 anchors_preset = 2
