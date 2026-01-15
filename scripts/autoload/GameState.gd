@@ -33,11 +33,14 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	# Typical delta: 0.00833333333333 | 120 deltas per second
-	tickTimeRemaining-=(delta*speed)
-	if(tickTimeRemaining <= 0.0):
+	var newTimeRemaining = tickTimeRemaining- delta*speed
+	if(newTimeRemaining <= 0.0):
+		print("WARN: Overshot tick by "+str(newTimeRemaining))
 		time = time+1
 		on_tick_update()
-		tickTimeRemaining = float(timePerTick)
+		tickTimeRemaining = newTimeRemaining + float(timePerTick)
+	else:
+		tickTimeRemaining = newTimeRemaining
 
 func load_all() -> void:
 	print("Loading JSON data...")
