@@ -10,9 +10,9 @@ signal speed_changed(speed: int)
 var view_mode: int = Enums.ViewMode.OWNER
 
 # Raw loaded data
-var countries: Dictionary = {}          # "NWT" -> {name, color:[r,g,b]}
-var provinces: Array = []               # ordered list of province dicts
-var terrain: Array = []					# ordered list of terrain dicts
+var countries: Dictionary = {}          		# "NWT" -> {name, color:[r,g,b]}
+var provinces: Array = []               		# ordered list of province dicts
+var terrain: Array = []							# ordered list of terrain dicts
 
 # Derived indices (fast lookups)
 var country_color: Dictionary = {}      		# "NWT" -> Color (0..1)
@@ -24,14 +24,15 @@ var terrain_color : Dictionary = {}				# Enums.TerrainType.DESERT -> color
 # Other common vars
 var selected_province_id: String = ""
 var time := 0
-var timePerTick := 5
+var timePerTick := 5							# In seconds
 var tickTimeRemaining := float(timePerTick)
-var speed := 1
+var speed := 1									# A tick occurs every (timePerTick / speed) seconds
 
 func _ready() -> void:
 	call_deferred("load_all")
 
 func _process(delta: float) -> void:
+	# Typical delta: 0.00833333333333 | 120 deltas per second
 	tickTimeRemaining-=(delta*speed)
 	if(tickTimeRemaining <= 0.0):
 		time = time+1
@@ -110,12 +111,10 @@ func on_tick_update() -> void:
 
 func dec_speed() -> void:
 	speed = max(1, speed -1)
-	print("Speed decreased to "+str(speed))
 	emit_signal("speed_changed", speed)
 
 func inc_speed() -> void:
 	speed = min(5, speed+1)
-	print("Speed increased to "+str(speed))
 	emit_signal("speed_changed", speed)
 
 
