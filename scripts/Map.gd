@@ -53,4 +53,4 @@ func _zoom(factor: float) -> void:
 
 func _pan(delta: Vector2) -> void:
 	var cam: Camera2D = get_viewport().get_camera_2d() as Camera2D
-	cam.position -= delta * cam.zoom.x
+	cam.position -= delta * (cam.zoom.x/2.0)
