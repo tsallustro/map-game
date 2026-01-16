@@ -26,8 +26,9 @@ var government_type_color : Dictionary = {}			# Enums.GovernmentType.TRIBAL -> c
 var province_infra_by_id : Dictionary = {}			# "p_yellow" -> 2
 
 # Other common vars
+var INITIAL_DATE = Time.get_datetime_dict_from_datetime_string("1000-01-01T00:00:00", false)
 var selected_province_id: String = ""
-var time := 0
+var current_date : Dictionary = INITIAL_DATE		# { "year": 1000, "month": 1, "day": 2, "weekday": 4, "hour": 0, "minute": 0, "second": 0 }
 var timePerTick := 5								# In seconds
 var tickTimeRemaining := float(timePerTick)
 var speed := 1										# A tick occurs every (timePerTick / speed) seconds
@@ -40,8 +41,8 @@ func _process(delta: float) -> void:
 	var newTimeRemaining = tickTimeRemaining- delta*speed
 	if(newTimeRemaining <= 0.0):
 		print("WARN: Overshot tick by "+str(newTimeRemaining))
-		time = time+1
-		on_tick_update()
+		_increment_date()
+		_on_tick_update()
 		tickTimeRemaining = newTimeRemaining + float(timePerTick)
 	else:
 		tickTimeRemaining = newTimeRemaining
@@ -148,8 +149,13 @@ func set_view_mode(mode: int) -> void:
 	emit_signal("view_mode_changed", view_mode)
 
 # Tick/time
-func on_tick_update() -> void:
-	emit_signal("date_changed", time)
+func _on_tick_update() -> void:
+	emit_signal("date_changed", current_date)
+
+func _increment_date() -> void:
+	var unix := Time.get_unix_time_from_datetime_dict(current_date)
+	unix += 86400 # Unix seconds per day
+	current_date = Time.get_datetime_dict_from_unix_time(unix)
 
 func dec_speed() -> void:
 	speed = max(1, speed -1)
@@ -158,7 +164,6 @@ func dec_speed() -> void:
 func inc_speed() -> void:
 	speed = min(5, speed+1)
 	emit_signal("speed_changed", speed)
-
 
 # Data/Index management
 func set_province_owner(province_id: String, new_owner: String) -> void:

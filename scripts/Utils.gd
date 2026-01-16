@@ -13,3 +13,9 @@ static func get_gradient_value_ryg(value : int, min_value : int, max_value : int
 	else:
 		# Yellow → Green
 		return Color.YELLOW.lerp(Color.GREEN, (t - 0.5) / 0.5)
+
+static func get_month_name_from_int(month: int) -> String:
+	return [
+		"", "January", "February", "March", "April", "May", "June",
+		"July", "August", "September", "October", "November", "December"
+	][month]

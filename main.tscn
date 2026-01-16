@@ -52,7 +52,7 @@ layout_mode = 2
 
 [node name="DateLabel" type="Label" parent="UI/Top Panel/HBoxContainer"]
 layout_mode = 2
-text = "Date: 0"
+text = "Date: 1 January, 1000"
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="UI/Top Panel/HBoxContainer"]
 layout_mode = 2
