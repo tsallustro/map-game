@@ -31,7 +31,7 @@ func _build_shader_arrays() -> void:
 	var owner_arr := PackedColorArray()
 	var terrain_arr := PackedColorArray()
 	var gt_arr := PackedColorArray()
-
+	
 	for p in GameState.provinces:
 		var mc: Array = p["mask_color"]
 		prov_arr.append(Color(mc[0]/255.0, mc[1]/255.0, mc[2]/255.0, 1.0))

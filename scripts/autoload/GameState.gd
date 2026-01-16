@@ -22,6 +22,7 @@ var province_index_by_maskkey: Dictionary = {}  	# "235,42,255" -> 0
 var province_terrain_by_id: Dictionary = {} 		# "p_yellow" -> Enums.TerrainType.DESERT
 var terrain_color : Dictionary = {}					# Enums.TerrainType.DESERT -> color
 var government_type_color : Dictionary = {}			# Enums.GovernmentType.TRIBAL -> color 
+var province_infra_by_id : Dictionary = {}			# "p_yellow" -> 2
 
 # Other common vars
 var selected_province_id: String = ""
@@ -91,6 +92,8 @@ func _build_indexes() -> void:
 	province_index_by_id.clear()
 	province_index_by_maskkey.clear()
 	province_terrain_by_id.clear()
+	province_infra_by_id.clear()
+
 	for i in range(provinces.size()):
 		var p: Dictionary = provinces[i]
 		var pid: String = p["id"]
@@ -102,6 +105,9 @@ func _build_indexes() -> void:
 
 		var province_terrain: String = p["terrain"]
 		province_terrain_by_id[pid] = Enums.TerrainType.get(province_terrain, -1)	
+
+		var province_infra : int = p["infrastructure"]
+		province_infra_by_id[pid] = province_infra
 
 func _load_json_dict(path: String) -> Dictionary:
 	var text := FileAccess.get_file_as_string(path)
@@ -192,7 +198,10 @@ func get_gt_color_by_country_id(country_id: String) -> Color:
 
 func get_country_name_by_country_id(country_id : String)-> String:
 	return countries[country_id]["name"] if country_id in countries else "UNKNOWN"
-	
+
+func get_province_infra_by_id(province_id: String) -> int:
+	return province_infra_by_id[province_id]
+
 
 # Province selection/highlight
 func select_province_by_maskkey(mask_key: String) -> void:
