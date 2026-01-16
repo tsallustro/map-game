@@ -171,8 +171,9 @@ func set_province_owner(province_id: String, new_owner: String) -> void:
 	if idx == -1:
 		push_error("Unknown province_id: " + province_id)
 		return
-
+	var old_owner = provinces[idx]["owner"]
 	provinces[idx]["owner"] = new_owner
+	if(_country_requires_deletion(old_owner)): _delete_country(old_owner)
 	emit_signal("province_owner_changed", province_id, new_owner)
 
 func get_country_color(country_id: String) -> Color:
@@ -202,6 +203,13 @@ func get_gt_color_by_country_id(country_id: String) -> Color:
 	var government_type = Enums.GovernmentType.get(countries[country_id]["type"],-1)
 	return government_type_color[government_type]
 
+func get_mask_color_for_province(province_id: String) -> Color:
+	var idx: int = province_index_by_id.get(province_id, -1)
+	if idx == -1:
+		return Color(0, 0, 0, 1)
+	var mc: Array = provinces[idx]["mask_color"]
+	return _rgb_to_color(mc)
+
 func get_country_name_by_country_id(country_id : String)-> String:
 	return countries[country_id]["name"] if country_id in countries else "UNKNOWN"
 
@@ -229,6 +237,35 @@ func inc_province_infrastructure(province_id : String) -> void:
 func inc_selected_province_infrastructure() -> void:
 	inc_province_infrastructure(selected_province_id)
 
+func country_id_exists(country_id: String)->bool:
+	return country_id in countries
+
+func province_id_exists(province_id: String)->bool:
+	for p in provinces:
+		if p["id"] == province_id: return true
+	return false
+
+
+func annex(annexer_country_id : String, annexee_country_id : String) -> void:
+	print("%s annexed %s"%[annexer_country_id, annexee_country_id]) 
+	_delete_country(annexee_country_id)
+	for p in provinces:
+		if(p["owner"] == annexee_country_id):
+			set_province_owner(p["id"], annexer_country_id)
+
+func _delete_country(country_id: String) -> void:
+	if (!countries.erase(country_id) ):
+		print("ERROR: %s wasn't found in countries."%[country_id])
+		return
+	if (!country_color.erase(country_id)):
+		print("ERROR: %s wasn't found in color dict."%[country_id])
+		return
+	print("%s was deleted."%[country_id])
+
+func _country_requires_deletion(country_id: String) -> bool:
+	for p in provinces:
+		if p["owner"] == country_id: return false
+	return true
 # Province selection/highlight
 func select_province_by_maskkey(mask_key: String) -> void:
 	var idx: int = province_index_by_maskkey.get(mask_key, -1)
@@ -251,12 +288,5 @@ func clear_selection() -> void:
 	emit_signal("selection_changed", selected_province_id)
 
 # Utils
-func get_mask_color_for_province(province_id: String) -> Color:
-	var idx: int = province_index_by_id.get(province_id, -1)
-	if idx == -1:
-		return Color(0, 0, 0, 1)
-	var mc: Array = provinces[idx]["mask_color"]
-	return _rgb_to_color(mc)
-
 func _rgb_to_color(rgb: Array) -> Color:
 	return Color(float(rgb[0]) / 255.0, float(rgb[1]) / 255.0, float(rgb[2]) / 255.0, 1.0)

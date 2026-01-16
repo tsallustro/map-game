@@ -9,5 +9,6 @@ todo:
 		- Save/Load
 		- Console/debug actions
 		- Data validation
-		
+	- AI
+		- Basic AI
 		
