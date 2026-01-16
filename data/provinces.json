@@ -7,7 +7,7 @@
 			60.0,
 			45.0
 		],
-		"owner": "xxx",
+		"owner": "NWT",
 		"terrain": "PLAIN"
 	},
 	{
@@ -18,7 +18,7 @@
 			120.0,
 			40.0
 		],
-		"owner": "xxx",
+		"owner": "NWT",
 		"terrain": "PLAIN"
 	},
 	{
@@ -29,7 +29,7 @@
 			90.0,
 			70.0
 		],
-		"owner": "xxx",
+		"owner": "NWT",
 		"terrain": "PLAIN"
 	},
 	{
@@ -40,7 +40,7 @@
 			150.0,
 			80.0
 		],
-		"owner": "xxx",
+		"owner": "NWT",
 		"terrain": "PLAIN"
 	},
 	{
@@ -51,7 +51,7 @@
 			200.0,
 			60.0
 		],
-		"owner": "xxx",
+		"owner": "NWT",
 		"terrain": "PLAIN"
 	},
 	{
@@ -62,7 +62,7 @@
 			210.0,
 			70.0
 		],
-		"owner": "xxx",
+		"owner": "NWT",
 		"terrain": "PLAIN"
 	},
 	{
@@ -73,7 +73,7 @@
 			190.0,
 			90.0
 		],
-		"owner": "xxx",
+		"owner": "HRS",
 		"terrain": "PLAIN"
 	},
 	{
@@ -84,7 +84,7 @@
 			170.0,
 			90.0
 		],
-		"owner": "xxx",
+		"owner": "NWT",
 		"terrain": "PLAIN"
 	},
 	{
@@ -95,7 +95,7 @@
 			200.0,
 			140.0
 		],
-		"owner": "xxx",
+		"owner": "HRS",
 		"terrain": "FOREST"
 	},
 	{
@@ -106,7 +106,7 @@
 			150.0,
 			120.0
 		],
-		"owner": "xxx",
+		"owner": "HRS",
 		"terrain": "PLAIN"
 	},
 	{
@@ -117,7 +117,7 @@
 			130.0,
 			80.0
 		],
-		"owner": "xxx",
+		"owner": "NET",
 		"terrain": "PLAIN"
 	},
 	{
@@ -128,7 +128,7 @@
 			180.0,
 			200.0
 		],
-		"owner": "xxx",
+		"owner": "NET",
 		"terrain": "MOUNTAIN"
 	},
 	{
@@ -139,7 +139,7 @@
 			140.0,
 			190.0
 		],
-		"owner": "xxx",
+		"owner": "NET",
 		"terrain": "HILL"
 	},
 	{
@@ -150,7 +150,7 @@
 			200.0,
 			220.0
 		],
-		"owner": "xxx",
+		"owner": "NET",
 		"terrain": "PLAIN"
 	},
 	{
@@ -161,7 +161,7 @@
 			110.0,
 			200.0
 		],
-		"owner": "xxx",
+		"owner": "HRS",
 		"terrain": "PLAIN"
 	},
 	{
@@ -172,7 +172,7 @@
 			130.0,
 			220.0
 		],
-		"owner": "xxx",
+		"owner": "HRS",
 		"terrain": "PLAIN"
 	},
 	{
@@ -183,7 +183,7 @@
 			90.0,
 			160.0
 		],
-		"owner": "xxx",
+		"owner": "NYM",
 		"terrain": "PLAIN"
 	},
 	{
@@ -194,7 +194,7 @@
 			80.0,
 			140.0
 		],
-		"owner": "xxx",
+		"owner": "NYM",
 		"terrain": "PLAIN"
 	},
 	{
@@ -205,7 +205,7 @@
 			90.0,
 			180.0
 		],
-		"owner": "xxx",
+		"owner": "ORM",
 		"terrain": "DESERT"
 	},
 	{
@@ -216,7 +216,7 @@
 			80.0,
 			200.0
 		],
-		"owner": "xxx",
+		"owner": "NYM",
 		"terrain": "PLAIN"
 	},
 	{
@@ -227,7 +227,7 @@
 			110.0,
 			210.0
 		],
-		"owner": "xxx",
+		"owner": "NYM",
 		"terrain": "PLAIN"
 	},
 	{
@@ -238,18 +238,18 @@
 			90.0,
 			140.0
 		],
-		"owner": "xxx",
+		"owner": "NYM",
 		"terrain": "PLAIN"
 	},
 	{
 		"id": "p_w_celandria",
-		"name": "Eastern Celandria",
+		"name": "Western Celandria",
 		"mask_color": [
 			220.0,
 			100.0,
 			180.0
 		],
-		"owner": "xxx",
+		"owner": "ORM",
 		"terrain": "PLAIN"
 	},
 	{
@@ -260,7 +260,7 @@
 			70.0,
 			120.0
 		],
-		"owner": "xxx",
+		"owner": "ORM",
 		"terrain": "PLAIN"
 	},
 	{
@@ -271,7 +271,7 @@
 			95.0,
 			60.0
 		],
-		"owner": "xxx",
+		"owner": "ORM",
 		"terrain": "PLAIN"
 	},
 	{
@@ -282,7 +282,7 @@
 			170.0,
 			55.0
 		],
-		"owner": "xxx",
+		"owner": "EMB",
 		"terrain": "PLAIN"
 	},
 	{
@@ -293,7 +293,7 @@
 			205.0,
 			115.0
 		],
-		"owner": "xxx",
+		"owner": "ORM",
 		"terrain": "PLAIN"
 	},
 	{
@@ -304,7 +304,7 @@
 			165.0,
 			115.0
 		],
-		"owner": "xxx",
+		"owner": "NEU",
 		"terrain": "PLAIN"
 	},
 	{
@@ -315,7 +315,7 @@
 			135.0,
 			185.0
 		],
-		"owner": "xxx",
+		"owner": "NEU",
 		"terrain": "PLAIN"
 	},
 	{
@@ -326,7 +326,7 @@
 			155.0,
 			235.0
 		],
-		"owner": "xxx",
+		"owner": "MOR",
 		"terrain": "PLAIN"
 	},
 	{
@@ -337,7 +337,7 @@
 			70.0,
 			185.0
 		],
-		"owner": "xxx",
+		"owner": "AST",
 		"terrain": "FOREST"
 	},
 	{
@@ -348,7 +348,7 @@
 			65.0,
 			165.0
 		],
-		"owner": "xxx",
+		"owner": "AST",
 		"terrain": "PLAIN"
 	},
 	{
@@ -359,7 +359,7 @@
 			85.0,
 			195.0
 		],
-		"owner": "xxx",
+		"owner": "AST",
 		"terrain": "MOUNTAIN"
 	},
 	{
@@ -370,7 +370,7 @@
 			110.0,
 			65.0
 		],
-		"owner": "xxx",
+		"owner": "AST",
 		"terrain": "PLAIN"
 	},
 	{
@@ -381,7 +381,7 @@
 			170.0,
 			110.0
 		],
-		"owner": "xxx",
+		"owner": "AST",
 		"terrain": "PLAIN"
 	},
 	{
@@ -392,7 +392,7 @@
 			190.0,
 			170.0
 		],
-		"owner": "xxx",
+		"owner": "AST",
 		"terrain": "PLAIN"
 	},
 	{
@@ -403,7 +403,7 @@
 			120.0,
 			185.0
 		],
-		"owner": "xxx",
+		"owner": "AST",
 		"terrain": "PLAIN"
 	},
 	{
@@ -414,7 +414,7 @@
 			95.0,
 			215.0
 		],
-		"owner": "xxx",
+		"owner": "MOR",
 		"terrain": "PLAIN"
 	},
 	{
@@ -425,7 +425,7 @@
 			135.0,
 			85.0
 		],
-		"owner": "xxx",
+		"owner": "MOR",
 		"terrain": "PLAIN"
 	}
 ]

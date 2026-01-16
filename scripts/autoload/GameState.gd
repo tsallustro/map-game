@@ -147,6 +147,9 @@ func get_province_terrain_by_id(province_id: String) -> int:
 
 func get_province_terrain_color_by_id(province_id: String) -> Color:
 	return terrain_color[get_province_terrain_by_id(province_id)]
+
+func get_country_name_by_country_id(country_id : String)-> String:
+	return countries[country_id]["name"] if country_id in countries else "UNKNOWN"
 	
 
 # Province selection/highlight

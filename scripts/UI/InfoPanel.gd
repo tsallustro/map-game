@@ -17,4 +17,4 @@ func _on_selection_changed(province_id: String) -> void:
 	label.text = _build_label_text(province_id, province_data)
 
 func _build_label_text(province_id: String, province_data: Dictionary) -> String:
-	return "%s\nID: %s\nOwner: %s\nTerrain: %s" % [province_data["name"], province_id, province_data["owner"], province_data["terrain"]]
+	return "%s\nID: %s\nOwner: %s\nTerrain: %s" % [province_data["name"], province_id, GameState.get_country_name_by_country_id(province_data["owner"]), province_data["terrain"]]
