@@ -1,18 +1,74 @@
 {
-	"NWT":{
-		"name":"Northwest Territories",
-		"color":[255,0,0]
+	"NWT": {
+		"name": "Northwest Territories",
+		"color": [
+			255.0,
+			0.0,
+			0.0
+		]
 	},
-	"YEL":{
-		"name":"Yellowland",
-		"color":[255,255,51]
+	"HRS": {
+		"name": "Haerslean Kingdom",
+		"color": [
+			0.0,
+			255.0,
+			0.0
+		]
 	},
-	"CTR":{
-		"name":"Centerland",
-		"color":[0,204,204]
+	"NET": {
+		"name": "Northeastern Tribes",
+		"color": [
+			0.0,
+			0.0,
+			255.0
+		]
 	},
-	"GRB":{
-		"name":"Great Bay",
-		"color":[150,70,0]
+	"NYM": {
+		"name": "Kingdom of Nymbria",
+		"color": [
+			120.0,
+			120.0,
+			220.0
+		]
+	},
+	"ORM": {
+		"name": "Ormireth Territories",
+		"color": [
+			20.0,
+			20.0,
+			120.0
+		]
+	},
+	"NEU": {
+		"name": "United Kingdom of Neuver Island",
+		"color": [
+			100.0,
+			40.0,
+			200.0
+		]
+	},
+	"MOR": {
+		"name": "Republic of Morintrie",
+		"color": [
+			200.0,
+			100.0,
+			40.0
+		]
+	},
+	"EMB": {
+		"name": "Emberfall",
+		"color": [
+			40.0,
+			60.0,
+			80.0
+		]
+	},
+	"AST": {
+		"name": "Kingdom of Astravia",
+		"color": [
+			10.0,
+			155.0,
+			155.0
+		]
 	}
 }

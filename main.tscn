@@ -2,11 +2,11 @@
 
 [ext_resource type="Script" uid="uid://cv1uuktj52pfs" path="res://scripts/Map.gd" id="1_0xm2m"]
 [ext_resource type="Script" uid="uid://bghi1gxvig7dg" path="res://scripts/Main.gd" id="1_1bvp3"]
-[ext_resource type="Texture2D" uid="uid://dqvhad48183fa" path="res://assets/world_map.png" id="1_ig7tw"]
+[ext_resource type="Texture2D" uid="uid://bndlwoxpv2bwu" path="res://assets/new_province_mask.png" id="3_5vw27"]
 [ext_resource type="Script" uid="uid://0h1v0m5v5ish" path="res://scripts/UI/InfoPanel.gd" id="3_h2yge"]
-[ext_resource type="Texture2D" uid="uid://dadsugfnn2aj6" path="res://assets/province_mask.png" id="3_lquwl"]
 [ext_resource type="Material" uid="uid://dp2p2fepnlpm5" path="res://shaders/province_highlight_material.tres" id="4_7mycd"]
-[ext_resource type="Script" uid="uid://dln6ybrlg45o6" path="res://MapRenderer.gd" id="6_272bh"]
+[ext_resource type="Texture2D" uid="uid://c7qfy4w3sr2dk" path="res://assets/new_world_map.png" id="5_5vw27"]
+[ext_resource type="Script" uid="uid://dln6ybrlg45o6" path="res://scripts/MapRenderer.gd" id="6_5vw27"]
 [ext_resource type="Script" uid="uid://by54nke7cd4xi" path="res://scripts/UI/TopPanel.gd" id="7_5vw27"]
 
 [node name="Main" type="Control"]
@@ -23,17 +23,17 @@ script = ExtResource("1_1bvp3")
 
 [node name="MapLayer" type="Node2D" parent="."]
 script = ExtResource("1_0xm2m")
-mask_texture = ExtResource("3_lquwl")
+mask_texture = ExtResource("3_5vw27")
 
 [node name="MapSprite" type="Sprite2D" parent="MapLayer"]
 material = ExtResource("4_7mycd")
-texture = ExtResource("1_ig7tw")
+texture = ExtResource("5_5vw27")
 centered = false
 
 [node name="Camera2D" type="Camera2D" parent="MapLayer"]
 
 [node name="MapRenderer" type="Node" parent="MapLayer"]
-script = ExtResource("6_272bh")
+script = ExtResource("6_5vw27")
 
 [node name="UI" type="CanvasLayer" parent="."]
 

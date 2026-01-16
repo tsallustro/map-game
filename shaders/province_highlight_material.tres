@@ -1,7 +1,7 @@
 [gd_resource type="ShaderMaterial" load_steps=3 format=4 uid="uid://dp2p2fepnlpm5"]
 
 [ext_resource type="Shader" uid="uid://d3ccrx3q0ys7t" path="res://shaders/province_highlight.gdshader" id="1_smbg1"]
-[ext_resource type="Texture2D" uid="uid://dadsugfnn2aj6" path="res://assets/province_mask.png" id="2_lweku"]
+[ext_resource type="Texture2D" uid="uid://bndlwoxpv2bwu" path="res://assets/new_province_mask.png" id="2_lweku"]
 
 [resource]
 shader = ExtResource("1_smbg1")

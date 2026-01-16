@@ -23,6 +23,7 @@ func _on_data_loaded() -> void:
 	print("Map renderer data loading...")
 	_build_shader_arrays()
 	_sync_all()
+	print("Map renderer loaded")
 
 func _build_shader_arrays() -> void:
 	# prov_colors: mask colors in province array order
@@ -40,7 +41,6 @@ func _build_shader_arrays() -> void:
 		var p_terrain_color := GameState.get_province_terrain_color_by_id(p["id"])
 		terrain_arr.append(p_terrain_color)
 
-	
 	_mat.set_shader_parameter("prov_colors", prov_arr)
 	_mat.set_shader_parameter("owner_colors", owner_arr)
 	_mat.set_shader_parameter("terrain_colors", terrain_arr)

@@ -47,9 +47,13 @@ func load_all() -> void:
 	countries = _load_json_dict("res://data/countries.json")
 	provinces = _load_json_array("res://data/provinces.json")
 	terrain = _load_json_array("res://data/terrain.json")
-
-	_build_indexes()
+	_validate_data()
 	print("Successfully loaded JSON")
+	print("Found "+str(provinces.size())+" provinces from data")
+
+	print("Building indexes...")
+	_build_indexes()
+	print("Indexes built")
 	emit_signal("data_loaded")
 
 func _build_indexes() -> void:
@@ -80,8 +84,7 @@ func _build_indexes() -> void:
 		province_index_by_maskkey[key] = i
 
 		var province_terrain: String = p["terrain"]
-		province_terrain_by_id[pid] = Enums.TerrainType.get(province_terrain, -1)
-	
+		province_terrain_by_id[pid] = Enums.TerrainType.get(province_terrain, -1)	
 
 func _load_json_dict(path: String) -> Dictionary:
 	var text := FileAccess.get_file_as_string(path)
@@ -101,6 +104,17 @@ func _load_json_array(path: String) -> Array:
 		return []
 	return j.data as Array
 
+func _validate_data() -> void:
+	print("Validating province data...")
+	for i in range(provinces.size()):
+		var provinceI = provinces[i]
+		for j in range(i+1, provinces.size()):
+			var provinceJ = provinces[j]
+			if(provinceI["id"] == provinceJ["id"]):
+				print("WARN: Duplicate province key \"%s\"" %[provinceI["id"]])
+				# TODO validate colors
+				
+	# TODO validate country data
 # View Modes
 func set_view_mode(mode: int) -> void:
 	if view_mode == mode:
@@ -145,6 +159,9 @@ func get_province_terrain_by_id(province_id: String) -> int:
 
 func get_province_terrain_color_by_id(province_id: String) -> Color:
 	return terrain_color[get_province_terrain_by_id(province_id)]
+
+func get_country_name_by_country_id(country_id : String)-> String:
+	return countries[country_id]["name"] if country_id in countries else "UNKNOWN"
 	
 
 # Province selection/highlight
