@@ -8,6 +8,8 @@ uniform int view_mode = 0;
 uniform vec4 prov_colors[39];
 uniform vec4 owner_colors[39];
 uniform vec4 terrain_colors[39];
+uniform vec4 gt_colors[39];
+uniform vec4 infra_colors[39];
 
 uniform vec4 outline_color : source_color = vec4(1.0, 1.0, 0.0, 1.0);
 uniform float enabled_outline = 1.0;
@@ -52,8 +54,12 @@ void fragment() {
 				recolor = owner_colors[idx].rgb;
 			} else if (view_mode == 1){ // Province view
 				recolor = prov_colors[idx].rgb;
-			}else { // Terrain view
+			} else if (view_mode == 2){ // Terrain view
 				recolor = terrain_colors[idx].rgb;
+			} else if (view_mode == 3){ // GT view
+				recolor = gt_colors[idx].rgb;
+			}else { // infra view
+				recolor = infra_colors[idx].rgb;
 			}
 		}
 	}

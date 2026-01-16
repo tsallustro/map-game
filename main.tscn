@@ -52,7 +52,7 @@ layout_mode = 2
 
 [node name="DateLabel" type="Label" parent="UI/Top Panel/HBoxContainer"]
 layout_mode = 2
-text = "Date: 0"
+text = "Date: 1 January, 1000"
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="UI/Top Panel/HBoxContainer"]
 layout_mode = 2
@@ -78,9 +78,27 @@ offset_right = 40.0
 grow_vertical = 0
 script = ExtResource("3_h2yge")
 
-[node name="Label" type="Label" parent="UI/InfoPanel"]
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/InfoPanel"]
+layout_mode = 2
+
+[node name="ProvinceNameLabel" type="Label" parent="UI/InfoPanel/VBoxContainer"]
 layout_mode = 2
 text = "Click a province."
+
+[node name="InfraPanelHContainer" type="HBoxContainer" parent="UI/InfoPanel/VBoxContainer"]
+layout_mode = 2
+
+[node name="InfraLabel" type="Label" parent="UI/InfoPanel/VBoxContainer/InfraPanelHContainer"]
+layout_mode = 2
+text = "Infrastructure: - (Total: -)"
+
+[node name="IncreaseInfraButton" type="Button" parent="UI/InfoPanel/VBoxContainer/InfraPanelHContainer"]
+layout_mode = 2
+text = "+"
+
+[node name="TerrainLabel" type="Label" parent="UI/InfoPanel/VBoxContainer"]
+layout_mode = 2
+text = "Terrain: -"
 
 [node name="ViewButtons" type="PanelContainer" parent="UI"]
 anchors_preset = 3
@@ -107,3 +125,11 @@ text = "Provinces"
 [node name="TerrainViewButton" type="Button" parent="UI/ViewButtons/HBoxContainer"]
 layout_mode = 2
 text = "Terrain"
+
+[node name="GovTypeViewButton" type="Button" parent="UI/ViewButtons/HBoxContainer"]
+layout_mode = 2
+text = "Gov Type"
+
+[node name="InfraViewButton" type="Button" parent="UI/ViewButtons/HBoxContainer"]
+layout_mode = 2
+text = "Infra"
