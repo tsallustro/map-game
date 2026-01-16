@@ -4,13 +4,15 @@ signal data_loaded
 signal province_owner_changed(province_id: String, new_owner: String)
 signal view_mode_changed(mode: int)
 signal selection_changed(province_id: String)
+signal date_changed(date: int)
+signal speed_changed(speed: int)
 
 var view_mode: int = Enums.ViewMode.OWNER
 
 # Raw loaded data
-var countries: Dictionary = {}          # "NWT" -> {name, color:[r,g,b]}
-var provinces: Array = []               # ordered list of province dicts
-var terrain: Array = []					# ordered list of terrain dicts
+var countries: Dictionary = {}          		# "NWT" -> {name, color:[r,g,b]}
+var provinces: Array = []               		# ordered list of province dicts
+var terrain: Array = []							# ordered list of terrain dicts
 
 # Derived indices (fast lookups)
 var country_color: Dictionary = {}      		# "NWT" -> Color (0..1)
@@ -21,9 +23,24 @@ var terrain_color : Dictionary = {}				# Enums.TerrainType.DESERT -> color
 
 # Other common vars
 var selected_province_id: String = ""
+var time := 0
+var timePerTick := 5							# In seconds
+var tickTimeRemaining := float(timePerTick)
+var speed := 1									# A tick occurs every (timePerTick / speed) seconds
 
 func _ready() -> void:
 	call_deferred("load_all")
+
+func _process(delta: float) -> void:
+	# Typical delta: 0.00833333333333 | 120 deltas per second
+	var newTimeRemaining = tickTimeRemaining- delta*speed
+	if(newTimeRemaining <= 0.0):
+		print("WARN: Overshot tick by "+str(newTimeRemaining))
+		time = time+1
+		on_tick_update()
+		tickTimeRemaining = newTimeRemaining + float(timePerTick)
+	else:
+		tickTimeRemaining = newTimeRemaining
 
 func load_all() -> void:
 	print("Loading JSON data...")
@@ -90,6 +107,19 @@ func set_view_mode(mode: int) -> void:
 		return
 	view_mode = mode
 	emit_signal("view_mode_changed", view_mode)
+
+# Tick/time
+func on_tick_update() -> void:
+	emit_signal("date_changed", time)
+
+func dec_speed() -> void:
+	speed = max(1, speed -1)
+	emit_signal("speed_changed", speed)
+
+func inc_speed() -> void:
+	speed = min(5, speed+1)
+	emit_signal("speed_changed", speed)
+
 
 # Data/Index management
 func set_province_owner(province_id: String, new_owner: String) -> void:
