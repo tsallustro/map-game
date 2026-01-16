@@ -5,7 +5,8 @@
 			255.0,
 			0.0,
 			0.0
-		]
+		],
+		"type": "MONARCHY"
 	},
 	"HRS": {
 		"name": "Haerslean Kingdom",
@@ -13,7 +14,8 @@
 			0.0,
 			255.0,
 			0.0
-		]
+		],
+		"type": "MONARCHY"
 	},
 	"NET": {
 		"name": "Northeastern Tribes",
@@ -21,7 +23,8 @@
 			0.0,
 			0.0,
 			255.0
-		]
+		],
+		"type": "TRIBAL"
 	},
 	"NYM": {
 		"name": "Kingdom of Nymbria",
@@ -29,7 +32,8 @@
 			120.0,
 			120.0,
 			220.0
-		]
+		],
+		"type": "MONARCHY"
 	},
 	"ORM": {
 		"name": "Ormireth Territories",
@@ -37,7 +41,8 @@
 			20.0,
 			20.0,
 			120.0
-		]
+		],
+		"type": "TRIBAL"
 	},
 	"NEU": {
 		"name": "United Kingdom of Neuver Island",
@@ -45,7 +50,8 @@
 			100.0,
 			40.0,
 			200.0
-		]
+		],
+		"type": "MONARCHY"
 	},
 	"MOR": {
 		"name": "Republic of Morintrie",
@@ -53,7 +59,8 @@
 			200.0,
 			100.0,
 			40.0
-		]
+		],
+		"type": "REPUBLIC"
 	},
 	"EMB": {
 		"name": "Emberfall",
@@ -61,7 +68,8 @@
 			40.0,
 			60.0,
 			80.0
-		]
+		],
+		"type": "REPUBLIC"
 	},
 	"AST": {
 		"name": "Kingdom of Astravia",
@@ -69,6 +77,7 @@
 			10.0,
 			155.0,
 			155.0
-		]
+		],
+		"type": "MONARCHY"
 	}
 }

@@ -10,23 +10,25 @@ signal speed_changed(speed: int)
 var view_mode: int = Enums.ViewMode.OWNER
 
 # Raw loaded data
-var countries: Dictionary = {}          		# "NWT" -> {name, color:[r,g,b]}
-var provinces: Array = []               		# ordered list of province dicts
-var terrain: Array = []							# ordered list of terrain dicts
+var countries: Dictionary = {}          			# "NWT" -> {name, color:[r,g,b], type}
+var provinces: Array = []               			# ordered list of province dicts
+var terrain: Array = []								# ordered list of terrain dicts
+var government_types : Array = []					# ordered list of government type dicts
 
 # Derived indices (fast lookups)
-var country_color: Dictionary = {}      		# "NWT" -> Color (0..1)
-var province_index_by_id: Dictionary = {}       # "p_blue" -> 1
-var province_index_by_maskkey: Dictionary = {}  # "235,42,255" -> 0
-var province_terrain_by_id: Dictionary = {} 	# "p_yellow" -> Enums.TerrainType.DESERT
-var terrain_color : Dictionary = {}				# Enums.TerrainType.DESERT -> color
+var country_color: Dictionary = {}      			# "NWT" -> Color (0..1)
+var province_index_by_id: Dictionary = {}       	# "p_blue" -> 1
+var province_index_by_maskkey: Dictionary = {}  	# "235,42,255" -> 0
+var province_terrain_by_id: Dictionary = {} 		# "p_yellow" -> Enums.TerrainType.DESERT
+var terrain_color : Dictionary = {}					# Enums.TerrainType.DESERT -> color
+var government_type_color : Dictionary = {}			# Enums.GovernmentType.TRIBAL -> color 
 
 # Other common vars
 var selected_province_id: String = ""
 var time := 0
-var timePerTick := 5							# In seconds
+var timePerTick := 5								# In seconds
 var tickTimeRemaining := float(timePerTick)
-var speed := 1									# A tick occurs every (timePerTick / speed) seconds
+var speed := 1										# A tick occurs every (timePerTick / speed) seconds
 
 func _ready() -> void:
 	call_deferred("load_all")
@@ -47,6 +49,8 @@ func load_all() -> void:
 	countries = _load_json_dict("res://data/countries.json")
 	provinces = _load_json_array("res://data/provinces.json")
 	terrain = _load_json_array("res://data/terrain.json")
+	government_types = _load_json_array("res://data/government_types.json")
+
 	_validate_data()
 	print("Successfully loaded JSON")
 	print("Found "+str(provinces.size())+" provinces from data")
@@ -57,20 +61,33 @@ func load_all() -> void:
 	emit_signal("data_loaded")
 
 func _build_indexes() -> void:
-	# Normalize country colors once
+
+	# Country indexing
 	country_color.clear()
 	for cid in countries.keys():
 		var rgb: Array = countries[cid]["color"]
 		country_color[cid] = _rgb_to_color(rgb)
 
-	# Province indexing + maskkey lookup (order is the JSON array order)
+	# Terrain color indexing
 	terrain_color.clear()
 	for t in range(terrain.size()):
 		var terrain_data = terrain[t]
-		var terrain_id = Enums.TerrainType.get(terrain_data["name"])
+		var terrain_id = Enums.TerrainType.get(terrain_data["name"], -1)
 		var rgb = terrain_data["color"]
 		terrain_color[terrain_id] = _rgb_to_color(rgb)
 
+	# print("Loaded %d colors from %d terrains"%[terrain_color.size(), terrain.size()])
+
+	# Government type color indexing
+	government_type_color.clear()
+	for gt in range(government_types.size()):
+		var gt_data = government_types[gt]
+		var gt_id = Enums.GovernmentType.get(gt_data["name"], -1)
+		var rgb = gt_data["color"]
+		government_type_color[gt_id] = _rgb_to_color(rgb)
+	# print("Loaded %d colors from %d government types"%[government_type_color.size(), government_types.size()])
+
+	# Province indexing
 	province_index_by_id.clear()
 	province_index_by_maskkey.clear()
 	province_terrain_by_id.clear()
@@ -115,6 +132,7 @@ func _validate_data() -> void:
 				# TODO validate colors
 				
 	# TODO validate country data
+
 # View Modes
 func set_view_mode(mode: int) -> void:
 	if view_mode == mode:
@@ -154,11 +172,23 @@ func get_province_by_id(province_id: String) -> Dictionary:
 		return {}
 	return provinces[idx]
 
+func get_province_owner_id_by_pid(province_id: String) -> String:
+	var idx : int = province_index_by_id.get(province_id, -1)
+	if idx == -1:
+		push_error("Unknown province_id: " + province_id)
+		return ""
+
+	return provinces[idx]["owner"] 
+
 func get_province_terrain_by_id(province_id: String) -> int:
 	return province_terrain_by_id.get(province_id, -1)
 
 func get_province_terrain_color_by_id(province_id: String) -> Color:
 	return terrain_color[get_province_terrain_by_id(province_id)]
+
+func get_gt_color_by_country_id(country_id: String) -> Color:
+	var government_type = Enums.GovernmentType.get(countries[country_id]["type"],-1)
+	return government_type_color[government_type]
 
 func get_country_name_by_country_id(country_id : String)-> String:
 	return countries[country_id]["name"] if country_id in countries else "UNKNOWN"

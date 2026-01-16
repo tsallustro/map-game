@@ -107,3 +107,7 @@ text = "Provinces"
 [node name="TerrainViewButton" type="Button" parent="UI/ViewButtons/HBoxContainer"]
 layout_mode = 2
 text = "Terrain"
+
+[node name="GovTypeViewButton" type="Button" parent="UI/ViewButtons/HBoxContainer"]
+layout_mode = 2
+text = "Gov Type"
