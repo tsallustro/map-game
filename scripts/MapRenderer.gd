@@ -42,7 +42,7 @@ func _build_shader_arrays() -> void:
 		var p_terrain_color := GameState.get_province_terrain_color_by_id(p["id"])
 		terrain_arr.append(p_terrain_color)
 
-		var p_gt_color := GameState.get_gt_color_by_country_id(owner_id)
+		var p_gt_color : Color = GameState.get_gt_color_by_country_id(owner_id)
 		gt_arr.append(p_gt_color)
 
 	_mat.set_shader_parameter("prov_colors", prov_arr)
