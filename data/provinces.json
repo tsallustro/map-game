@@ -7,7 +7,7 @@
 			60.0,
 			45.0
 		],
-		"infrastructure": 1,
+		"infrastructure": 3.0,
 		"owner": "NWT",
 		"terrain": "PLAIN"
 	},
@@ -19,7 +19,7 @@
 			120.0,
 			40.0
 		],
-		"infrastructure": 1,
+		"infrastructure": 2.0,
 		"owner": "NWT",
 		"terrain": "PLAIN"
 	},
@@ -31,7 +31,7 @@
 			90.0,
 			70.0
 		],
-		"infrastructure": 1,
+		"infrastructure": 2.0,
 		"owner": "NWT",
 		"terrain": "PLAIN"
 	},
@@ -43,7 +43,7 @@
 			150.0,
 			80.0
 		],
-		"infrastructure": 1,
+		"infrastructure": 4.0,
 		"owner": "NWT",
 		"terrain": "PLAIN"
 	},
@@ -55,7 +55,7 @@
 			200.0,
 			60.0
 		],
-		"infrastructure": 1,
+		"infrastructure": 1.0,
 		"owner": "NWT",
 		"terrain": "PLAIN"
 	},
@@ -67,7 +67,7 @@
 			210.0,
 			70.0
 		],
-		"infrastructure": 1,
+		"infrastructure": 1.0,
 		"owner": "NWT",
 		"terrain": "PLAIN"
 	},
@@ -79,7 +79,7 @@
 			190.0,
 			90.0
 		],
-		"infrastructure": 1,
+		"infrastructure": 1.0,
 		"owner": "HRS",
 		"terrain": "PLAIN"
 	},
@@ -91,7 +91,7 @@
 			170.0,
 			90.0
 		],
-		"infrastructure": 1,
+		"infrastructure": 3.0,
 		"owner": "NWT",
 		"terrain": "PLAIN"
 	},
@@ -103,7 +103,7 @@
 			200.0,
 			140.0
 		],
-		"infrastructure": 1,
+		"infrastructure": 1.0,
 		"owner": "HRS",
 		"terrain": "FOREST"
 	},
@@ -115,7 +115,7 @@
 			150.0,
 			120.0
 		],
-		"infrastructure": 1,
+		"infrastructure": 5.0,
 		"owner": "HRS",
 		"terrain": "PLAIN"
 	},
@@ -127,7 +127,7 @@
 			130.0,
 			80.0
 		],
-		"infrastructure": 1,
+		"infrastructure": 2.0,
 		"owner": "NET",
 		"terrain": "PLAIN"
 	},
@@ -139,7 +139,7 @@
 			180.0,
 			200.0
 		],
-		"infrastructure": 1,
+		"infrastructure": 1.0,
 		"owner": "NET",
 		"terrain": "MOUNTAIN"
 	},
@@ -151,7 +151,7 @@
 			140.0,
 			190.0
 		],
-		"infrastructure": 1,
+		"infrastructure": 2.0,
 		"owner": "NET",
 		"terrain": "HILL"
 	},
@@ -163,7 +163,7 @@
 			200.0,
 			220.0
 		],
-		"infrastructure": 1,
+		"infrastructure": 3.0,
 		"owner": "NET",
 		"terrain": "PLAIN"
 	},
@@ -175,7 +175,7 @@
 			110.0,
 			200.0
 		],
-		"infrastructure": 5,
+		"infrastructure": 7.0,
 		"owner": "HRS",
 		"terrain": "PLAIN"
 	},
@@ -187,7 +187,7 @@
 			130.0,
 			220.0
 		],
-		"infrastructure": 1,
+		"infrastructure": 4.0,
 		"owner": "HRS",
 		"terrain": "PLAIN"
 	},
@@ -199,7 +199,7 @@
 			90.0,
 			160.0
 		],
-		"infrastructure": 1,
+		"infrastructure": 2.0,
 		"owner": "NYM",
 		"terrain": "PLAIN"
 	},
@@ -211,7 +211,7 @@
 			80.0,
 			140.0
 		],
-		"infrastructure": 1,
+		"infrastructure": 3.0,
 		"owner": "NYM",
 		"terrain": "PLAIN"
 	},
@@ -223,7 +223,7 @@
 			90.0,
 			180.0
 		],
-		"infrastructure": 1,
+		"infrastructure": 1.0,
 		"owner": "ORM",
 		"terrain": "DESERT"
 	},
@@ -235,7 +235,7 @@
 			80.0,
 			200.0
 		],
-		"infrastructure": 1,
+		"infrastructure": 3.0,
 		"owner": "NYM",
 		"terrain": "PLAIN"
 	},
@@ -247,7 +247,7 @@
 			110.0,
 			210.0
 		],
-		"infrastructure": 4,
+		"infrastructure": 7.0,
 		"owner": "NYM",
 		"terrain": "PLAIN"
 	},
@@ -259,7 +259,7 @@
 			90.0,
 			140.0
 		],
-		"infrastructure": 1,
+		"infrastructure": 1.0,
 		"owner": "NYM",
 		"terrain": "PLAIN"
 	},
@@ -271,7 +271,7 @@
 			100.0,
 			180.0
 		],
-		"infrastructure": 1,
+		"infrastructure": 1.0,
 		"owner": "ORM",
 		"terrain": "PLAIN"
 	},
@@ -283,7 +283,7 @@
 			70.0,
 			120.0
 		],
-		"infrastructure": 1,
+		"infrastructure": 5.0,
 		"owner": "ORM",
 		"terrain": "PLAIN"
 	},
@@ -295,7 +295,7 @@
 			95.0,
 			60.0
 		],
-		"infrastructure": 1,
+		"infrastructure": 2.0,
 		"owner": "ORM",
 		"terrain": "PLAIN"
 	},
@@ -307,7 +307,7 @@
 			170.0,
 			55.0
 		],
-		"infrastructure": 3,
+		"infrastructure": 3.0,
 		"owner": "EMB",
 		"terrain": "PLAIN"
 	},
@@ -319,7 +319,7 @@
 			205.0,
 			115.0
 		],
-		"infrastructure": 1,
+		"infrastructure": 3.0,
 		"owner": "ORM",
 		"terrain": "PLAIN"
 	},
@@ -331,7 +331,7 @@
 			165.0,
 			115.0
 		],
-		"infrastructure": 1,
+		"infrastructure": 7.0,
 		"owner": "NEU",
 		"terrain": "PLAIN"
 	},
@@ -343,7 +343,7 @@
 			135.0,
 			185.0
 		],
-		"infrastructure": 1,
+		"infrastructure": 4.0,
 		"owner": "NEU",
 		"terrain": "PLAIN"
 	},
@@ -355,7 +355,7 @@
 			155.0,
 			235.0
 		],
-		"infrastructure": 1,
+		"infrastructure": 1.0,
 		"owner": "MOR",
 		"terrain": "PLAIN"
 	},
@@ -367,7 +367,7 @@
 			70.0,
 			185.0
 		],
-		"infrastructure": 1,
+		"infrastructure": 2.0,
 		"owner": "AST",
 		"terrain": "FOREST"
 	},
@@ -379,7 +379,7 @@
 			65.0,
 			165.0
 		],
-		"infrastructure": 1,
+		"infrastructure": 4.0,
 		"owner": "AST",
 		"terrain": "PLAIN"
 	},
@@ -391,7 +391,7 @@
 			85.0,
 			195.0
 		],
-		"infrastructure": 1,
+		"infrastructure": 1.0,
 		"owner": "AST",
 		"terrain": "MOUNTAIN"
 	},
@@ -403,7 +403,7 @@
 			110.0,
 			65.0
 		],
-		"infrastructure": 1,
+		"infrastructure": 8.0,
 		"owner": "AST",
 		"terrain": "PLAIN"
 	},
@@ -415,7 +415,7 @@
 			170.0,
 			110.0
 		],
-		"infrastructure": 6,
+		"infrastructure": 10.0,
 		"owner": "AST",
 		"terrain": "PLAIN"
 	},
@@ -427,7 +427,7 @@
 			190.0,
 			170.0
 		],
-		"infrastructure": 1,
+		"infrastructure": 5.0,
 		"owner": "AST",
 		"terrain": "PLAIN"
 	},
@@ -439,7 +439,7 @@
 			120.0,
 			185.0
 		],
-		"infrastructure": 1,
+		"infrastructure": 3.0,
 		"owner": "AST",
 		"terrain": "PLAIN"
 	},
@@ -451,7 +451,7 @@
 			95.0,
 			215.0
 		],
-		"infrastructure": 1,
+		"infrastructure": 5.0,
 		"owner": "MOR",
 		"terrain": "PLAIN"
 	},
@@ -463,7 +463,7 @@
 			135.0,
 			85.0
 		],
-		"infrastructure": 4,
+		"infrastructure": 4.0,
 		"owner": "MOR",
 		"terrain": "PLAIN"
 	}

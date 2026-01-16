@@ -1,6 +1,6 @@
 class_name Enums
 
-enum ViewMode { OWNER = 0, PROVINCE = 1, TERRAIN =2, GOVTYPE =3}
+enum ViewMode { OWNER = 0, PROVINCE = 1, TERRAIN =2, GOVTYPE =3, INFRA =4}
 
 enum TerrainType {FOREST, PLAIN, MOUNTAIN, DESERT, HILL, INDETERMINATE = -1}
 

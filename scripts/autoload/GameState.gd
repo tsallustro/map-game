@@ -202,6 +202,11 @@ func get_country_name_by_country_id(country_id : String)-> String:
 func get_province_infra_by_id(province_id: String) -> int:
 	return province_infra_by_id[province_id]
 
+func get_total_infra_by_country_id(country_id: String) -> int:
+	var total = 0
+	for p in provinces:
+		if p["owner"] == country_id: total += p["infrastructure"]
+	return total
 
 # Province selection/highlight
 func select_province_by_maskkey(mask_key: String) -> void:

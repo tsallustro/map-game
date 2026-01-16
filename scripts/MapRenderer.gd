@@ -31,7 +31,10 @@ func _build_shader_arrays() -> void:
 	var owner_arr := PackedColorArray()
 	var terrain_arr := PackedColorArray()
 	var gt_arr := PackedColorArray()
-	
+	var infra_arr := PackedColorArray()
+
+	var province_infra_values := Array()
+
 	for p in GameState.provinces:
 		var mc: Array = p["mask_color"]
 		prov_arr.append(Color(mc[0]/255.0, mc[1]/255.0, mc[2]/255.0, 1.0))
@@ -45,10 +48,21 @@ func _build_shader_arrays() -> void:
 		var p_gt_color : Color = GameState.get_gt_color_by_country_id(owner_id)
 		gt_arr.append(p_gt_color)
 
+		var p_infra_value := GameState.get_province_infra_by_id(p["id"])
+		province_infra_values.append(p_infra_value)
+
+	var max_infra = province_infra_values.max()
+	var min_infra = province_infra_values.min()
+	for i in range(province_infra_values.size()):
+		var infra_value =  province_infra_values[i]
+		var color = Utils.get_gradient_value_ryg(infra_value, min_infra, max_infra)
+		infra_arr.append(color)
+
 	_mat.set_shader_parameter("prov_colors", prov_arr)
 	_mat.set_shader_parameter("owner_colors", owner_arr)
 	_mat.set_shader_parameter("terrain_colors", terrain_arr)
 	_mat.set_shader_parameter("gt_colors", gt_arr)
+	_mat.set_shader_parameter("infra_colors", infra_arr)
 
 func _on_view_mode_changed(mode: int) -> void:
 	_mat.set_shader_parameter("view_mode", mode)

@@ -8,6 +8,7 @@ extends Control
 @onready var owner_btn: Button = $UI/ViewButtons/HBoxContainer/OwnerViewButton
 @onready var terrain_btn: Button = $UI/ViewButtons/HBoxContainer/TerrainViewButton
 @onready var gt_btn: Button = $UI/ViewButtons/HBoxContainer/GovTypeViewButton
+@onready var infra_btn: Button = $UI/ViewButtons/HBoxContainer/InfraViewButton
 
 # Speed Buttons
 @onready var speed_up_btn: Button = $"UI/Top Panel/HBoxContainer/HBoxContainer2/SpeedUpButton"
@@ -19,6 +20,7 @@ func _ready() -> void:
 	owner_btn.pressed.connect(_on_owner_view_pressed)
 	terrain_btn.pressed.connect(_on_terrain_view_pressed)
 	gt_btn.pressed.connect(_on_gt_view_pressed)
+	infra_btn.pressed.connect(_on_infra_view_pressed)
 
 	speed_up_btn.pressed.connect(_on_speed_up_pressed)
 	speed_down_btn.pressed.connect(_on_speed_down_pressed)
@@ -48,12 +50,16 @@ func _on_terrain_view_pressed() -> void:
 func _on_gt_view_pressed() -> void:
 	GameState.set_view_mode(Enums.ViewMode.GOVTYPE)
 
+func _on_infra_view_pressed() -> void:
+	GameState.set_view_mode(Enums.ViewMode.INFRA)
+
 func _on_view_mode_changed(mode: int) -> void:
 	# Visual feedback: disable active button
 	owner_btn.disabled = (mode == Enums.ViewMode.OWNER)
 	province_btn.disabled = (mode == Enums.ViewMode.PROVINCE)
 	terrain_btn.disabled = (mode == Enums.ViewMode.TERRAIN)
 	gt_btn.disabled = (mode == Enums.ViewMode.GOVTYPE)
+	infra_btn.disabled = (mode == Enums.ViewMode.INFRA)
 
 	print("Set view mode: "+str(mode))
 
