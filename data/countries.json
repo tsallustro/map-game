@@ -1,18 +1,10 @@
 {
-	"NWT":{
-		"name":"Northwest Territories",
-		"color":[255,0,0]
-	},
-	"YEL":{
-		"name":"Yellowland",
-		"color":[255,255,51]
-	},
-	"CTR":{
-		"name":"Centerland",
-		"color":[0,204,204]
-	},
-	"GRB":{
-		"name":"Great Bay",
-		"color":[150,70,0]
+	"xxx": {
+		"name": "Northwest Territories",
+		"color": [
+			255.0,
+			0.0,
+			0.0
+		]
 	}
 }

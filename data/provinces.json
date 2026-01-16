@@ -1,90 +1,431 @@
 [
 	{
-		"id": "p_dark_purple",
-		"name": "Dark Purple Province",
+		"id": "p_northland",
+		"name": "Northland Island",
 		"mask_color": [
-			235.0,
-			42.0,
-			255.0
+			210.0,
+			60.0,
+			45.0
 		],
-		"owner": "NWT",
+		"owner": "xxx",
 		"terrain": "PLAIN"
 	},
 	{
-		"id": "p_blue",
-		"name": "Blue Province",
+		"id": "p_westerland",
+		"name": "Westerland",
 		"mask_color": [
-			9.0,
-			6.0,
-			255.0
+			230.0,
+			120.0,
+			40.0
 		],
-		"owner": "NWT",
+		"owner": "xxx",
 		"terrain": "PLAIN"
 	},
 	{
-		"id": "p_yellow",
-		"name": "Yellow Province",
+		"id": "p_nw_coast",
+		"name": "Northwest Coast",
 		"mask_color": [
-			255.0,
-			240.0,
-			4.0
+			200.0,
+			90.0,
+			70.0
 		],
-		"owner": "YEL",
-		"terrain": "DESERT"
-	},
-	{
-		"id": "p_orange",
-		"name": "Orange Province",
-		"mask_color": [
-			255.0,
-			83.0,
-			8.0
-		],
-		"owner": "CTR",
+		"owner": "xxx",
 		"terrain": "PLAIN"
 	},
 	{
-		"id": "p_green",
-		"name": "Green Province",
+		"id": "p_kerrocona",
+		"name": "Kerrocona",
 		"mask_color": [
-			11.0,
-			255.0,
-			170.0
+			245.0,
+			150.0,
+			80.0
 		],
-		"owner": "CTR",
+		"owner": "xxx",
+		"terrain": "PLAIN"
+	},
+	{
+		"id": "p_nw_great_plains",
+		"name": "Great Plains (NW)",
+		"mask_color": [
+			220.0,
+			200.0,
+			60.0
+		],
+		"owner": "xxx",
+		"terrain": "PLAIN"
+	},
+	{
+		"id": "p_ne_great_plains",
+		"name": "Great Plains (NE)",
+		"mask_color": [
+			180.0,
+			210.0,
+			70.0
+		],
+		"owner": "xxx",
+		"terrain": "PLAIN"
+	},
+	{
+		"id": "p_s_great_plains",
+		"name": "Great Plains (S)",
+		"mask_color": [
+			160.0,
+			190.0,
+			90.0
+		],
+		"owner": "xxx",
+		"terrain": "PLAIN"
+	},
+	{
+		"id": "p_storm_coast",
+		"name": "Storm Coast",
+		"mask_color": [
+			70.0,
+			170.0,
+			90.0
+		],
+		"owner": "xxx",
+		"terrain": "PLAIN"
+	},
+	{
+		"id": "p_great_wolf_woods",
+		"name": "Great Wolf Woods",
+		"mask_color": [
+			60.0,
+			200.0,
+			140.0
+		],
+		"owner": "xxx",
 		"terrain": "FOREST"
 	},
 	{
-		"id": "p_teal",
-		"name": "Teal Province",
+		"id": "p_ardiham",
+		"name": "Ardiham Citadel",
 		"mask_color": [
-			3.0,
-			255.0,
-			238.0
+			90.0,
+			150.0,
+			120.0
 		],
-		"owner": "GRB",
-		"terrain": "HILL"
+		"owner": "xxx",
+		"terrain": "PLAIN"
 	},
 	{
-		"id": "p_maroon",
-		"name": "Maroon Province",
+		"id": "p_selsmire_coast",
+		"name": "Selsmire Coast",
 		"mask_color": [
-			255.0,
-			131.0,
-			107.0
+			40.0,
+			130.0,
+			80.0
 		],
-		"owner": "GRB",
+		"owner": "xxx",
+		"terrain": "PLAIN"
+	},
+	{
+		"id": "p_spine",
+		"name": "The Spine",
+		"mask_color": [
+			60.0,
+			180.0,
+			200.0
+		],
+		"owner": "xxx",
 		"terrain": "MOUNTAIN"
 	},
 	{
-		"id": "p_light_purple",
-		"name": "Light Purple Province",
+		"id": "p_barathi_highlands",
+		"name": "Barathi Highlands",
+		"mask_color": [
+			50.0,
+			140.0,
+			190.0
+		],
+		"owner": "xxx",
+		"terrain": "HILL"
+	},
+	{
+		"id": "p_onorood_peninsula",
+		"name": "Onorood Peninsula",
+		"mask_color": [
+			80.0,
+			200.0,
+			220.0
+		],
+		"owner": "xxx",
+		"terrain": "PLAIN"
+	},
+	{
+		"id": "p_haersley_hold",
+		"name": "Haersley Hold",
+		"mask_color": [
+			70.0,
+			110.0,
+			200.0
+		],
+		"owner": "xxx",
+		"terrain": "PLAIN"
+	},
+	{
+		"id": "p_arvendel",
+		"name": "Arvendel",
+		"mask_color": [
+			90.0,
+			130.0,
+			220.0
+		],
+		"owner": "xxx",
+		"terrain": "PLAIN"
+	},
+	{
+		"id": "p_kelmora",
+		"name": "Kelmora",
+		"mask_color": [
+			40.0,
+			90.0,
+			160.0
+		],
+		"owner": "xxx",
+		"terrain": "PLAIN"
+	},
+	{
+		"id": "p_windgate_peninsula",
+		"name": "Windgate Peninsula",
+		"mask_color": [
+			60.0,
+			80.0,
+			140.0
+		],
+		"owner": "xxx",
+		"terrain": "PLAIN"
+	},
+	{
+		"id": "p_dread_desert",
+		"name": "The Dread Desert",
+		"mask_color": [
+			120.0,
+			90.0,
+			180.0
+		],
+		"owner": "xxx",
+		"terrain": "DESERT"
+	},
+	{
+		"id": "p_elmsara",
+		"name": "Elmsara",
+		"mask_color": [
+			150.0,
+			80.0,
+			200.0
+		],
+		"owner": "xxx",
+		"terrain": "PLAIN"
+	},
+	{
+		"id": "p_nymbria",
+		"name": "Nymbria",
+		"mask_color": [
+			170.0,
+			110.0,
+			210.0
+		],
+		"owner": "xxx",
+		"terrain": "PLAIN"
+	},
+	{
+		"id": "p_e_celandria",
+		"name": "Eastern Celandria",
+		"mask_color": [
+			200.0,
+			90.0,
+			140.0
+		],
+		"owner": "xxx",
+		"terrain": "PLAIN"
+	},
+	{
+		"id": "p_w_celandria",
+		"name": "Eastern Celandria",
+		"mask_color": [
+			220.0,
+			100.0,
+			180.0
+		],
+		"owner": "xxx",
+		"terrain": "PLAIN"
+	},
+	{
+		"id": "p_ormireth_bay",
+		"name": "Ormireth Bay",
+		"mask_color": [
+			180.0,
+			70.0,
+			120.0
+		],
+		"owner": "xxx",
+		"terrain": "PLAIN"
+	},
+	{
+		"id": "p_n_ormireth",
+		"name": "North Ormireth",
 		"mask_color": [
 			255.0,
-			123.0,
-			206.0
+			95.0,
+			60.0
 		],
-		"owner": "GRB",
+		"owner": "xxx",
+		"terrain": "PLAIN"
+	},
+	{
+		"id": "p_emberfall",
+		"name": "Emberfall",
+		"mask_color": [
+			215.0,
+			170.0,
+			55.0
+		],
+		"owner": "xxx",
+		"terrain": "PLAIN"
+	},
+	{
+		"id": "p_shield_coast",
+		"name": "Shield Coast",
+		"mask_color": [
+			145.0,
+			205.0,
+			115.0
+		],
+		"owner": "xxx",
+		"terrain": "PLAIN"
+	},
+	{
+		"id": "p_n_neuver_island",
+		"name": "North Neuver Island",
+		"mask_color": [
+			30.0,
+			165.0,
+			115.0
+		],
+		"owner": "xxx",
+		"terrain": "PLAIN"
+	},
+	{
+		"id": "p_s_neuver_island",
+		"name": "South Neuver Island",
+		"mask_color": [
+			20.0,
+			135.0,
+			185.0
+		],
+		"owner": "xxx",
+		"terrain": "PLAIN"
+	},
+	{
+		"id": "p_forgotten_isles",
+		"name": "Forgotten Isles",
+		"mask_color": [
+			100.0,
+			155.0,
+			235.0
+		],
+		"owner": "xxx",
+		"terrain": "PLAIN"
+	},
+	{
+		"id": "p_caelumwood",
+		"name": "Caelumwood",
+		"mask_color": [
+			85.0,
+			70.0,
+			185.0
+		],
+		"owner": "xxx",
+		"terrain": "FOREST"
+	},
+	{
+		"id": "p_caelumara",
+		"name": "Caelumara",
+		"mask_color": [
+			155.0,
+			65.0,
+			165.0
+		],
+		"owner": "xxx",
+		"terrain": "PLAIN"
+	},
+	{
+		"id": "p_croycastle_peaks",
+		"name": "Croycastle Peaks",
+		"mask_color": [
+			235.0,
+			85.0,
+			195.0
+		],
+		"owner": "xxx",
+		"terrain": "MOUNTAIN"
+	},
+	{
+		"id": "p_astravia",
+		"name": "Astravia",
+		"mask_color": [
+			195.0,
+			110.0,
+			65.0
+		],
+		"owner": "xxx",
+		"terrain": "PLAIN"
+	},
+	{
+		"id": "p_talverton",
+		"name": "Talverton",
+		"mask_color": [
+			240.0,
+			170.0,
+			110.0
+		],
+		"owner": "xxx",
+		"terrain": "PLAIN"
+	},
+	{
+		"id": "p_dracora",
+		"name": "Dracora",
+		"mask_color": [
+			110.0,
+			190.0,
+			170.0
+		],
+		"owner": "xxx",
+		"terrain": "PLAIN"
+	},
+	{
+		"id": "p_zerathon",
+		"name": "Zerathon",
+		"mask_color": [
+			75.0,
+			120.0,
+			185.0
+		],
+		"owner": "xxx",
+		"terrain": "PLAIN"
+	},
+	{
+		"id": "p_lunenborg",
+		"name": "Lunenborg",
+		"mask_color": [
+			165.0,
+			95.0,
+			215.0
+		],
+		"owner": "xxx",
+		"terrain": "PLAIN"
+	},
+	{
+		"id": "p_morintrie",
+		"name": "Morintrie",
+		"mask_color": [
+			205.0,
+			135.0,
+			85.0
+		],
+		"owner": "xxx",
 		"terrain": "PLAIN"
 	}
 ]

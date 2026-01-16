@@ -1,1 +1,31 @@
-test :)
+todo:
+	- Province attributes
+		- Development / infrastructure
+			- Initial province values
+			- Mapmode
+			- Province label button?
+		- Population
+			- Initial province values
+			- Mapmode
+			- Province label button?
+		- Regions
+	- Clock
+		- Format as date
+		- Speed modification
+	- New Map
+		- 40 provinces
+		- Steps:
+			- Make new map
+			- Color provinces
+			- Update province data
+			- Increase shader arr sizes
+			- Increase shader loop
+			- Update MapLayer and material textures
+	- Map improvements
+		- Rivers
+	- Engine improvements
+		- Save/Load
+		- Console/debug actions
+		- Data validation
+		
+		

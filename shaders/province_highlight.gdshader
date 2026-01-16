@@ -5,9 +5,9 @@ uniform sampler2D mask_tex : filter_nearest, repeat_disable;
 // 0 = owner view, 1 = province view
 uniform int view_mode = 0;
 
-uniform vec4 prov_colors[8];
-uniform vec4 owner_colors[8];
-uniform vec4 terrain_colors[8];
+uniform vec4 prov_colors[39];
+uniform vec4 owner_colors[39];
+uniform vec4 terrain_colors[39];
 
 uniform vec4 outline_color : source_color = vec4(1.0, 1.0, 0.0, 1.0);
 uniform float enabled_outline = 1.0;
@@ -37,7 +37,7 @@ void fragment() {
 		float best = 0.0;
 		int idx = 0;
 
-		for (int i = 0; i < 8; i++) {
+		for (int i = 0; i < 39; i++) {
 			float s = matches(m0, prov_colors[i].rgb);
 			// Keep the first match; mask should be exact so this is fine
 			if (s > best) {
