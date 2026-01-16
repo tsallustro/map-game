@@ -47,6 +47,7 @@ func load_all() -> void:
 	countries = _load_json_dict("res://data/countries.json")
 	provinces = _load_json_array("res://data/provinces.json")
 	terrain = _load_json_array("res://data/terrain.json")
+	_validate_data()
 	print("Successfully loaded JSON")
 	print("Found "+str(provinces.size())+" provinces from data")
 
@@ -103,6 +104,17 @@ func _load_json_array(path: String) -> Array:
 		return []
 	return j.data as Array
 
+func _validate_data() -> void:
+	print("Validating province data...")
+	for i in range(provinces.size()):
+		var provinceI = provinces[i]
+		for j in range(i+1, provinces.size()):
+			var provinceJ = provinces[j]
+			if(provinceI["id"] == provinceJ["id"]):
+				print("WARN: Duplicate province key \"%s\"" %[provinceI["id"]])
+				# TODO validate colors
+				
+	# TODO validate country data
 # View Modes
 func set_view_mode(mode: int) -> void:
 	if view_mode == mode:
