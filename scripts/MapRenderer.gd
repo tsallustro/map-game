@@ -85,7 +85,7 @@ func _on_province_owner_changed(_province_id: String, _new_owner: String) -> voi
 	_mat.set_shader_parameter("owner_colors", owner_arr)
 
 func _rebuild_infra_shader_array(_changed_province_id : String) -> void:
-	print("Rebuilding province infra arrays...")
+	# print("Rebuilding province infra array...")
 	var infra_arr := PackedColorArray()
 	var province_infra_values := Array()
 	for p in GameState.provinces:
