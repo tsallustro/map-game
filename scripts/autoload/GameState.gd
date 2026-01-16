@@ -12,6 +12,7 @@ var view_mode: int = Enums.ViewMode.OWNER
 
 # Raw loaded data
 var countries: Dictionary = {}          			# "NWT" -> {name, color:[r,g,b], type}
+var non_existant_countries: Dictionary = {}         # "NWT" -> {name, color:[r,g,b], type}
 var provinces: Array = []               			# ordered list of province dicts
 var terrain: Array = []								# ordered list of terrain dicts
 var government_types : Array = []					# ordered list of government type dicts
@@ -62,7 +63,7 @@ func load_all() -> void:
 	_build_indexes()
 	print("Indexes built")
 	emit_signal("data_loaded")
-
+	
 func _build_indexes() -> void:
 
 	# Country indexing
@@ -70,7 +71,7 @@ func _build_indexes() -> void:
 	for cid in countries.keys():
 		var rgb: Array = countries[cid]["color"]
 		country_color[cid] = _rgb_to_color(rgb)
-
+		
 	# Terrain color indexing
 	terrain_color.clear()
 	for t in range(terrain.size()):
@@ -95,7 +96,7 @@ func _build_indexes() -> void:
 	province_index_by_maskkey.clear()
 	province_terrain_by_id.clear()
 	province_infra_by_id.clear()
-
+	var found_owners = []
 	for i in range(provinces.size()):
 		var p: Dictionary = provinces[i]
 		var pid: String = p["id"]
@@ -110,6 +111,11 @@ func _build_indexes() -> void:
 
 		var province_infra : int = p["infrastructure"]
 		province_infra_by_id[pid] = province_infra
+		if(p["owner"] not in found_owners): found_owners.append(p["owner"])
+	
+	for key in countries.keys():
+		if(key not in found_owners):
+			_delete_country(key)
 
 func _load_json_dict(path: String) -> Dictionary:
 	var text := FileAccess.get_file_as_string(path)
@@ -173,6 +179,7 @@ func set_province_owner(province_id: String, new_owner: String) -> void:
 		return
 	var old_owner = provinces[idx]["owner"]
 	provinces[idx]["owner"] = new_owner
+	if(new_owner in non_existant_countries): _restore_country(new_owner)
 	if(_country_requires_deletion(old_owner)): _delete_country(old_owner)
 	emit_signal("province_owner_changed", province_id, new_owner)
 
@@ -237,6 +244,9 @@ func inc_province_infrastructure(province_id : String) -> void:
 func inc_selected_province_infrastructure() -> void:
 	inc_province_infrastructure(selected_province_id)
 
+func country_id_exists_or_can_exist(country_id: String)->bool:
+	return country_id in countries || country_id in non_existant_countries
+
 func country_id_exists(country_id: String)->bool:
 	return country_id in countries
 
@@ -245,22 +255,20 @@ func province_id_exists(province_id: String)->bool:
 		if p["id"] == province_id: return true
 	return false
 
-
 func annex(annexer_country_id : String, annexee_country_id : String) -> void:
 	print("%s annexed %s"%[annexer_country_id, annexee_country_id]) 
-	_delete_country(annexee_country_id)
 	for p in provinces:
 		if(p["owner"] == annexee_country_id):
 			set_province_owner(p["id"], annexer_country_id)
 
 func _delete_country(country_id: String) -> void:
-	if (!countries.erase(country_id) ):
-		print("ERROR: %s wasn't found in countries."%[country_id])
-		return
-	if (!country_color.erase(country_id)):
-		print("ERROR: %s wasn't found in color dict."%[country_id])
-		return
-	print("%s was deleted."%[country_id])
+	non_existant_countries[country_id] = countries[country_id]
+	countries.erase(country_id)
+	print("%s no longer exists."%[country_id])
+func _restore_country(country_id: String) -> void:
+	countries[country_id] = non_existant_countries[country_id]
+	non_existant_countries.erase(country_id)
+	print("%s has returned!."%[country_id])
 
 func _country_requires_deletion(country_id: String) -> bool:
 	for p in provinces:
