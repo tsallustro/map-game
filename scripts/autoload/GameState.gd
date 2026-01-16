@@ -6,6 +6,7 @@ signal view_mode_changed(mode: int)
 signal selection_changed(province_id: String)
 signal date_changed(date: int)
 signal speed_changed(speed: int)
+signal province_infrastructure_changed(province_id: String)
 
 var view_mode: int = Enums.ViewMode.OWNER
 
@@ -207,6 +208,21 @@ func get_total_infra_by_country_id(country_id: String) -> int:
 	for p in provinces:
 		if p["owner"] == country_id: total += p["infrastructure"]
 	return total
+
+func inc_province_infrastructure(province_id : String) -> void:
+	var idx : int = province_index_by_id.get(province_id, -1)
+	if idx == -1:
+		push_error("Unknown province_id: " + province_id)
+	var prev_infra = int(provinces[idx]["infrastructure"])
+	var new_infra = prev_infra + 1
+	provinces[idx]["infrastructure"] = new_infra
+
+	# Update index
+	province_infra_by_id[province_id] = new_infra
+	emit_signal("province_infrastructure_changed", province_id)
+
+func inc_selected_province_infrastructure() -> void:
+	inc_province_infrastructure(selected_province_id)
 
 # Province selection/highlight
 func select_province_by_maskkey(mask_key: String) -> void:
