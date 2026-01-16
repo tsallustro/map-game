@@ -26,9 +26,9 @@
 	"NYM": {
 		"name": "Kingdom of Nymbria",
 		"color": [
-			0.0,
-			0.0,
-			255.0
+			120.0,
+			120.0,
+			220.0
 		]
 	},
 	"ORM": {
