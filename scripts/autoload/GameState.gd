@@ -295,6 +295,23 @@ func clear_selection() -> void:
 	selected_province_id = ""
 	emit_signal("selection_changed", selected_province_id)
 
+# Save/Load wrappers
+func save_game_state(save_name: String)-> void:
+	SaveLoadController.save_game(save_name, countries, non_existant_countries, provinces)
+
+func load_game_state(save_name: String)-> void:
+	var data_arr = SaveLoadController.load_game(save_name)
+	countries = data_arr[1]
+	non_existant_countries = data_arr[2]
+	provinces = data_arr[3]
+	_validate_data()
+	print("Found "+str(provinces.size())+" provinces from save game data")
+
+	print("Building indexes...")
+	_build_indexes()
+	print("Indexes built")
+	emit_signal("data_loaded")
+
 # Utils
 func _rgb_to_color(rgb: Array) -> Color:
 	return Color(float(rgb[0]) / 255.0, float(rgb[1]) / 255.0, float(rgb[2]) / 255.0, 1.0)

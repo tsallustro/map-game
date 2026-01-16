@@ -4,6 +4,8 @@ extends Node
 func _ready() -> void:
 	LimboConsole.register_command(annex)
 	LimboConsole.register_command(set_prov_owner)
+	LimboConsole.register_command(save)
+	LimboConsole.register_command(load)
 
 func annex(annexer_country_id : String, annexee_country_id : String)-> void:
 	if(annexer_country_id == annexee_country_id):
@@ -27,3 +29,9 @@ func set_prov_owner(province_id : String, country_id : String)-> void:
 		return
 	GameState.set_province_owner(province_id, country_id)
 	LimboConsole.info("%s now owns %s"%[country_id, province_id]) 
+
+func save(save_name : String) -> void:
+	GameState.save_game_state(save_name)	
+
+func load(save_name : String) -> void:
+	GameState.load_game_state(save_name)	
