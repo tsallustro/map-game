@@ -27,7 +27,7 @@ var terrain_color: Dictionary = {} # Enums.TerrainType.DESERT -> color
 var government_type_color: Dictionary = {} # Enums.GovernmentType.TRIBAL -> color
 var province_infra_by_id: Dictionary = {} # "p_yellow" -> 2
 var province_count_by_country_id : Dictionary = {} # "NWT" -> 1
-
+var total_infra_by_country_id : Dictionary = {} # "NWT" -> 10
 
 # Other common vars
 var INITIAL_DATE = Time.get_datetime_dict_from_datetime_string("1000-01-01T00:00:00", false)
@@ -79,6 +79,7 @@ func _build_indexes() -> void:
 		var rgb: Array = countries[cid]["color"]
 		country_color[cid] = Utils.rgb_to_color(rgb)
 		province_count_by_country_id[cid] = 0
+		total_infra_by_country_id[cid] = 0
 
 	# Terrain color indexing
 	terrain_color.clear()
@@ -120,7 +121,8 @@ func _build_indexes() -> void:
 		var province_infra: int = p["infrastructure"]
 		province_infra_by_id[pid] = province_infra
 		province_count_by_country_id[p["owner"]] = province_count_by_country_id[p["owner"]] + 1
-	
+		total_infra_by_country_id[p["owner"]] = total_infra_by_country_id[p["owner"]] + province_infra
+
 	for country in countries:
 		if province_count_by_country_id[country] == 0:
 			_delete_country(country)
@@ -201,8 +203,13 @@ func set_province_owner(province_id: String, new_owner: String) -> void:
 	provinces[idx]["owner"] = new_owner
 	if (new_owner in non_existant_countries): _restore_country(new_owner)
 	if (_country_requires_deletion(old_owner)): _delete_country(old_owner)
+
+	# Update indexes
 	province_count_by_country_id[new_owner] = province_count_by_country_id[new_owner] + 1
 	province_count_by_country_id[old_owner] = province_count_by_country_id[old_owner] - 1
+	total_infra_by_country_id[old_owner] = total_infra_by_country_id[old_owner] - province_infra_by_id[province_id]
+	total_infra_by_country_id[new_owner] = total_infra_by_country_id[new_owner] + province_infra_by_id[province_id]
+
 	emit_signal("province_owner_changed", province_id, new_owner)
 
 func get_country_color(country_id: String) -> Color:
@@ -241,24 +248,6 @@ func get_mask_color_for_province(province_id: String) -> Color:
 
 func get_country_name_by_country_id(country_id: String) -> String:
 	return countries[country_id]["name"] if country_id in countries else "UNKNOWN"
-
-func get_province_infra_by_id(province_id: String) -> int:
-	return province_infra_by_id[province_id]
-
-func get_total_infra_by_country_id(country_id: String) -> int:
-	var total = 0
-	for p in provinces:
-		if p["owner"] == country_id: total += p["infrastructure"]
-	return total
-
-func get_province_count_and_infra_by_country_id(country_id: String) -> Array:
-	var total_infra = 0
-	var total_provinces = 0
-	for p in provinces:
-		if p["owner"] == country_id: 
-			total_provinces=total_provinces+1
-			total_infra += p["infrastructure"]
-	return [total_provinces, total_infra]
 
 func inc_province_infrastructure(province_id: String) -> void:
 	var idx: int = province_index_by_id.get(province_id, -1)

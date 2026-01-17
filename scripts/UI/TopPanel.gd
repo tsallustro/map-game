@@ -2,7 +2,7 @@ extends PanelContainer
 @onready var dateLabel: Label = $DateTimeHBoxContainer/DateLabel
 @onready var speedLabel: Label = $DateTimeHBoxContainer/SpeedHBoxContainer/SpeedLabel
 @onready var playPauseBtn: Button = $DateTimeHBoxContainer/SpeedHBoxContainer/PlayPauseButton
-@onready var playerTagLabel: Label = $DateTimeHBoxContainer/PlayerTagLabel
+
 
 # Speed Buttons
 @onready var speed_up_btn: Button = $DateTimeHBoxContainer/SpeedHBoxContainer/SpeedUpButton
@@ -24,7 +24,6 @@ func _initialize():
 	_on_new_tick(GameState.current_date)
 	_on_speed_change(GameState.speed)
 	_on_pause_toggled(GameState.isPaused)
-	playerTagLabel.text = "Player Tag: "+GameState.player_tag
 	has_loaded = true
 
 func _on_new_tick(new_time: Dictionary) -> void:

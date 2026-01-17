@@ -17,8 +17,7 @@ func _on_data_loaded() -> void:
 	_on_selection_changed(GameState.selected_province_id)
 
 func _on_selection_changed_owner(province_id: String, _new_owner_id) -> void:
-		# TODO Efficiency
-		_on_selection_changed(province_id)
+		if province_id == GameState.selected_province_id: _on_selection_changed(province_id)
 
 func _on_selection_changed(province_id: String) -> void:
 	if province_id == "":
@@ -43,7 +42,7 @@ func _build_p_name_label_text(province_id: String, owner_id: String, province_da
 
 func _build_p_infra_label_text(owner_id: String, province_data: Dictionary) -> String:
 	var p_infra = province_data["infrastructure"]
-	var owner_total_infra = GameState.get_total_infra_by_country_id(owner_id)
+	var owner_total_infra = GameState.total_infra_by_country_id[owner_id]
 	return "Infrastructure: %d (Total: %d)" % [p_infra, owner_total_infra]
 
 func _build_p_terrain_label_text(province_data: Dictionary) -> String:

@@ -55,7 +55,7 @@ func _build_shader_arrays() -> void:
 		var p_gt_color: Color = GameState.get_gt_color_by_country_id(owner_id)
 		gt_arr.append(p_gt_color)
 
-		var p_infra_value := GameState.get_province_infra_by_id(p["id"])
+		var p_infra_value : int = GameState.province_infra_by_id[p["id"]]
 		province_infra_values.append(p_infra_value)
 
 	var max_infra = province_infra_values.max()
@@ -95,7 +95,7 @@ func _rebuild_infra_shader_array(_changed_province_id: String) -> void:
 	var infra_arr := PackedColorArray()
 	var province_infra_values := Array()
 	for p in GameState.provinces:
-		var p_infra_value := GameState.get_province_infra_by_id(p["id"])
+		var p_infra_value : int = GameState.province_infra_by_id[p["id"]]
 		province_infra_values.append(p_infra_value)
 
 	var max_infra = province_infra_values.max()
