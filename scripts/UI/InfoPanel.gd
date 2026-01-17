@@ -11,6 +11,8 @@ func _ready() -> void:
 	increase_infra_btn.pressed.connect(_on_infra_increase_btn_pressed)
 	GameState.province_owner_changed.connect(_on_selection_changed_owner)
 
+	if GameState.is_loaded:
+		_on_data_loaded()
 func _on_data_loaded() -> void:
 	_on_selection_changed(GameState.selected_province_id)
 

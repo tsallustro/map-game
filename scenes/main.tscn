@@ -1,13 +1,13 @@
 [gd_scene load_steps=9 format=3 uid="uid://dwi8pqgrjflqx"]
 
-[ext_resource type="Script" uid="uid://cv1uuktj52pfs" path="res://scripts/Map.gd" id="1_0xm2m"]
-[ext_resource type="Script" uid="uid://bghi1gxvig7dg" path="res://scripts/Main.gd" id="1_1bvp3"]
-[ext_resource type="Texture2D" uid="uid://bndlwoxpv2bwu" path="res://assets/new_province_mask.png" id="3_5vw27"]
-[ext_resource type="Script" uid="uid://0h1v0m5v5ish" path="res://scripts/UI/InfoPanel.gd" id="3_h2yge"]
-[ext_resource type="Material" uid="uid://dp2p2fepnlpm5" path="res://shaders/province_highlight_material.tres" id="4_7mycd"]
-[ext_resource type="Texture2D" uid="uid://c7qfy4w3sr2dk" path="res://assets/new_world_map.png" id="5_5vw27"]
-[ext_resource type="Script" uid="uid://dln6ybrlg45o6" path="res://scripts/MapRenderer.gd" id="6_5vw27"]
-[ext_resource type="Script" uid="uid://by54nke7cd4xi" path="res://scripts/UI/TopPanel.gd" id="7_5vw27"]
+[ext_resource type="Script" uid="uid://bghi1gxvig7dg" path="res://scripts/Main.gd" id="1_tipki"]
+[ext_resource type="Script" uid="uid://cv1uuktj52pfs" path="res://scripts/Map.gd" id="2_85g3d"]
+[ext_resource type="Texture2D" uid="uid://bndlwoxpv2bwu" path="res://assets/new_province_mask.png" id="3_choun"]
+[ext_resource type="Material" uid="uid://dp2p2fepnlpm5" path="res://shaders/province_highlight_material.tres" id="4_ya4ey"]
+[ext_resource type="Texture2D" uid="uid://c7qfy4w3sr2dk" path="res://assets/new_world_map.png" id="5_eb6dy"]
+[ext_resource type="Script" uid="uid://dln6ybrlg45o6" path="res://scripts/MapRenderer.gd" id="6_trceg"]
+[ext_resource type="Script" uid="uid://by54nke7cd4xi" path="res://scripts/UI/TopPanel.gd" id="7_a8y0u"]
+[ext_resource type="Script" uid="uid://0h1v0m5v5ish" path="res://scripts/UI/InfoPanel.gd" id="8_jkv2x"]
 
 [node name="Main" type="Control"]
 layout_mode = 3
@@ -19,57 +19,61 @@ offset_bottom = -648.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-script = ExtResource("1_1bvp3")
+script = ExtResource("1_tipki")
 
 [node name="MapLayer" type="Node2D" parent="."]
-script = ExtResource("1_0xm2m")
-mask_texture = ExtResource("3_5vw27")
+script = ExtResource("2_85g3d")
+mask_texture = ExtResource("3_choun")
 
 [node name="MapSprite" type="Sprite2D" parent="MapLayer"]
-material = ExtResource("4_7mycd")
-texture = ExtResource("5_5vw27")
+material = ExtResource("4_ya4ey")
+texture = ExtResource("5_eb6dy")
 centered = false
 
 [node name="Camera2D" type="Camera2D" parent="MapLayer"]
 
 [node name="MapRenderer" type="Node" parent="MapLayer"]
-script = ExtResource("6_5vw27")
+script = ExtResource("6_trceg")
 
 [node name="UI" type="CanvasLayer" parent="."]
 
-[node name="Top Panel" type="PanelContainer" parent="UI"]
+[node name="TimePanel" type="PanelContainer" parent="UI"]
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -20.0
-offset_right = 20.0
-offset_bottom = 40.0
+offset_left = -246.0
+offset_right = 246.0
+offset_bottom = 31.0
 grow_horizontal = 2
-script = ExtResource("7_5vw27")
+script = ExtResource("7_a8y0u")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="UI/Top Panel"]
+[node name="DateTimeHBoxContainer" type="HBoxContainer" parent="UI/TimePanel"]
 layout_mode = 2
 
-[node name="DateLabel" type="Label" parent="UI/Top Panel/HBoxContainer"]
+[node name="PlayerTagLabel" type="Label" parent="UI/TimePanel/DateTimeHBoxContainer"]
+layout_mode = 2
+text = "Player tag: NOTAG"
+
+[node name="DateLabel" type="Label" parent="UI/TimePanel/DateTimeHBoxContainer"]
 layout_mode = 2
 text = "Date: 1 January, 1000"
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="UI/Top Panel/HBoxContainer"]
+[node name="SpeedHBoxContainer" type="HBoxContainer" parent="UI/TimePanel/DateTimeHBoxContainer"]
 layout_mode = 2
 
-[node name="SpeedLabel" type="Label" parent="UI/Top Panel/HBoxContainer/HBoxContainer2"]
+[node name="SpeedLabel" type="Label" parent="UI/TimePanel/DateTimeHBoxContainer/SpeedHBoxContainer"]
 layout_mode = 2
 text = "Speed: 1"
 
-[node name="SpeedUpButton" type="Button" parent="UI/Top Panel/HBoxContainer/HBoxContainer2"]
+[node name="SpeedUpButton" type="Button" parent="UI/TimePanel/DateTimeHBoxContainer/SpeedHBoxContainer"]
 layout_mode = 2
 text = "+"
 
-[node name="SpeedDownButton" type="Button" parent="UI/Top Panel/HBoxContainer/HBoxContainer2"]
+[node name="SpeedDownButton" type="Button" parent="UI/TimePanel/DateTimeHBoxContainer/SpeedHBoxContainer"]
 layout_mode = 2
 text = "-"
 
-[node name="PlayPauseButton" type="Button" parent="UI/Top Panel/HBoxContainer"]
+[node name="PlayPauseButton" type="Button" parent="UI/TimePanel/DateTimeHBoxContainer/SpeedHBoxContainer"]
 layout_mode = 2
 text = "PAUSED"
 
@@ -80,7 +84,7 @@ anchor_bottom = 1.0
 offset_top = -40.0
 offset_right = 40.0
 grow_vertical = 0
-script = ExtResource("3_h2yge")
+script = ExtResource("8_jkv2x")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="UI/InfoPanel"]
 layout_mode = 2

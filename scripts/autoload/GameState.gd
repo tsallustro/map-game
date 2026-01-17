@@ -26,16 +26,20 @@ var province_terrain_by_id: Dictionary = {} # "p_yellow" -> Enums.TerrainType.DE
 var terrain_color: Dictionary = {} # Enums.TerrainType.DESERT -> color
 var government_type_color: Dictionary = {} # Enums.GovernmentType.TRIBAL -> color
 var province_infra_by_id: Dictionary = {} # "p_yellow" -> 2
+var province_count_by_country_id : Dictionary = {} # "NWT" -> 1
+
 
 # Other common vars
 var INITIAL_DATE = Time.get_datetime_dict_from_datetime_string("1000-01-01T00:00:00", false)
 var selected_province_id: String = ""
 var current_date: Dictionary = INITIAL_DATE # { "year": 1000, "month": 1, "day": 2, "weekday": 4, "hour": 0, "minute": 0, "second": 0 }
-var timePerTick := 5 # In seconds
+var timePerTick := 2 # In seconds
 var tickTimeRemaining := float(timePerTick)
 var speed := 1 # A tick occurs every (timePerTick / speed) seconds
 var isPaused = true
 
+var is_loaded = false
+var player_tag = "NOTAG"
 func _ready() -> void:
 	call_deferred("load_all")
 
@@ -65,6 +69,7 @@ func load_all() -> void:
 	print("Building indexes...")
 	_build_indexes()
 	print("Indexes built")
+	is_loaded = true
 	emit_signal("data_loaded")
 	
 func _build_indexes() -> void:
@@ -72,15 +77,16 @@ func _build_indexes() -> void:
 	country_color.clear()
 	for cid in countries.keys():
 		var rgb: Array = countries[cid]["color"]
-		country_color[cid] = _rgb_to_color(rgb)
-		
+		country_color[cid] = Utils.rgb_to_color(rgb)
+		province_count_by_country_id[cid] = 0
+
 	# Terrain color indexing
 	terrain_color.clear()
 	for t in range(terrain.size()):
 		var terrain_data = terrain[t]
 		var terrain_id = Enums.TerrainType.get(terrain_data["name"], -1)
 		var rgb = terrain_data["color"]
-		terrain_color[terrain_id] = _rgb_to_color(rgb)
+		terrain_color[terrain_id] = Utils.rgb_to_color(rgb)
 
 	# print("Loaded %d colors from %d terrains"%[terrain_color.size(), terrain.size()])
 
@@ -90,7 +96,7 @@ func _build_indexes() -> void:
 		var gt_data = government_types[gt]
 		var gt_id = Enums.GovernmentType.get(gt_data["name"], -1)
 		var rgb = gt_data["color"]
-		government_type_color[gt_id] = _rgb_to_color(rgb)
+		government_type_color[gt_id] = Utils.rgb_to_color(rgb)
 	# print("Loaded %d colors from %d government types"%[government_type_color.size(), government_types.size()])
 
 	# Province indexing
@@ -98,7 +104,7 @@ func _build_indexes() -> void:
 	province_index_by_maskkey.clear()
 	province_terrain_by_id.clear()
 	province_infra_by_id.clear()
-	var found_owners = []
+
 	for i in range(provinces.size()):
 		var p: Dictionary = provinces[i]
 		var pid: String = p["id"]
@@ -113,11 +119,11 @@ func _build_indexes() -> void:
 
 		var province_infra: int = p["infrastructure"]
 		province_infra_by_id[pid] = province_infra
-		if (p["owner"] not in found_owners): found_owners.append(p["owner"])
+		province_count_by_country_id[p["owner"]] = province_count_by_country_id[p["owner"]] + 1
 	
-	for key in countries.keys():
-		if (key not in found_owners):
-			_delete_country(key)
+	for country in countries:
+		if province_count_by_country_id[country] == 0:
+			_delete_country(country)
 
 func _load_json_dict(path: String) -> Dictionary:
 	var text := FileAccess.get_file_as_string(path)
@@ -195,6 +201,8 @@ func set_province_owner(province_id: String, new_owner: String) -> void:
 	provinces[idx]["owner"] = new_owner
 	if (new_owner in non_existant_countries): _restore_country(new_owner)
 	if (_country_requires_deletion(old_owner)): _delete_country(old_owner)
+	province_count_by_country_id[new_owner] = province_count_by_country_id[new_owner] + 1
+	province_count_by_country_id[old_owner] = province_count_by_country_id[old_owner] - 1
 	emit_signal("province_owner_changed", province_id, new_owner)
 
 func get_country_color(country_id: String) -> Color:
@@ -229,7 +237,7 @@ func get_mask_color_for_province(province_id: String) -> Color:
 	if idx == -1:
 		return Color(0, 0, 0, 1)
 	var mc: Array = provinces[idx]["mask_color"]
-	return _rgb_to_color(mc)
+	return Utils.rgb_to_color(mc)
 
 func get_country_name_by_country_id(country_id: String) -> String:
 	return countries[country_id]["name"] if country_id in countries else "UNKNOWN"
@@ -242,6 +250,15 @@ func get_total_infra_by_country_id(country_id: String) -> int:
 	for p in provinces:
 		if p["owner"] == country_id: total += p["infrastructure"]
 	return total
+
+func get_province_count_and_infra_by_country_id(country_id: String) -> Array:
+	var total_infra = 0
+	var total_provinces = 0
+	for p in provinces:
+		if p["owner"] == country_id: 
+			total_provinces=total_provinces+1
+			total_infra += p["infrastructure"]
+	return [total_provinces, total_infra]
 
 func inc_province_infrastructure(province_id: String) -> void:
 	var idx: int = province_index_by_id.get(province_id, -1)
@@ -274,11 +291,13 @@ func annex(annexer_country_id: String, annexee_country_id: String) -> void:
 	for p in provinces:
 		if (p["owner"] == annexee_country_id):
 			set_province_owner(p["id"], annexer_country_id)
+			
 
 func _delete_country(country_id: String) -> void:
 	non_existant_countries[country_id] = countries[country_id]
 	countries.erase(country_id)
 	print("%s no longer exists." % [country_id])
+
 func _restore_country(country_id: String) -> void:
 	countries[country_id] = non_existant_countries[country_id]
 	non_existant_countries.erase(country_id)
@@ -315,7 +334,8 @@ func save_game_state(save_name: String) -> void:
 	if !isPaused: togglePause()
 	var save_metadata = {
 		"speed": speed,
-		"date": Time.get_unix_time_from_datetime_dict(current_date)
+		"date": Time.get_unix_time_from_datetime_dict(current_date),
+		"player_tag": player_tag
 	}
 	SaveLoadController.save_game(save_name, save_metadata, countries, non_existant_countries, provinces)
 
@@ -325,8 +345,11 @@ func load_game_state(save_name: String) -> void:
 
 	# Process metadata
 	var save_metadata = data_arr[0]
+	print("METADATA "+str(save_metadata))
 	_set_speed(save_metadata["speed"])
 	_set_date(save_metadata["date"])
+	player_tag = save_metadata["player_tag"]
+	
 	# Load world data
 	countries = data_arr[1]
 	non_existant_countries = data_arr[2]
@@ -338,7 +361,3 @@ func load_game_state(save_name: String) -> void:
 	_build_indexes()
 	print("Indexes built")
 	emit_signal("data_loaded")
-
-# Utils
-func _rgb_to_color(rgb: Array) -> Color:
-	return Color(float(rgb[0]) / 255.0, float(rgb[1]) / 255.0, float(rgb[2]) / 255.0, 1.0)

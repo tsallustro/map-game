@@ -1,0 +1,143 @@
+[gd_scene load_steps=2 format=3 uid="uid://dvl5r5hef4xi3"]
+
+[ext_resource type="Script" uid="uid://cnosupqfw18bt" path="res://scripts/UI/mainmenu/MainMenuController.gd" id="1_5mbse"]
+
+[node name="Mainmenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BasePanel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_5mbse")
+
+[node name="InitialButtons" type="VBoxContainer" parent="BasePanel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -48.0
+offset_top = -33.0
+offset_right = 48.0
+offset_bottom = 33.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="NewGameButton" type="Button" parent="BasePanel/InitialButtons"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "New Game"
+
+[node name="LoadGameButton" type="Button" parent="BasePanel/InitialButtons"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Load Game"
+
+[node name="ExitButton" type="Button" parent="BasePanel/InitialButtons"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Exit"
+
+[node name="LoadGameScreen" type="Control" parent="BasePanel"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="LoadGameLabel" type="Label" parent="BasePanel/LoadGameScreen"]
+layout_mode = 0
+offset_right = 1152.0
+offset_bottom = 67.0
+theme_override_font_sizes/font_size = 48
+text = "Load Game"
+horizontal_alignment = 1
+
+[node name="SaveGamesScroll" type="ScrollContainer" parent="BasePanel/LoadGameScreen"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -174.0
+offset_right = 1152.0
+offset_bottom = 276.0
+grow_vertical = 2
+
+[node name="SaveGames" type="VBoxContainer" parent="BasePanel/LoadGameScreen/SaveGamesScroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="LoadGameBackButton" type="Button" parent="BasePanel/LoadGameScreen"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -31.5
+offset_top = -42.0
+offset_right = 31.5
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_font_sizes/font_size = 24
+text = "Back"
+
+[node name="NewGameScreen" type="Control" parent="BasePanel"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="NewGameLabel" type="Label" parent="BasePanel/NewGameScreen"]
+layout_mode = 0
+offset_right = 1152.0
+offset_bottom = 67.0
+theme_override_font_sizes/font_size = 48
+text = "New Game"
+horizontal_alignment = 1
+
+[node name="CountrySelectScroll" type="ScrollContainer" parent="BasePanel/NewGameScreen"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -174.0
+offset_right = 1152.0
+offset_bottom = 276.0
+grow_vertical = 2
+
+[node name="CountrySelect" type="VBoxContainer" parent="BasePanel/NewGameScreen/CountrySelectScroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 4.96
+
+[node name="NewGameBackButton" type="Button" parent="BasePanel/NewGameScreen"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -31.5
+offset_top = -42.0
+offset_right = 31.5
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_font_sizes/font_size = 24
+text = "Back"
