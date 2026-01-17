@@ -16,3 +16,4 @@ todo:
         - Diplomacy
 	- Main menu
 		- Delete save button
+		- Sortable new game screen
