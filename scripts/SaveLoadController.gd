@@ -1,14 +1,13 @@
 class_name SaveLoadController
 
-static func save_game(save_name: String, countries: Dictionary, non_existant_countries: Dictionary, provinces : Array):
+static func save_game(save_name: String, save_metadata: Dictionary, countries: Dictionary, non_existant_countries: Dictionary, provinces : Array):
 	print("Saving as %s..."%[save_name])
 	# https://docs.godotengine.org/en/stable/tutorials/io/data_paths.html#doc-data-paths
 	var path = _path_from_save_name(save_name)
 	var save_file = FileAccess.open(path, FileAccess.WRITE)
 	# Set up metadata
-	var save_metadata = {
-		"save_name":save_name
-	}
+	save_metadata["save_name"] = save_name
+	
 	var save_metadata_str = JSON.stringify(save_metadata)
 	save_file.store_line(save_metadata_str)
 

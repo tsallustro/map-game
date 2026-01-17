@@ -7,6 +7,7 @@ signal selection_changed(province_id: String)
 signal date_changed(date: int)
 signal speed_changed(speed: int)
 signal province_infrastructure_changed(province_id: String)
+signal pause_state_changed(isPaused: bool)
 
 var view_mode: int = Enums.ViewMode.OWNER
 
@@ -33,20 +34,22 @@ var current_date : Dictionary = INITIAL_DATE		# { "year": 1000, "month": 1, "day
 var timePerTick := 5								# In seconds
 var tickTimeRemaining := float(timePerTick)
 var speed := 1										# A tick occurs every (timePerTick / speed) seconds
+var isPaused = true
 
 func _ready() -> void:
 	call_deferred("load_all")
 
 func _process(delta: float) -> void:
-	# Typical delta: 0.00833333333333 | 120 deltas per second
-	var newTimeRemaining = tickTimeRemaining- delta*speed
-	if(newTimeRemaining <= 0.0):
-		print("WARN: Overshot tick by "+str(newTimeRemaining))
-		_increment_date()
-		_on_tick_update()
-		tickTimeRemaining = newTimeRemaining + float(timePerTick)
-	else:
-		tickTimeRemaining = newTimeRemaining
+	if !isPaused:
+		# Typical delta: 0.00833333333333 | 120 deltas per second
+		var newTimeRemaining = tickTimeRemaining- delta*speed
+		if(newTimeRemaining <= 0.0):
+			print("WARN: Overshot tick by "+str(newTimeRemaining))
+			_increment_date()
+			_on_tick_update()
+			tickTimeRemaining = newTimeRemaining + float(timePerTick)
+		else:
+			tickTimeRemaining = newTimeRemaining
 
 func load_all() -> void:
 	print("Loading JSON data...")
@@ -158,6 +161,10 @@ func set_view_mode(mode: int) -> void:
 func _on_tick_update() -> void:
 	emit_signal("date_changed", current_date)
 
+func _set_date(date_as_unix_time: int)-> void:
+	current_date = Time.get_datetime_dict_from_unix_time(date_as_unix_time)
+	emit_signal("date_changed", current_date)
+
 func _increment_date() -> void:
 	var unix := Time.get_unix_time_from_datetime_dict(current_date)
 	unix += 86400 # Unix seconds per day
@@ -170,6 +177,14 @@ func dec_speed() -> void:
 func inc_speed() -> void:
 	speed = min(5, speed+1)
 	emit_signal("speed_changed", speed)
+
+func _set_speed(new_speed: int) -> void:
+	speed = max(min(5, new_speed),1)
+	emit_signal("speed_changed", speed)
+
+func togglePause():
+	isPaused = !isPaused
+	emit_signal("pause_state_changed", isPaused)
 
 # Data/Index management
 func set_province_owner(province_id: String, new_owner: String) -> void:
@@ -295,12 +310,25 @@ func clear_selection() -> void:
 	selected_province_id = ""
 	emit_signal("selection_changed", selected_province_id)
 
+
 # Save/Load wrappers
 func save_game_state(save_name: String)-> void:
-	SaveLoadController.save_game(save_name, countries, non_existant_countries, provinces)
+	if !isPaused: togglePause()
+	var save_metadata = {
+		"speed":speed,
+		"date":Time.get_unix_time_from_datetime_dict(current_date)
+	}
+	SaveLoadController.save_game(save_name, save_metadata, countries, non_existant_countries, provinces)
 
 func load_game_state(save_name: String)-> void:
+	if !isPaused: togglePause()
 	var data_arr = SaveLoadController.load_game(save_name)
+
+	# Process metadata
+	var save_metadata = data_arr[0]
+	_set_speed(save_metadata["speed"])
+	_set_date(save_metadata["date"])
+	# Load world data
 	countries = data_arr[1]
 	non_existant_countries = data_arr[2]
 	provinces = data_arr[3]
