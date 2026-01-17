@@ -4,7 +4,7 @@ signal data_loaded
 signal province_owner_changed(province_id: String, new_owner: String)
 signal view_mode_changed(mode: int)
 signal selection_changed(province_id: String)
-signal date_changed(date: int)
+signal date_changed(new_date: int)
 signal speed_changed(speed: int)
 signal province_infrastructure_changed(province_id: String)
 signal pause_state_changed(isPaused: bool)
@@ -28,6 +28,7 @@ var government_type_color: Dictionary = {} # Enums.GovernmentType.TRIBAL -> colo
 var province_infra_by_id: Dictionary = {} # "p_yellow" -> 2
 var province_count_by_country_id : Dictionary = {} # "NWT" -> 1
 var total_infra_by_country_id : Dictionary = {} # "NWT" -> 10
+var money_by_country_id : Dictionary = {} # "NWT" -> 100
 
 # Other common vars
 var INITIAL_DATE = Time.get_datetime_dict_from_datetime_string("1000-01-01T00:00:00", false)
@@ -49,8 +50,9 @@ func _process(delta: float) -> void:
 		var newTimeRemaining = tickTimeRemaining - delta * speed
 		if (newTimeRemaining <= 0.0):
 			print("WARN: Overshot tick by " + str(newTimeRemaining))
+			var previous_date = current_date.duplicate(true)
 			_increment_date()
-			_on_tick_update()
+			_on_tick_update(previous_date)
 			tickTimeRemaining = newTimeRemaining + float(timePerTick)
 		else:
 			tickTimeRemaining = newTimeRemaining
@@ -80,6 +82,7 @@ func _build_indexes() -> void:
 		country_color[cid] = Utils.rgb_to_color(rgb)
 		province_count_by_country_id[cid] = 0
 		total_infra_by_country_id[cid] = 0
+		money_by_country_id[cid] = countries[cid]["money"]
 
 	# Terrain color indexing
 	terrain_color.clear()
@@ -165,7 +168,12 @@ func set_view_mode(mode: int) -> void:
 	emit_signal("view_mode_changed", view_mode)
 
 # Tick/time
-func _on_tick_update() -> void:
+func _on_tick_update(previous_date : Dictionary) -> void:
+	if(current_date["month"] != previous_date["month"]):
+		# Month tick
+		for country in countries:
+			money_by_country_id[country] = money_by_country_id[country] + total_infra_by_country_id[country]
+
 	emit_signal("date_changed", current_date)
 
 func _set_date(date_as_unix_time: int) -> void:
@@ -259,10 +267,13 @@ func inc_province_infrastructure(province_id: String) -> void:
 
 	# Update index
 	province_infra_by_id[province_id] = new_infra
+	var owner_id = get_province_owner_id_by_pid(province_id)
+	total_infra_by_country_id[owner_id] = total_infra_by_country_id[owner_id] + 1
 	emit_signal("province_infrastructure_changed", province_id)
 
 func inc_selected_province_infrastructure() -> void:
 	inc_province_infrastructure(selected_province_id)
+
 
 func country_id_exists_or_can_exist(country_id: String) -> bool:
 	return country_id in countries || country_id in non_existant_countries

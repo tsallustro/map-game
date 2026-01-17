@@ -26,11 +26,11 @@ func _initialize():
 	_on_pause_toggled(GameState.isPaused)
 	has_loaded = true
 
-func _on_new_tick(new_time: Dictionary) -> void:
+func _on_new_tick(new_date: Dictionary) -> void:
 	var date_str = "%d %s, %d" % [
-	new_time["day"],
-	Utils.get_month_name_from_int(new_time["month"]),
-	new_time["year"]
+	new_date["day"],
+	Utils.get_month_name_from_int(new_date["month"]),
+	new_date["year"]
 	]
 
 	dateLabel.text = "Date: " + date_str
