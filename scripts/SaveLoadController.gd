@@ -27,6 +27,7 @@ static func save_game(save_name: String, save_metadata: Dictionary, countries: D
 
 # Returns [save_name: Dictionary, countries: Dictionary, non_existant_countries: Dictionary, provinces : Array]
 static func load_game(save_name: String) -> Array:
+	print("===LOADING GAME DATA===")
 	var path = _path_from_save_name(save_name)
 	if not FileAccess.file_exists(path):
 		print("Save game %s not found" % [path])
@@ -53,10 +54,6 @@ static func list_saves() -> Array:
 		dir.list_dir_begin()
 		var file_name = dir.get_next()
 		while file_name != "" && file_name.ends_with(".save"):
-			if dir.current_is_dir():
-				print("Found directory: " + file_name)
-			else:
-				print("Found file: " + file_name)
 			save_games.append(file_name)
 			file_name = dir.get_next()
 		return save_games

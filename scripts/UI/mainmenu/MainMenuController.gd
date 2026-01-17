@@ -45,14 +45,14 @@ func _on_load_game_button_clicked() -> void:
 	load_game_screen.visible = true
 
 	var save_games = SaveLoadController.list_saves()
-	print("Found %d saves: "%[save_games.size()])
+	print("Found %d saves"%[save_games.size()])
 
 	for game_name : String in save_games: 
 		game_name = game_name.left(game_name.length()-5)
 		var load_save_entry = Button.new()
 		load_save_entry.text="Save name: %s"%[game_name]
 		save_games_container.add_child(load_save_entry)
-		load_save_entry.pressed.connect(func(): _new_game(game_name))
+		load_save_entry.pressed.connect(func(): _load_game(game_name))
 		
 func _on_exit_button_clicked() -> void:
 	get_tree().quit()

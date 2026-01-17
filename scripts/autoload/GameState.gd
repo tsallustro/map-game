@@ -328,16 +328,17 @@ func save_game_state(save_name: String) -> void:
 	var save_metadata = {
 		"speed": speed,
 		"date": Time.get_unix_time_from_datetime_dict(current_date),
-		"player_tag":player_tag
+		"player_tag": player_tag
 	}
 	SaveLoadController.save_game(save_name, save_metadata, countries, non_existant_countries, provinces)
 
 func load_game_state(save_name: String) -> void:
 	if !isPaused: togglePause()
 	var data_arr = SaveLoadController.load_game(save_name)
-
+	
 	# Process metadata
 	var save_metadata = data_arr[0]
+	print("METADATA "+str(save_metadata))
 	_set_speed(save_metadata["speed"])
 	_set_date(save_metadata["date"])
 	player_tag = save_metadata["player_tag"]
