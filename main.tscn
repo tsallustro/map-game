@@ -37,7 +37,7 @@ script = ExtResource("6_5vw27")
 
 [node name="UI" type="CanvasLayer" parent="."]
 
-[node name="Top Panel" type="PanelContainer" parent="UI"]
+[node name="TimePanel" type="PanelContainer" parent="UI"]
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
@@ -47,29 +47,29 @@ offset_bottom = 40.0
 grow_horizontal = 2
 script = ExtResource("7_5vw27")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="UI/Top Panel"]
+[node name="DateTimeHBoxContainer" type="HBoxContainer" parent="UI/TimePanel"]
 layout_mode = 2
 
-[node name="DateLabel" type="Label" parent="UI/Top Panel/HBoxContainer"]
+[node name="DateLabel" type="Label" parent="UI/TimePanel/DateTimeHBoxContainer"]
 layout_mode = 2
 text = "Date: 1 January, 1000"
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="UI/Top Panel/HBoxContainer"]
+[node name="SpeedHBoxContainer" type="HBoxContainer" parent="UI/TimePanel/DateTimeHBoxContainer"]
 layout_mode = 2
 
-[node name="SpeedLabel" type="Label" parent="UI/Top Panel/HBoxContainer/HBoxContainer2"]
+[node name="SpeedLabel" type="Label" parent="UI/TimePanel/DateTimeHBoxContainer/SpeedHBoxContainer"]
 layout_mode = 2
 text = "Speed: 1"
 
-[node name="SpeedUpButton" type="Button" parent="UI/Top Panel/HBoxContainer/HBoxContainer2"]
+[node name="SpeedUpButton" type="Button" parent="UI/TimePanel/DateTimeHBoxContainer/SpeedHBoxContainer"]
 layout_mode = 2
 text = "+"
 
-[node name="SpeedDownButton" type="Button" parent="UI/Top Panel/HBoxContainer/HBoxContainer2"]
+[node name="SpeedDownButton" type="Button" parent="UI/TimePanel/DateTimeHBoxContainer/SpeedHBoxContainer"]
 layout_mode = 2
 text = "-"
 
-[node name="PlayPauseButton" type="Button" parent="UI/Top Panel/HBoxContainer"]
+[node name="PlayPauseButton" type="Button" parent="UI/TimePanel/DateTimeHBoxContainer/SpeedHBoxContainer"]
 layout_mode = 2
 text = "PAUSED"
 

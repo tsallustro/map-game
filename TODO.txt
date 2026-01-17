@@ -1,0 +1,11 @@
+todo:
+	- Province attributes
+		- Regions
+	- Clock
+		- Speed modification
+	- Map improvements
+		- Rivers
+	- Engine improvements
+		- Enhanced data validation
+	- AI
+		- Basic AI
