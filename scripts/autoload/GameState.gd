@@ -37,6 +37,7 @@ var speed := 1 # A tick occurs every (timePerTick / speed) seconds
 var isPaused = true
 
 var is_loaded = false
+var player_tag = "NOTAG"
 func _ready() -> void:
 	call_deferred("load_all")
 
@@ -245,6 +246,15 @@ func get_total_infra_by_country_id(country_id: String) -> int:
 		if p["owner"] == country_id: total += p["infrastructure"]
 	return total
 
+func get_province_count_and_infra_by_country_id(country_id: String) -> Array:
+	var total_infra = 0
+	var total_provinces = 0
+	for p in provinces:
+		if p["owner"] == country_id: 
+			total_provinces=total_provinces+1
+			total_infra += p["infrastructure"]
+	return [total_provinces, total_infra]
+
 func inc_province_infrastructure(province_id: String) -> void:
 	var idx: int = province_index_by_id.get(province_id, -1)
 	if idx == -1:
@@ -317,7 +327,8 @@ func save_game_state(save_name: String) -> void:
 	if !isPaused: togglePause()
 	var save_metadata = {
 		"speed": speed,
-		"date": Time.get_unix_time_from_datetime_dict(current_date)
+		"date": Time.get_unix_time_from_datetime_dict(current_date),
+		"player_tag":player_tag
 	}
 	SaveLoadController.save_game(save_name, save_metadata, countries, non_existant_countries, provinces)
 
@@ -329,6 +340,8 @@ func load_game_state(save_name: String) -> void:
 	var save_metadata = data_arr[0]
 	_set_speed(save_metadata["speed"])
 	_set_date(save_metadata["date"])
+	player_tag = save_metadata["player_tag"]
+	
 	# Load world data
 	countries = data_arr[1]
 	non_existant_countries = data_arr[2]
