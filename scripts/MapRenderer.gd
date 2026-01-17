@@ -13,6 +13,7 @@ func _ready() -> void:
 	GameState.selection_changed.connect(_on_selection_changed)
 	GameState.province_owner_changed.connect(_on_province_owner_changed)
 	GameState.province_infrastructure_changed.connect(_rebuild_infra_shader_array)
+	GameState.province_owner_changed.connect(_rebuild_owner_shader_array)
 	# If GameState loaded before we connected (rare, but possible), sync now:
 	_sync_all()
 
@@ -99,3 +100,10 @@ func _rebuild_infra_shader_array(_changed_province_id : String) -> void:
 		var color = Utils.get_gradient_value_ryg(infra_value, min_infra, max_infra)
 		infra_arr.append(color)
 	_mat.set_shader_parameter("infra_colors", infra_arr)
+
+func _rebuild_owner_shader_array(_province_id, _new_owner_id)->void:
+	var owner_arr := PackedColorArray()
+	for p in GameState.provinces:
+		var owner_id: String = p["owner"]
+		owner_arr.append(GameState.get_country_color(owner_id))
+	_mat.set_shader_parameter("owner_colors", owner_arr)

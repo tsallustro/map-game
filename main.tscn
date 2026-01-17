@@ -69,6 +69,10 @@ text = "+"
 layout_mode = 2
 text = "-"
 
+[node name="PlayPauseButton" type="Button" parent="UI/Top Panel/HBoxContainer"]
+layout_mode = 2
+text = "PAUSED"
+
 [node name="InfoPanel" type="PanelContainer" parent="UI"]
 anchors_preset = 2
 anchor_top = 1.0

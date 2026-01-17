@@ -9,9 +9,14 @@ func _ready() -> void:
 	GameState.selection_changed.connect(_on_selection_changed)
 	GameState.province_infrastructure_changed.connect(_on_selection_changed)
 	increase_infra_btn.pressed.connect(_on_infra_increase_btn_pressed)
-	
+	GameState.province_owner_changed.connect(_on_selection_changed_owner)
+
 func _on_data_loaded() -> void:
 	_on_selection_changed(GameState.selected_province_id)
+
+func _on_selection_changed_owner(province_id: String, _new_owner_id) -> void:
+		# TODO Efficiency
+		_on_selection_changed(province_id)
 
 func _on_selection_changed(province_id: String) -> void:
 	if province_id == "":
