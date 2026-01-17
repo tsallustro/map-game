@@ -20,6 +20,7 @@ grow_vertical = 2
 script = ExtResource("1_5mbse")
 
 [node name="InitialButtons" type="VBoxContainer" parent="BasePanel"]
+visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -95,7 +96,6 @@ theme_override_font_sizes/font_size = 24
 text = "Back"
 
 [node name="NewGameScreen" type="Control" parent="BasePanel"]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -124,6 +124,8 @@ grow_vertical = 2
 [node name="CountrySelect" type="VBoxContainer" parent="BasePanel/NewGameScreen/CountrySelectScroll"]
 layout_mode = 2
 size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 4.96
 
 [node name="NewGameBackButton" type="Button" parent="BasePanel/NewGameScreen"]
 layout_mode = 1

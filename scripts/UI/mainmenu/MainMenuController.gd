@@ -30,12 +30,25 @@ func _on_new_game_button_clicked() -> void:
 	initial_buttons.visible = false
 	new_game_screen.visible = true
 	for country_id in GameState.countries:
+		var cont := HBoxContainer.new()
+		cont.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		country_select_container.add_child(cont)
+		cont.alignment = BoxContainer.ALIGNMENT_CENTER
+
 		var country_data = GameState.countries[country_id]
 		var country_name = country_data["name"]
+
+		var color_rect = ColorRect.new()
+		color_rect.custom_minimum_size = Vector2(120,80)
+		var color = Utils.rgb_to_color(country_data["color"])
+		color_rect.color = Utils.rgb_to_color(country_data["color"])
+		cont.add_child(color_rect)
+
 		var country_select_entry = Button.new()
+		country_select_entry.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		var prov_count_and_infra_total = GameState.get_province_count_and_infra_by_country_id(country_id)
 		country_select_entry.text="%s | Total provinces: %d | Total infra: %d"%[country_name, prov_count_and_infra_total[0], prov_count_and_infra_total[1]]
-		country_select_container.add_child(country_select_entry)
+		cont.add_child(country_select_entry)
 		country_select_entry.pressed.connect(func(): _new_game(country_id))
 
 

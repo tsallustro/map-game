@@ -14,3 +14,5 @@ todo:
 	- AI
 		- Basic AI
         - Diplomacy
+	- Main menu
+		- Delete save button

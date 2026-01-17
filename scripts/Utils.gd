@@ -25,3 +25,6 @@ static func compare_date(date1: Dictionary, date2: Dictionary) -> int:
 	var d1_unix = Time.get_unix_time_from_datetime_dict(date1)
 	var d2_unix = Time.get_unix_time_from_datetime_dict(date2)
 	return d1_unix - d2_unix
+
+static func rgb_to_color(rgb: Array) -> Color:
+	return Color(float(rgb[0]) / 255.0, float(rgb[1]) / 255.0, float(rgb[2]) / 255.0, 1.0)

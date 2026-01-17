@@ -75,7 +75,7 @@ func _build_indexes() -> void:
 	country_color.clear()
 	for cid in countries.keys():
 		var rgb: Array = countries[cid]["color"]
-		country_color[cid] = _rgb_to_color(rgb)
+		country_color[cid] = Utils.rgb_to_color(rgb)
 		
 	# Terrain color indexing
 	terrain_color.clear()
@@ -83,7 +83,7 @@ func _build_indexes() -> void:
 		var terrain_data = terrain[t]
 		var terrain_id = Enums.TerrainType.get(terrain_data["name"], -1)
 		var rgb = terrain_data["color"]
-		terrain_color[terrain_id] = _rgb_to_color(rgb)
+		terrain_color[terrain_id] = Utils.rgb_to_color(rgb)
 
 	# print("Loaded %d colors from %d terrains"%[terrain_color.size(), terrain.size()])
 
@@ -93,7 +93,7 @@ func _build_indexes() -> void:
 		var gt_data = government_types[gt]
 		var gt_id = Enums.GovernmentType.get(gt_data["name"], -1)
 		var rgb = gt_data["color"]
-		government_type_color[gt_id] = _rgb_to_color(rgb)
+		government_type_color[gt_id] = Utils.rgb_to_color(rgb)
 	# print("Loaded %d colors from %d government types"%[government_type_color.size(), government_types.size()])
 
 	# Province indexing
@@ -232,7 +232,7 @@ func get_mask_color_for_province(province_id: String) -> Color:
 	if idx == -1:
 		return Color(0, 0, 0, 1)
 	var mc: Array = provinces[idx]["mask_color"]
-	return _rgb_to_color(mc)
+	return Utils.rgb_to_color(mc)
 
 func get_country_name_by_country_id(country_id: String) -> String:
 	return countries[country_id]["name"] if country_id in countries else "UNKNOWN"
@@ -335,7 +335,7 @@ func save_game_state(save_name: String) -> void:
 func load_game_state(save_name: String) -> void:
 	if !isPaused: togglePause()
 	var data_arr = SaveLoadController.load_game(save_name)
-	
+
 	# Process metadata
 	var save_metadata = data_arr[0]
 	print("METADATA "+str(save_metadata))
@@ -354,7 +354,3 @@ func load_game_state(save_name: String) -> void:
 	_build_indexes()
 	print("Indexes built")
 	emit_signal("data_loaded")
-
-# Utils
-func _rgb_to_color(rgb: Array) -> Color:
-	return Color(float(rgb[0]) / 255.0, float(rgb[1]) / 255.0, float(rgb[2]) / 255.0, 1.0)
