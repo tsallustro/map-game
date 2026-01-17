@@ -39,7 +39,7 @@ func _build_shader_arrays() -> void:
 
 	for p in GameState.provinces:
 		var mc: Array = p["mask_color"]
-		prov_arr.append(Color(mc[0]/255.0, mc[1]/255.0, mc[2]/255.0, 1.0))
+		prov_arr.append(Color(mc[0] / 255.0, mc[1] / 255.0, mc[2] / 255.0, 1.0))
 
 		var owner_id: String = p["owner"]
 		owner_arr.append(GameState.get_country_color(owner_id))
@@ -47,7 +47,7 @@ func _build_shader_arrays() -> void:
 		var p_terrain_color := GameState.get_province_terrain_color_by_id(p["id"])
 		terrain_arr.append(p_terrain_color)
 
-		var p_gt_color : Color = GameState.get_gt_color_by_country_id(owner_id)
+		var p_gt_color: Color = GameState.get_gt_color_by_country_id(owner_id)
 		gt_arr.append(p_gt_color)
 
 		var p_infra_value := GameState.get_province_infra_by_id(p["id"])
@@ -56,7 +56,7 @@ func _build_shader_arrays() -> void:
 	var max_infra = province_infra_values.max()
 	var min_infra = province_infra_values.min()
 	for i in range(province_infra_values.size()):
-		var infra_value =  province_infra_values[i]
+		var infra_value = province_infra_values[i]
 		var color = Utils.get_gradient_value_ryg(infra_value, min_infra, max_infra)
 		infra_arr.append(color)
 
@@ -85,7 +85,7 @@ func _on_province_owner_changed(_province_id: String, _new_owner: String) -> voi
 		owner_arr.append(GameState.get_country_color(p["owner"]))
 	_mat.set_shader_parameter("owner_colors", owner_arr)
 
-func _rebuild_infra_shader_array(_changed_province_id : String) -> void:
+func _rebuild_infra_shader_array(_changed_province_id: String) -> void:
 	# print("Rebuilding province infra array...")
 	var infra_arr := PackedColorArray()
 	var province_infra_values := Array()
@@ -96,12 +96,12 @@ func _rebuild_infra_shader_array(_changed_province_id : String) -> void:
 	var max_infra = province_infra_values.max()
 	var min_infra = province_infra_values.min()
 	for i in range(province_infra_values.size()):
-		var infra_value =  province_infra_values[i]
+		var infra_value = province_infra_values[i]
 		var color = Utils.get_gradient_value_ryg(infra_value, min_infra, max_infra)
 		infra_arr.append(color)
 	_mat.set_shader_parameter("infra_colors", infra_arr)
 
-func _rebuild_owner_shader_array(_province_id, _new_owner_id)->void:
+func _rebuild_owner_shader_array(_province_id, _new_owner_id) -> void:
 	var owner_arr := PackedColorArray()
 	for p in GameState.provinces:
 		var owner_id: String = p["owner"]

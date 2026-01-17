@@ -1,7 +1,7 @@
 class_name SaveLoadController
 
-static func save_game(save_name: String, save_metadata: Dictionary, countries: Dictionary, non_existant_countries: Dictionary, provinces : Array):
-	print("Saving as %s..."%[save_name])
+static func save_game(save_name: String, save_metadata: Dictionary, countries: Dictionary, non_existant_countries: Dictionary, provinces: Array):
+	print("Saving as %s..." % [save_name])
 	# https://docs.godotengine.org/en/stable/tutorials/io/data_paths.html#doc-data-paths
 	var path = _path_from_save_name(save_name)
 	var save_file = FileAccess.open(path, FileAccess.WRITE)
@@ -27,7 +27,7 @@ static func save_game(save_name: String, save_metadata: Dictionary, countries: D
 static func load_game(save_name: String) -> Array:
 	var path = _path_from_save_name(save_name)
 	if not FileAccess.file_exists(path):
-		print("Save game %s not found"%[save_name])
+		print("Save game %s not found" % [save_name])
 		return [] # Error! We don't have a save to load.
 
 	var save_file = FileAccess.open(path, FileAccess.READ)
@@ -44,5 +44,5 @@ static func load_game(save_name: String) -> Array:
 
 	return [save_metadata, countries, non_existant_countries, provinces]
 
-static func _path_from_save_name(save_name: String)->String:
-	return "user://%s.save"%[save_name]
+static func _path_from_save_name(save_name: String) -> String:
+	return "user://%s.save" % [save_name]
