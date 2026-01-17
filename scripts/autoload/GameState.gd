@@ -31,11 +31,12 @@ var province_infra_by_id: Dictionary = {} # "p_yellow" -> 2
 var INITIAL_DATE = Time.get_datetime_dict_from_datetime_string("1000-01-01T00:00:00", false)
 var selected_province_id: String = ""
 var current_date: Dictionary = INITIAL_DATE # { "year": 1000, "month": 1, "day": 2, "weekday": 4, "hour": 0, "minute": 0, "second": 0 }
-var timePerTick := 5 # In seconds
+var timePerTick := 2 # In seconds
 var tickTimeRemaining := float(timePerTick)
 var speed := 1 # A tick occurs every (timePerTick / speed) seconds
 var isPaused = true
 
+var is_loaded = false
 func _ready() -> void:
 	call_deferred("load_all")
 
@@ -65,6 +66,7 @@ func load_all() -> void:
 	print("Building indexes...")
 	_build_indexes()
 	print("Indexes built")
+	is_loaded = true
 	emit_signal("data_loaded")
 	
 func _build_indexes() -> void:

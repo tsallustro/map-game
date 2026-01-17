@@ -4,6 +4,7 @@ extends Node
 @onready var map_sprite: Sprite2D = get_node(map_sprite_path)
 
 var _mat: ShaderMaterial
+var has_loaded = false
 
 func _ready() -> void:
 	_mat = map_sprite.material as ShaderMaterial
@@ -14,8 +15,12 @@ func _ready() -> void:
 	GameState.province_owner_changed.connect(_on_province_owner_changed)
 	GameState.province_infrastructure_changed.connect(_rebuild_infra_shader_array)
 	GameState.province_owner_changed.connect(_rebuild_owner_shader_array)
-	# If GameState loaded before we connected (rare, but possible), sync now:
-	_sync_all()
+
+	# If GameState loaded before scene
+	if !has_loaded && GameState.is_loaded:
+		_on_data_loaded()
+		_sync_all()
+		has_loaded = true
 
 func _sync_all() -> void:
 	_on_view_mode_changed(GameState.view_mode)

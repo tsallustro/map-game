@@ -7,5 +7,10 @@ todo:
 		- Rivers
 	- Engine improvements
 		- Enhanced data validation
+        - Basic events
+    - Manas
+        - Money
+        - Stability
 	- AI
 		- Basic AI
+        - Diplomacy
