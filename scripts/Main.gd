@@ -61,7 +61,7 @@ func _on_view_mode_changed(mode: int) -> void:
 	gt_btn.disabled = (mode == Enums.ViewMode.GOVTYPE)
 	infra_btn.disabled = (mode == Enums.ViewMode.INFRA)
 
-	print("Set view mode: "+str(mode))
+	print("Set view mode: " + str(mode))
 
 func _on_speed_up_pressed() -> void:
 	GameState.inc_speed()
