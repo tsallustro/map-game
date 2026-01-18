@@ -8,7 +8,7 @@
                 "text": "Ok"
             },
             {
-                "text": "Wow"
+                "text": "Wow!"
             }
         ]
     },
@@ -20,7 +20,7 @@
             {
                 "text": "Neat",
                 "effects":{
-                    "money":100
+                    "add_money":100
                 }
             }
             
@@ -35,11 +35,43 @@
             {
                 "text": "Aww man",
                 "effects":{
-                    "money":-10
+                    "add_money":-10
+                }
+            }
+            
+        ]
+        
+    },
+    "e_test_gain_stab": {
+        "name": "Test Gain stability Event",
+        "desc": "This event tests adding money! :D",
+        "MTTH": 30,
+        "options": [
+            {
+                "text": "Hooray!",
+                "effects":{
+                    "add_stability":1
+                }
+            }
+            
+        ]
+        
+    },
+    "e_test_lose_stab": {
+        "name": "Test Lose stability Event",
+        "desc": "This event tests losing money! D:",
+        "MTTH": 30,
+        "options": [
+            {
+                "text": "Aww shucks!",
+                "effects":{
+                    "add_stability":-1
                 }
             }
             
         ]
         
     }
+
+    
 }

@@ -13,10 +13,8 @@ todo:
 		- Separate different ticks
 			- Monthly
 			- MTTH
+		- Relative effects (e.g. current stab * 10)
     - Manas
-        - Money (in progress)
-			- From infra
-        - Stability
 	- AI
 		- Basic AI
         - Diplomacy

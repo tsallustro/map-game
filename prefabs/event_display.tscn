@@ -8,10 +8,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -47.0
-offset_top = -11.5
-offset_right = 47.0
-offset_bottom = 11.5
+offset_left = -192.0
+offset_top = -27.0
+offset_right = 192.0
+offset_bottom = 27.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_dkh4k")
@@ -28,6 +28,7 @@ vertical_alignment = 1
 [node name="EventDescLabel" type="Label" parent="VBoxContainer"]
 layout_mode = 2
 text = "Event Desc"
+autowrap_mode = 2
 
 [node name="OptionsContainer" type="VBoxContainer" parent="VBoxContainer"]
 layout_mode = 2

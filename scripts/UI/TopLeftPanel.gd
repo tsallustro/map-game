@@ -1,7 +1,7 @@
 extends PanelContainer
 @onready var playerTagLabel: Label = $HBoxContainer/PlayerTagLabel
 @onready var moneyLabel: Label = $HBoxContainer/MoneyLabel
-
+@onready var stabLabel: Label = $HBoxContainer/StabLabel
 
 var has_loaded = false
 # Called when the node enters the scene tree for the first time.
@@ -17,7 +17,9 @@ func _force_reload():
 func _on_new_tick(_new_time: Dictionary) -> void:
 	var money_amount = GameState.money_by_country_id[GameState.player_tag]
 	moneyLabel.text = "Money: %d"%[money_amount]
+	stabLabel.text="Stability: %d"%[GameState.countries[GameState.player_tag]["stability"]]
 
 func _initialize():
 	playerTagLabel.text = "Player Tag: "+GameState.player_tag
+	_on_new_tick(GameState.current_date)
 	has_loaded = true

@@ -49,7 +49,7 @@ func main_menu():
 	
 func event(event_id : String):
 	if event_id in EventEngine.events_list: EventEngine.fire_event_by_id(event_id, GameState.player_tag)
-	else: LimboConsole.Error("%s is not a valid event id" % [event_id])
+	else: LimboConsole.error("%s is not a valid event id" % [event_id])
 
 func save(save_name: String) -> void:
 	GameState.save_game_state(save_name)

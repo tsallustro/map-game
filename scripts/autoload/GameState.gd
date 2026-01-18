@@ -85,7 +85,7 @@ func _build_indexes() -> void:
 		province_count_by_country_id[cid] = 0
 		total_infra_by_country_id[cid] = 0
 		money_by_country_id[cid] = countries[cid]["money"]
-
+		countries[cid]["stability"] = 0
 	# Terrain color indexing
 	terrain_color.clear()
 	for t in range(terrain.size()):
@@ -303,7 +303,12 @@ func add_money(country_id: String, amount: int)->void:
 	countries[country_id]["money"] = new_amount
 	money_by_country_id[country_id] = new_amount
 	emit_signal("force_reload_TL_panel")
-	
+
+func add_stability(country_id: String, amount: int)->void:
+	var new_amount = max(min(countries[country_id]["stability"]+amount, 5),-5)
+	countries[country_id]["stability"] = new_amount
+	emit_signal("force_reload_TL_panel")
+
 # Province selection/highlight
 func select_province_by_maskkey(mask_key: String) -> void:
 	var idx: int = province_index_by_maskkey.get(mask_key, -1)

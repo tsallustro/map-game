@@ -6,7 +6,8 @@ var pulse_countdown_days = PULSE_INTERVAL
 var events_list : Dictionary = {}
 
 var effect_handlers: Dictionary = {
-	"money": _handle_money
+	"add_money": _handle_add_money,
+	"add_stability": _handle_add_stability
 }
 
 
@@ -17,8 +18,8 @@ func _ready() -> void:
 
 
 func _init_events() -> void:
-	events_list = Utils.load_json_dict("res://events/events.json")
-
+	events_list = Utils.load_json_dict("res://events/test_events.json")
+	print(events_list)
 func _on_date_changed(_new_date: Dictionary)->void:
 	# Country scope events
 	pulse_countdown_days = pulse_countdown_days - 1
@@ -55,7 +56,10 @@ func process_effects(effects : Dictionary, country_id : String)->void:
 		handler.call(country_id, value)
 
 # Effects
-func _handle_money(country_id: String, amount: int)->void:
+func _handle_add_money(country_id: String, amount: int)->void:
 	print("EVENT HANDLER: MONEY")
 	GameState.add_money(country_id, amount)
 	
+func _handle_add_stability(country_id: String, amount: int)->void:
+	print("EVENT HANDLER: STAB")
+	GameState.add_stability(country_id, amount)
