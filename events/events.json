@@ -1,0 +1,35 @@
+{
+    "e_simple_1": {
+        "name": "Simple Event 1",
+        "desc": "This is the desc for this event",
+        "MTTH": 10,
+        "options":[
+            {
+                "text":"Ok"
+            },
+            {
+                "text":"Wow"
+            }
+        ]
+    },
+    "e_simple_2": {
+        "name": "Simple Event 2",
+        "desc": "This is the desc for this event",
+        "MTTH": 30,
+        "options":[
+            {
+                "text":"Neat"
+            }
+        ]
+    },
+    "e_simple_3": {
+        "name": "Simple Event 3",
+        "desc": "This is the desc for this event",
+        "MTTH": 60,
+        "options":[
+            {
+                "text":"Radical"
+            }
+        ]
+    }
+}

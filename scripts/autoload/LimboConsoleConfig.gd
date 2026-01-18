@@ -10,6 +10,7 @@ func _ready() -> void:
 	LimboConsole.register_command(tag_exists)
 	LimboConsole.register_command(p_count)
 	LimboConsole.register_command(cash)
+	LimboConsole.register_command(event)
 
 func annex(annexer_country_id: String, annexee_country_id: String) -> void:
 	if (annexer_country_id == annexee_country_id):
@@ -45,6 +46,10 @@ func cash(country_id: String, amount : int)-> void:
 
 func main_menu():
 	get_tree().change_scene_to_file("res://scenes/mainmenu.tscn")
+	
+func event(event_id : String):
+	if event_id in EventEngine.events_list: EventEngine.fire_event_by_id(event_id)
+	else: LimboConsole.Error("%s is not a valid event id" % [event_id])
 
 func save(save_name: String) -> void:
 	GameState.save_game_state(save_name)

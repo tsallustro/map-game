@@ -49,7 +49,7 @@ func _process(delta: float) -> void:
 		# Typical delta: 0.00833333333333 | 120 deltas per second
 		var newTimeRemaining = tickTimeRemaining - delta * speed
 		if (newTimeRemaining <= 0.0):
-			print("WARN: Overshot tick by " + str(newTimeRemaining))
+			# print("WARN: Overshot tick by " + str(newTimeRemaining))
 			var previous_date = current_date.duplicate(true)
 			_increment_date()
 			_on_tick_update(previous_date)
@@ -59,10 +59,10 @@ func _process(delta: float) -> void:
 
 func load_all() -> void:
 	print("Loading JSON data...")
-	countries = _load_json_dict("res://data/countries.json")
-	provinces = _load_json_array("res://data/provinces.json")
-	terrain = _load_json_array("res://data/terrain.json")
-	government_types = _load_json_array("res://data/government_types.json")
+	countries = Utils.load_json_dict("res://data/countries.json")
+	provinces =  Utils.load_json_array("res://data/provinces.json")
+	terrain =  Utils.load_json_array("res://data/terrain.json")
+	government_types =  Utils.load_json_array("res://data/government_types.json")
 
 	_validate_data()
 	print("Successfully loaded JSON")
@@ -130,24 +130,6 @@ func _build_indexes() -> void:
 		if province_count_by_country_id[country] == 0:
 			_delete_country(country)
 
-func _load_json_dict(path: String) -> Dictionary:
-	var text := FileAccess.get_file_as_string(path)
-	var j := JSON.new()
-	var err := j.parse(text)
-	if err != OK:
-		push_error("JSON parse failed (" + path + "): " + j.get_error_message())
-		return {}
-	return j.data as Dictionary
-
-func _load_json_array(path: String) -> Array:
-	var text := FileAccess.get_file_as_string(path)
-	var j := JSON.new()
-	var err := j.parse(text)
-	if err != OK:
-		push_error("JSON parse failed (" + path + "): " + j.get_error_message())
-		return []
-	return j.data as Array
-
 func _validate_data() -> void:
 	print("Validating province data...")
 	for i in range(provinces.size()):
@@ -201,6 +183,12 @@ func togglePause():
 	isPaused = !isPaused
 	emit_signal("pause_state_changed", isPaused)
 
+func unPause():
+	isPaused = false
+	emit_signal("pause_state_changed", isPaused)
+func pause():
+	isPaused = true
+	emit_signal("pause_state_changed", isPaused)
 # Data/Index management
 func set_province_owner(province_id: String, new_owner: String) -> void:
 	var idx: int = province_index_by_id.get(province_id, -1)

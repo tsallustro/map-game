@@ -7,9 +7,12 @@ todo:
 		- Rivers
 	- Engine improvements
 		- Enhanced data validation
-        - Basic events
+	- Events
+		- Conditions
+		- Trigger only once capability
     - Manas
-        - Money
+        - Money (in progress)
+			- From infra
         - Stability
 	- AI
 		- Basic AI

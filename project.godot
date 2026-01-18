@@ -19,6 +19,7 @@ config/features=PackedStringArray("4.5", "Forward Plus")
 GameState="*res://scripts/autoload/GameState.gd"
 LimboConsole="*res://addons/limbo_console/limbo_console.gd"
 LimboConsoleConfig="*res://scripts/autoload/LimboConsoleConfig.gd"
+EventEngine="*res://scripts/autoload/EventEngine.gd"
 
 [editor_plugins]
 
