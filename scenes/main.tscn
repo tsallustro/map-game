@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://dwi8pqgrjflqx"]
+[gd_scene load_steps=12 format=3 uid="uid://dwi8pqgrjflqx"]
 
 [ext_resource type="Script" uid="uid://bghi1gxvig7dg" path="res://scripts/Main.gd" id="1_tipki"]
 [ext_resource type="Script" uid="uid://cv1uuktj52pfs" path="res://scripts/Map.gd" id="2_85g3d"]
@@ -6,8 +6,11 @@
 [ext_resource type="Material" uid="uid://dp2p2fepnlpm5" path="res://shaders/province_highlight_material.tres" id="4_ya4ey"]
 [ext_resource type="Texture2D" uid="uid://c7qfy4w3sr2dk" path="res://assets/new_world_map.png" id="5_eb6dy"]
 [ext_resource type="Script" uid="uid://dln6ybrlg45o6" path="res://scripts/MapRenderer.gd" id="6_trceg"]
+[ext_resource type="Script" uid="uid://qllmedir8myg" path="res://scripts/UI/TopLeftPanel.gd" id="7_85g3d"]
 [ext_resource type="Script" uid="uid://by54nke7cd4xi" path="res://scripts/UI/TopPanel.gd" id="7_a8y0u"]
 [ext_resource type="Script" uid="uid://0h1v0m5v5ish" path="res://scripts/UI/InfoPanel.gd" id="8_jkv2x"]
+[ext_resource type="Script" uid="uid://bqyhc6oh3oc7v" path="res://scripts/UI/EventDisplayController.gd" id="10_choun"]
+[ext_resource type="PackedScene" uid="uid://40sbsdyourda" path="res://prefabs/event_display.tscn" id="10_ya4ey"]
 
 [node name="Main" type="Control"]
 layout_mode = 3
@@ -37,22 +40,38 @@ script = ExtResource("6_trceg")
 
 [node name="UI" type="CanvasLayer" parent="."]
 
+[node name="TopLeftPanel" type="PanelContainer" parent="UI"]
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("7_85g3d")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/TopLeftPanel"]
+layout_mode = 2
+
+[node name="PlayerTagLabel" type="Label" parent="UI/TopLeftPanel/HBoxContainer"]
+layout_mode = 2
+text = "Player tag: NOTAG"
+
+[node name="MoneyLabel" type="Label" parent="UI/TopLeftPanel/HBoxContainer"]
+layout_mode = 2
+text = "Money: 0"
+
+[node name="StabLabel" type="Label" parent="UI/TopLeftPanel/HBoxContainer"]
+layout_mode = 2
+text = "Stability: 0"
+
 [node name="TimePanel" type="PanelContainer" parent="UI"]
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -246.0
-offset_right = 246.0
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -350.0
 offset_bottom = 31.0
-grow_horizontal = 2
+grow_horizontal = 0
 script = ExtResource("7_a8y0u")
 
 [node name="DateTimeHBoxContainer" type="HBoxContainer" parent="UI/TimePanel"]
 layout_mode = 2
-
-[node name="PlayerTagLabel" type="Label" parent="UI/TimePanel/DateTimeHBoxContainer"]
-layout_mode = 2
-text = "Player tag: NOTAG"
+alignment = 2
 
 [node name="DateLabel" type="Label" parent="UI/TimePanel/DateTimeHBoxContainer"]
 layout_mode = 2
@@ -141,3 +160,14 @@ text = "Gov Type"
 [node name="InfraViewButton" type="Button" parent="UI/ViewButtons/HBoxContainer"]
 layout_mode = 2
 text = "Infra"
+
+[node name="EventDisplayBox" type="Control" parent="UI"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("10_choun")
+eventDisplayPrefab = ExtResource("10_ya4ey")

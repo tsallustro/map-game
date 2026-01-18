@@ -28,3 +28,21 @@ static func compare_date(date1: Dictionary, date2: Dictionary) -> int:
 
 static func rgb_to_color(rgb: Array) -> Color:
 	return Color(float(rgb[0]) / 255.0, float(rgb[1]) / 255.0, float(rgb[2]) / 255.0, 1.0)
+
+static func load_json_dict(path: String) -> Dictionary:
+	var text := FileAccess.get_file_as_string(path)
+	var j := JSON.new()
+	var err := j.parse(text)
+	if err != OK:
+		push_error("JSON parse failed (" + path + "): " + j.get_error_message())
+		return {}
+	return j.data as Dictionary
+
+static func load_json_array(path: String) -> Array:
+	var text := FileAccess.get_file_as_string(path)
+	var j := JSON.new()
+	var err := j.parse(text)
+	if err != OK:
+		push_error("JSON parse failed (" + path + "): " + j.get_error_message())
+		return []
+	return j.data as Array

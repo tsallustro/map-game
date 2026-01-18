@@ -4,10 +4,12 @@ signal data_loaded
 signal province_owner_changed(province_id: String, new_owner: String)
 signal view_mode_changed(mode: int)
 signal selection_changed(province_id: String)
-signal date_changed(date: int)
+signal date_changed(new_date: int)
 signal speed_changed(speed: int)
 signal province_infrastructure_changed(province_id: String)
 signal pause_state_changed(isPaused: bool)
+
+signal force_reload_TL_panel()
 
 var view_mode: int = Enums.ViewMode.OWNER
 
@@ -27,7 +29,8 @@ var terrain_color: Dictionary = {} # Enums.TerrainType.DESERT -> color
 var government_type_color: Dictionary = {} # Enums.GovernmentType.TRIBAL -> color
 var province_infra_by_id: Dictionary = {} # "p_yellow" -> 2
 var province_count_by_country_id : Dictionary = {} # "NWT" -> 1
-
+var total_infra_by_country_id : Dictionary = {} # "NWT" -> 10
+var money_by_country_id : Dictionary = {} # "NWT" -> 100
 
 # Other common vars
 var INITIAL_DATE = Time.get_datetime_dict_from_datetime_string("1000-01-01T00:00:00", false)
@@ -48,19 +51,20 @@ func _process(delta: float) -> void:
 		# Typical delta: 0.00833333333333 | 120 deltas per second
 		var newTimeRemaining = tickTimeRemaining - delta * speed
 		if (newTimeRemaining <= 0.0):
-			print("WARN: Overshot tick by " + str(newTimeRemaining))
+			# print("WARN: Overshot tick by " + str(newTimeRemaining))
+			var previous_date = current_date.duplicate(true)
 			_increment_date()
-			_on_tick_update()
+			_on_tick_update(previous_date)
 			tickTimeRemaining = newTimeRemaining + float(timePerTick)
 		else:
 			tickTimeRemaining = newTimeRemaining
 
 func load_all() -> void:
 	print("Loading JSON data...")
-	countries = _load_json_dict("res://data/countries.json")
-	provinces = _load_json_array("res://data/provinces.json")
-	terrain = _load_json_array("res://data/terrain.json")
-	government_types = _load_json_array("res://data/government_types.json")
+	countries = Utils.load_json_dict("res://data/countries.json")
+	provinces =  Utils.load_json_array("res://data/provinces.json")
+	terrain =  Utils.load_json_array("res://data/terrain.json")
+	government_types =  Utils.load_json_array("res://data/government_types.json")
 
 	_validate_data()
 	print("Successfully loaded JSON")
@@ -79,7 +83,9 @@ func _build_indexes() -> void:
 		var rgb: Array = countries[cid]["color"]
 		country_color[cid] = Utils.rgb_to_color(rgb)
 		province_count_by_country_id[cid] = 0
-
+		total_infra_by_country_id[cid] = 0
+		money_by_country_id[cid] = countries[cid]["money"]
+		countries[cid]["stability"] = 0
 	# Terrain color indexing
 	terrain_color.clear()
 	for t in range(terrain.size()):
@@ -120,28 +126,11 @@ func _build_indexes() -> void:
 		var province_infra: int = p["infrastructure"]
 		province_infra_by_id[pid] = province_infra
 		province_count_by_country_id[p["owner"]] = province_count_by_country_id[p["owner"]] + 1
-	
+		total_infra_by_country_id[p["owner"]] = total_infra_by_country_id[p["owner"]] + province_infra
+
 	for country in countries:
 		if province_count_by_country_id[country] == 0:
 			_delete_country(country)
-
-func _load_json_dict(path: String) -> Dictionary:
-	var text := FileAccess.get_file_as_string(path)
-	var j := JSON.new()
-	var err := j.parse(text)
-	if err != OK:
-		push_error("JSON parse failed (" + path + "): " + j.get_error_message())
-		return {}
-	return j.data as Dictionary
-
-func _load_json_array(path: String) -> Array:
-	var text := FileAccess.get_file_as_string(path)
-	var j := JSON.new()
-	var err := j.parse(text)
-	if err != OK:
-		push_error("JSON parse failed (" + path + "): " + j.get_error_message())
-		return []
-	return j.data as Array
 
 func _validate_data() -> void:
 	print("Validating province data...")
@@ -163,7 +152,12 @@ func set_view_mode(mode: int) -> void:
 	emit_signal("view_mode_changed", view_mode)
 
 # Tick/time
-func _on_tick_update() -> void:
+func _on_tick_update(previous_date : Dictionary) -> void:
+	if(current_date["month"] != previous_date["month"]):
+		# Month tick
+		for country in countries:
+			money_by_country_id[country] = money_by_country_id[country] + total_infra_by_country_id[country]
+
 	emit_signal("date_changed", current_date)
 
 func _set_date(date_as_unix_time: int) -> void:
@@ -191,6 +185,12 @@ func togglePause():
 	isPaused = !isPaused
 	emit_signal("pause_state_changed", isPaused)
 
+func unPause():
+	isPaused = false
+	emit_signal("pause_state_changed", isPaused)
+func pause():
+	isPaused = true
+	emit_signal("pause_state_changed", isPaused)
 # Data/Index management
 func set_province_owner(province_id: String, new_owner: String) -> void:
 	var idx: int = province_index_by_id.get(province_id, -1)
@@ -201,8 +201,13 @@ func set_province_owner(province_id: String, new_owner: String) -> void:
 	provinces[idx]["owner"] = new_owner
 	if (new_owner in non_existant_countries): _restore_country(new_owner)
 	if (_country_requires_deletion(old_owner)): _delete_country(old_owner)
+
+	# Update indexes
 	province_count_by_country_id[new_owner] = province_count_by_country_id[new_owner] + 1
 	province_count_by_country_id[old_owner] = province_count_by_country_id[old_owner] - 1
+	total_infra_by_country_id[old_owner] = total_infra_by_country_id[old_owner] - province_infra_by_id[province_id]
+	total_infra_by_country_id[new_owner] = total_infra_by_country_id[new_owner] + province_infra_by_id[province_id]
+
 	emit_signal("province_owner_changed", province_id, new_owner)
 
 func get_country_color(country_id: String) -> Color:
@@ -242,24 +247,6 @@ func get_mask_color_for_province(province_id: String) -> Color:
 func get_country_name_by_country_id(country_id: String) -> String:
 	return countries[country_id]["name"] if country_id in countries else "UNKNOWN"
 
-func get_province_infra_by_id(province_id: String) -> int:
-	return province_infra_by_id[province_id]
-
-func get_total_infra_by_country_id(country_id: String) -> int:
-	var total = 0
-	for p in provinces:
-		if p["owner"] == country_id: total += p["infrastructure"]
-	return total
-
-func get_province_count_and_infra_by_country_id(country_id: String) -> Array:
-	var total_infra = 0
-	var total_provinces = 0
-	for p in provinces:
-		if p["owner"] == country_id: 
-			total_provinces=total_provinces+1
-			total_infra += p["infrastructure"]
-	return [total_provinces, total_infra]
-
 func inc_province_infrastructure(province_id: String) -> void:
 	var idx: int = province_index_by_id.get(province_id, -1)
 	if idx == -1:
@@ -270,10 +257,13 @@ func inc_province_infrastructure(province_id: String) -> void:
 
 	# Update index
 	province_infra_by_id[province_id] = new_infra
+	var owner_id = get_province_owner_id_by_pid(province_id)
+	total_infra_by_country_id[owner_id] = total_infra_by_country_id[owner_id] + 1
 	emit_signal("province_infrastructure_changed", province_id)
 
 func inc_selected_province_infrastructure() -> void:
 	inc_province_infrastructure(selected_province_id)
+
 
 func country_id_exists_or_can_exist(country_id: String) -> bool:
 	return country_id in countries || country_id in non_existant_countries
@@ -307,6 +297,18 @@ func _country_requires_deletion(country_id: String) -> bool:
 	for p in provinces:
 		if p["owner"] == country_id: return false
 	return true
+
+func add_money(country_id: String, amount: int)->void:
+	var new_amount = countries[country_id]["money"] + amount
+	countries[country_id]["money"] = new_amount
+	money_by_country_id[country_id] = new_amount
+	emit_signal("force_reload_TL_panel")
+
+func add_stability(country_id: String, amount: int)->void:
+	var new_amount = max(min(countries[country_id]["stability"]+amount, 5),-5)
+	countries[country_id]["stability"] = new_amount
+	emit_signal("force_reload_TL_panel")
+
 # Province selection/highlight
 func select_province_by_maskkey(mask_key: String) -> void:
 	var idx: int = province_index_by_maskkey.get(mask_key, -1)

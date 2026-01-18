@@ -46,8 +46,7 @@ func _on_new_game_button_clicked() -> void:
 
 		var country_select_entry = Button.new()
 		country_select_entry.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		var prov_count_and_infra_total = GameState.get_province_count_and_infra_by_country_id(country_id)
-		country_select_entry.text="%s | Total provinces: %d | Total infra: %d"%[country_name, prov_count_and_infra_total[0], prov_count_and_infra_total[1]]
+		country_select_entry.text="%s | Total provinces: %d | Total infra: %d"%[country_name, GameState.province_count_by_country_id[country_id], GameState.total_infra_by_country_id[country_id]]
 		cont.add_child(country_select_entry)
 		country_select_entry.pressed.connect(func(): _new_game(country_id))
 
