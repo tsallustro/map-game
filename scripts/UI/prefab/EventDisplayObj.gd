@@ -4,14 +4,10 @@ extends PanelContainer
 @onready var optionsContainer: VBoxContainer = $VBoxContainer/OptionsContainer
 
 func initialize(event_data: Dictionary)->void:
-	print("Initializing %s"%[event_data["name"]])
 	eventNameLabel.text = event_data["name"]
 	eventDescLabel.text = event_data["desc"]
 	var options = event_data["options"]
-	print(str(options))
 	for option in options:
-		print(str(option))
-		print("Text: %s"%[option["text"]])
 		var btn = Button.new()
 		btn.text = option["text"]
 		btn.pressed.connect(func(): _on_option_selected(option))
@@ -20,6 +16,6 @@ func initialize(event_data: Dictionary)->void:
 
 func _on_option_selected(option_data: Dictionary)->void:
 	queue_free()
-	# Handle effects
+	if "effects" in option_data: EventEngine.process_effects(option_data["effects"], GameState.player_tag)
 	
 	

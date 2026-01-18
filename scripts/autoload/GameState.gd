@@ -9,6 +9,8 @@ signal speed_changed(speed: int)
 signal province_infrastructure_changed(province_id: String)
 signal pause_state_changed(isPaused: bool)
 
+signal force_reload_TL_panel()
+
 var view_mode: int = Enums.ViewMode.OWNER
 
 # Raw loaded data
@@ -295,6 +297,13 @@ func _country_requires_deletion(country_id: String) -> bool:
 	for p in provinces:
 		if p["owner"] == country_id: return false
 	return true
+
+func add_money(country_id: String, amount: int)->void:
+	var new_amount = countries[country_id]["money"] + amount
+	countries[country_id]["money"] = new_amount
+	money_by_country_id[country_id] = new_amount
+	emit_signal("force_reload_TL_panel")
+	
 # Province selection/highlight
 func select_province_by_maskkey(mask_key: String) -> void:
 	var idx: int = province_index_by_maskkey.get(mask_key, -1)
