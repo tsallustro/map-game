@@ -12,8 +12,8 @@
             }
         ]
     },
-    "e_test_money": {
-        "name": "Test Money Event",
+    "e_test_gain_money": {
+        "name": "Test Gain Money Event",
         "desc": "This event tests adding money! :D",
         "MTTH": 30,
         "options": [
@@ -21,6 +21,21 @@
                 "text": "Neat",
                 "effects":{
                     "money":100
+                }
+            }
+            
+        ]
+        
+    },
+    "e_test_lose_money": {
+        "name": "Test Lose Money Event",
+        "desc": "This event tests losing money! D:",
+        "MTTH": 30,
+        "options": [
+            {
+                "text": "Aww man",
+                "effects":{
+                    "money":-10
                 }
             }
             

@@ -10,6 +10,9 @@ todo:
 	- Events
 		- Conditions
 		- Trigger only once capability
+		- Separate different ticks
+			- Monthly
+			- MTTH
     - Manas
         - Money (in progress)
 			- From infra
