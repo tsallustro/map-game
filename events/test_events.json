@@ -71,6 +71,36 @@
 			
 		]
 		
+	},
+	"e_test_set_g_flag": {
+		"name": "Test Set G Flag Event",
+		"desc": "This event tests setting a global flag.",
+		"MTTH": 30,
+		"options": [
+			{
+				"text": "Now you see me...",
+				"effects":{
+					"set_global_flag":"test_global_flag"
+				}
+			}
+			
+		]
+		
+	},
+	"e_test_clear_g_flag": {
+		"name": "Test Clear G Flag Event",
+		"desc": "This event tests clearing a global flag",
+		"MTTH": 30,
+		"options": [
+			{
+				"text": "...now you don't!",
+				"effects":{
+					"clear_global_flag":"test_global_flag"
+				}
+			}
+			
+		]
+		
 	}
 
 	

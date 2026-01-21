@@ -7,7 +7,9 @@ var events_list : Dictionary = {}
 
 var effect_handlers: Dictionary = {
 	"add_money": _handle_add_money,
-	"add_stability": _handle_add_stability
+	"add_stability": _handle_add_stability,
+	"set_global_flag" : _set_global_flag,
+	"clear_global_flag" : _clear_global_flag
 }
 
 
@@ -63,3 +65,11 @@ func _handle_add_money(country_id: String, amount: int)->void:
 func _handle_add_stability(country_id: String, amount: int)->void:
 	print("EVENT HANDLER: STAB")
 	GameState.add_stability(country_id, amount)
+
+func _set_global_flag(_country_id: String, flag_name: String)->void:
+	print("EVENT HANDLER: FLAG")
+	GameState.manage_global_flag(flag_name, true)
+
+func _clear_global_flag(_country_id: String, flag_name: String)->void:
+	print("EVENT HANDLER: FLAG")
+	GameState.manage_global_flag(flag_name, false)

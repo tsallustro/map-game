@@ -32,6 +32,10 @@ var province_count_by_country_id : Dictionary = {} # "NWT" -> 1
 var total_infra_by_country_id : Dictionary = {} # "NWT" -> 10
 var money_by_country_id : Dictionary = {} # "NWT" -> 100
 
+var flags : Dictionary = {
+	"global":[]
+}
+
 # Other common vars
 var INITIAL_DATE = Time.get_datetime_dict_from_datetime_string("1000-01-01T00:00:00", false)
 var selected_province_id: String = ""
@@ -308,6 +312,20 @@ func add_stability(country_id: String, amount: int)->void:
 	var new_amount = max(min(countries[country_id]["stability"]+amount, 5),-5)
 	countries[country_id]["stability"] = new_amount
 	emit_signal("force_reload_TL_panel")
+
+func manage_global_flag(flag_name : String, set_flag: bool)->void:
+	if(! set_flag ): 
+		# Clear flag
+		if (!flag_name in flags["global"]):
+			print("WARN: Flag %s is not in list"%[flag_name])
+		else:
+			(flags["global"] as Array).erase(flag_name)
+	else:
+		# Set flag
+		if (flag_name in flags["global"]):
+			print("WARN: Flag %s already in list"%[flag_name])
+		else:
+			(flags["global"] as Array).append(flag_name)
 
 # Province selection/highlight
 func select_province_by_maskkey(mask_key: String) -> void:
