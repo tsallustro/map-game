@@ -19,7 +19,7 @@ func _ready() -> void:
 
 func _init_events() -> void:
 	events_list = Utils.load_json_dict("res://events/test_events.json")
-	print(events_list)
+	
 func _on_date_changed(_new_date: Dictionary)->void:
 	# Country scope events
 	pulse_countdown_days = pulse_countdown_days - 1

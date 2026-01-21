@@ -2,9 +2,9 @@ todo:
 	- Province attributes
 		- Regions
 	- Clock
-		- Speed modification
+		- Speed reconfiguration
 	- Map improvements
-		- Rivers
+		- Rivers?
 	- Engine improvements
 		- Enhanced data validation
 	- Events
@@ -14,10 +14,16 @@ todo:
 			- Monthly
 			- MTTH
 		- Relative effects (e.g. current stab * 10)
-    - Manas
-	- AI
+		- Option tooltips
+	- Manas
+	- AI/Country Mechanics
 		- Basic AI
-        - Diplomacy
+		- Diplomacy
+			- War & peace
 	- Main menu
 		- Delete save button
 		- Sortable new game screen
+	- Graphics
+		- Enhanced terrain/2.5D
+		- Fullscreen/viewport sizing
+		
