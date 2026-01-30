@@ -75,19 +75,28 @@ func _on_load_game_button_clicked() -> void:
 		cont.add_child(color_rect)
 
 		# Name and data
-		var load_save_entry = Button.new()
-		load_save_entry.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		var load_game_btn = Button.new()
+		load_game_btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		var country_name = save_metadata["player_name_pretty"]
 		var in_game_date = Utils.pretty_date_from_unix(save_metadata["game_date"])
 		var save_date = Utils.pretty_date_from_unix(save_metadata["save_date"])
-		load_save_entry.text="%s %s | Last saved: %s"%[country_name, in_game_date, save_date]
-		cont.add_child(load_save_entry)
-		
-		load_save_entry.pressed.connect(func(): _load_game(game_name))
+		load_game_btn.text="%s %s | Last saved: %s"%[country_name, in_game_date, save_date]
+		cont.add_child(load_game_btn)
+		load_game_btn.pressed.connect(func(): _load_game(game_name))
+
+		# Delete save button
+		var delete_button = Button.new()
+		delete_button.text="Delete"
+		delete_button.pressed.connect(func(): _on_delete_save_clicked(game_name, cont))
+		cont.add_child(delete_button)
 		save_games_container.add_child(cont)
 		
 func _on_exit_button_clicked() -> void:
 	get_tree().quit()
+
+func _on_delete_save_clicked(save_name : String, container_obj)-> void:
+	SaveLoadController.delete_save(save_name)
+	save_games_container.remove_child(container_obj)
 
 func _on_load_game_back_button_clicked():
 	load_game_screen.visible = false

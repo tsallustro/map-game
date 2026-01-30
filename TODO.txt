@@ -7,6 +7,7 @@ todo:
 		- Rivers?
 	- Engine improvements
 		- Enhanced data validation
+		- Save backups?
 	- Events
 		- Conditions
 		- Trigger only once capability
@@ -28,7 +29,6 @@ todo:
 		- Exit
 	- Sounds
 	- Main menu
-		- Delete save button
 		- Sortable new game screen
 	- Graphics
 		- Enhanced terrain/2.5D

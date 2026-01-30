@@ -91,3 +91,7 @@ static func _create_savegame_dir_if_not_exists():
 	if !DirAccess.dir_exists_absolute(save_dir):
 		print("Making new savegame dir")
 		DirAccess.make_dir_absolute(save_dir)
+
+static func delete_save(save_name: String)-> void:
+	print("Deleting %s"%[save_name])
+	DirAccess.remove_absolute(_path_from_save_name(save_name))
