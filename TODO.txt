@@ -17,6 +17,8 @@ todo:
 		- Option tooltips
 		- Country flags
 		- Province flags
+		- Hidden effects
+		- Support multiple effects
 	- Manas
 	- AI/Country Mechanics
 		- Basic AI

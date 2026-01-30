@@ -100,7 +100,24 @@
 			}
 			
 		]
-		
+	},
+
+	"e_test_hidden_effects": {
+		"name": "Test Hidden Effects",
+		"desc": "This event tests combining regular and hidden effects",
+		"MTTH": 30,
+		"options": [
+			{
+				"text": "Make sure to check the flags!",
+				"effects":{
+					"add_money":1
+				},
+				"hidden_effects":{
+					"set_global_flag":"test_hidden_effect"
+				}
+			}
+			
+		]
 	}
 
 	

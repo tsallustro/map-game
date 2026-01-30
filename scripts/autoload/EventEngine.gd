@@ -12,7 +12,6 @@ var effect_handlers: Dictionary = {
 	"clear_global_flag" : _clear_global_flag
 }
 
-
 func _ready() -> void:
 	GameState.date_changed.connect(_on_date_changed)
 	rng.randomize()
@@ -45,16 +44,23 @@ func _fire_event(event_id : String, event_data: Dictionary, country_id : String)
 	if country_id == GameState.player_tag: 
 		GameState.pause()
 		emit_signal("player_event_fired", event_data)
-	else: pass # TODO support AI choices
+	else: 
+		pass
+		# process_effects(event_data["effects"],event_data["hidden_effects"],country_id)
 	
 
 func fire_event_by_id(event_id : String, country_id : String)->void:
 	_fire_event(event_id, events_list[event_id], country_id)
 
-func process_effects(effects : Dictionary, country_id : String)->void:
+func process_effects(effects : Dictionary, hidden_effects : Dictionary, country_id : String)->void:
 	for effect in effects:
-		var value = effects[effect]
-		var handler = effect_handlers[effect] as Callable
+		if(effect != "message"):
+			var value = effects[effect]
+			var handler = effect_handlers[effect] as Callable
+			handler.call(country_id, value)
+	for hidden_effect in hidden_effects: 
+		var value = hidden_effects[hidden_effect]
+		var handler = effect_handlers[hidden_effect] as Callable
 		handler.call(country_id, value)
 
 # Effects
