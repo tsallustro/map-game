@@ -25,6 +25,10 @@ EventEngine="*res://scripts/autoload/EventEngine.gd"
 
 enabled=PackedStringArray("res://addons/limbo_console/plugin.cfg")
 
+[gui]
+
+timers/tooltip_delay_sec=0.2
+
 [input]
 
 limbo_console_toggle={
