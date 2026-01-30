@@ -56,6 +56,10 @@ func g_flags() -> void:
 	LimboConsole.info(str(GameState.flags["global"]))
 
 func save(save_name: String) -> void:
-	GameState.save_game_state(save_name)
+	if (save_name == null || save_name.strip_edges().is_empty()):
+		LimboConsole.error("Must provide a valid save name")
+	else: GameState.save_game_state(save_name)
 func load(save_name: String) -> void:
-	GameState.load_game_state(save_name)
+	if (save_name == null || save_name.strip_edges().is_empty()):
+		LimboConsole.error("Must provide a valid save name")
+	else: GameState.load_game_state(save_name)
