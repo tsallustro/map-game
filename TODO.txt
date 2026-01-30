@@ -14,11 +14,9 @@ todo:
 			- Monthly
 			- MTTH
 		- Relative effects (e.g. current stab * 10)
-		- Option tooltips
+		- Improved tooltips
 		- Country flags
 		- Province flags
-		- Hidden effects
-		- Support multiple effects
 	- Manas
 	- AI/Country Mechanics
 		- Basic AI
