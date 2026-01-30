@@ -11,7 +11,6 @@ extends Control
 @onready var infra_btn: Button = $UI/ViewButtons/HBoxContainer/InfraViewButton
 
 
-
 func _ready() -> void:
 	# Buttons -> GameState
 	province_btn.pressed.connect(_on_province_view_pressed)

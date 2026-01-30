@@ -33,4 +33,5 @@ todo:
 	- Graphics
 		- Enhanced terrain/2.5D
 		- Fullscreen/viewport sizing
+		- National flags
 		

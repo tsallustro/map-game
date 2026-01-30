@@ -38,7 +38,7 @@ static func load_game(save_name: String) -> Array:
 	var path = _path_from_save_name(save_name)
 	if not FileAccess.file_exists(path):
 		print("Save game %s not found" % [path])
-		return [{"speed":1,"date":-999999999},{},{},[]] # Error! We don't have a save to load.
+		return [ {"speed": 1, "date": - 999999999}, {}, {}, []] # Error! We don't have a save to load.
 
 	var save_file = FileAccess.open(path, FileAccess.READ)
 
@@ -56,7 +56,7 @@ static func load_game(save_name: String) -> Array:
 
 	return [save_metadata, countries, non_existant_countries, provinces]
 
-static func read_metadata(save_name : String) -> Dictionary:
+static func read_metadata(save_name: String) -> Dictionary:
 	var path = _path_from_save_name(save_name)
 	if not FileAccess.file_exists(path):
 		print("Save game %s not found" % [path])
@@ -84,14 +84,14 @@ static func list_saves() -> Array:
 		return []
 
 static func _path_from_save_name(save_name: String) -> String:
-	if save_name.ends_with(".save"): save_name = save_name.left(save_name.length()-5)
-	return "%s%s.save" % [save_dir,save_name]
+	if save_name.ends_with(".save"): save_name = save_name.left(save_name.length() - 5)
+	return "%s%s.save" % [save_dir, save_name]
 
 static func _create_savegame_dir_if_not_exists():
 	if !DirAccess.dir_exists_absolute(save_dir):
 		print("Making new savegame dir")
 		DirAccess.make_dir_absolute(save_dir)
 
-static func delete_save(save_name: String)-> void:
-	print("Deleting %s"%[save_name])
+static func delete_save(save_name: String) -> void:
+	print("Deleting %s" % [save_name])
 	DirAccess.remove_absolute(_path_from_save_name(save_name))

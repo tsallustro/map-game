@@ -2,7 +2,7 @@
 	"e_test": {
 		"name": "Test Event",
 		"desc": "This is the description for the test event. This text is super long, to test layout stuff. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-		"MTTH": 10,
+		"MTTH": 10.0,
 		"options": [
 			{
 				"text": "Ok"
@@ -15,119 +15,106 @@
 	"e_test_gain_money": {
 		"name": "Test Gain Money Event",
 		"desc": "This event tests adding money! :D",
-		"MTTH": 30,
+		"MTTH": 30.0,
 		"options": [
 			{
 				"text": "Neat",
-				"effects":{
-					"add_money":100
+				"effects": {
+					"add_money": 100.0
 				}
 			}
-			
 		]
-		
 	},
 	"e_test_lose_money": {
 		"name": "Test Lose Money Event",
 		"desc": "This event tests losing money! D:",
-		"MTTH": 30,
+		"MTTH": 30.0,
 		"options": [
 			{
 				"text": "Aww man",
-				"effects":{
-					"add_money":-10
+				"effects": {
+					"add_money": -10.0
 				}
 			}
-			
 		]
-		
 	},
 	"e_test_gain_stab": {
 		"name": "Test Gain stability Event",
 		"desc": "This event tests adding money! :D",
-		"MTTH": 30,
+		"MTTH": 30.0,
 		"options": [
 			{
 				"text": "Hooray!",
-				"effects":{
-					"add_stability":1
+				"effects": {
+					"add_stability": 1.0
 				}
 			}
-			
 		]
-		
 	},
 	"e_test_lose_stab": {
 		"name": "Test Lose stability Event",
 		"desc": "This event tests losing money! D:",
-		"MTTH": 30,
+		"MTTH": 30.0,
 		"options": [
 			{
 				"text": "Aww shucks!",
-				"effects":{
-					"add_stability":-1
+				"effects": {
+					"add_stability": -1.0
 				}
 			}
-			
 		]
-		
 	},
 	"e_test_set_g_flag": {
 		"name": "Test Set G Flag Event",
 		"desc": "This event tests setting a global flag.",
-		"MTTH": 30,
+		"MTTH": 30.0,
 		"options": [
 			{
 				"text": "Now you see me...",
-				"effects":{
-					"set_global_flag":"test_global_flag"
+				"effects": {
+					"set_global_flag": "test_global_flag"
 				}
 			}
-			
 		]
-		
 	},
 	"e_test_clear_g_flag": {
 		"name": "Test Clear G Flag Event",
 		"desc": "This event tests clearing a global flag",
-		"MTTH": 30,
+		"MTTH": 30.0,
 		"options": [
 			{
 				"text": "...now you don't!",
-				"effects":{
-					"clear_global_flag":"test_global_flag"
+				"effects": {
+					"clear_global_flag": "test_global_flag"
 				}
 			}
-			
 		]
 	},
-
 	"e_test_hidden_effects": {
 		"name": "Test Hidden Effects",
 		"desc": "This event tests combining regular and hidden effects.",
-		"MTTH": 30,
+		"MTTH": 30.0,
 		"options": [
 			{
 				"text": "Set the flag!",
-				"effects":{
-					"add_money":1,
-					"message":"This will set the flag test_hidden_effect"
-
+				"effects": {
+					"add_money": 1.0,
+					"message": "This will set the flag test_hidden_effect"
 				},
-				"hidden_effects":{
-					"set_global_flag":"test_hidden_effect"
+				"hidden_effects": {
+					"set_global_flag": "test_hidden_effect"
 				}
 			},
 			{
 				"text": "Clear the flag!",
-				"effects":{
-					"add_money":-1,
-					"message":"This will clear the flag test_hidden_effect"
+				"effects": {
+					"add_money": -1.0,
+					"message": "This will clear the flag test_hidden_effect"
 				},
-				"hidden_effects":{
-					"clear_global_flag":"test_hidden_effect"
+				"hidden_effects": {
+					"clear_global_flag": "test_hidden_effect"
 				}
 			}
 		]
-	}	
+	}
 }

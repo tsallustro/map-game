@@ -36,19 +36,19 @@ func set_prov_owner(province_id: String, country_id: String) -> void:
 	GameState.set_province_owner(province_id, country_id)
 	LimboConsole.info("%s now owns %s" % [country_id, province_id])
 
-func tag_exists(country_id: String)->void:
+func tag_exists(country_id: String) -> void:
 	LimboConsole.info(str(GameState.country_id_exists(country_id)))
 
-func p_count(country_id: String)->void:
+func p_count(country_id: String) -> void:
 	LimboConsole.info(str(GameState.province_count_by_country_id[country_id]))
 
-func cash(country_id: String, amount : int)-> void:
-	if(GameState.country_id_exists(country_id)): GameState.money_by_country_id[country_id] = GameState.money_by_country_id[country_id] + amount
+func cash(country_id: String, amount: int) -> void:
+	if (GameState.country_id_exists(country_id)): GameState.money_by_country_id[country_id] = GameState.money_by_country_id[country_id] + amount
 
 func main_menu():
 	get_tree().change_scene_to_file("res://scenes/mainmenu.tscn")
 	
-func event(event_id : String):
+func event(event_id: String):
 	if event_id in EventEngine.events_list: EventEngine.fire_event_by_id(event_id, GameState.player_tag)
 	else: LimboConsole.error("%s is not a valid event id" % [event_id])
 

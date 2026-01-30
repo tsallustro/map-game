@@ -54,12 +54,12 @@ static func load_json_array(path: String) -> Array:
 		return []
 	return j.data as Array
 
-static func pretty_date_from_dict(date : Dictionary)-> String:
+static func pretty_date_from_dict(date: Dictionary) -> String:
 	return "%d %s, %d" % [
 	date["day"],
 	Utils.get_month_name_from_int(date["month"]),
 	date["year"]
 	]
 
-static func pretty_date_from_unix(date : int)-> String:
+static func pretty_date_from_unix(date: int) -> String:
 	return pretty_date_from_dict(Time.get_date_dict_from_unix_time(date))

@@ -6,9 +6,7 @@ func _ready() -> void:
 	EventEngine.player_event_fired.connect(_on_event_fire)
 
 
-func _on_event_fire(event_data: Dictionary)->void:
+func _on_event_fire(event_data: Dictionary) -> void:
 	var display = eventDisplayPrefab.instantiate()
 	add_child(display)
 	display.initialize(event_data)
-
-	
