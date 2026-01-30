@@ -43,7 +43,7 @@ func _on_new_game_button_clicked() -> void:
 		var color_rect = ColorRect.new()
 		color_rect.custom_minimum_size = Vector2(120,80)
 		var color = Utils.rgb_to_color(country_data["color"])
-		color_rect.color = Utils.rgb_to_color(country_data["color"])
+		color_rect.color = color
 		cont.add_child(color_rect)
 
 		# Name and data
@@ -62,11 +62,29 @@ func _on_load_game_button_clicked() -> void:
 	print("Found %d saves"%[save_games.size()])
 
 	for game_name : String in save_games: 
-		game_name = game_name.left(game_name.length()-5)
+		var save_metadata = SaveLoadController.read_metadata(game_name)
+		var cont := HBoxContainer.new()
+		cont.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		cont.alignment = BoxContainer.ALIGNMENT_CENTER
+
+		# Color rectangle
+		var color_rect = ColorRect.new()
+		color_rect.custom_minimum_size = Vector2(120,80)
+		var color = Utils.rgb_to_color(save_metadata["player_color"])
+		color_rect.color = color
+		cont.add_child(color_rect)
+
+		# Name and data
 		var load_save_entry = Button.new()
-		load_save_entry.text="Save name: %s"%[game_name]
-		save_games_container.add_child(load_save_entry)
+		load_save_entry.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		var country_name = save_metadata["player_name_pretty"]
+		var in_game_date = Utils.pretty_date_from_unix(save_metadata["game_date"])
+		var save_date = Utils.pretty_date_from_unix(save_metadata["save_date"])
+		load_save_entry.text="%s %s | Last saved: %s"%[country_name, in_game_date, save_date]
+		cont.add_child(load_save_entry)
+		
 		load_save_entry.pressed.connect(func(): _load_game(game_name))
+		save_games_container.add_child(cont)
 		
 func _on_exit_button_clicked() -> void:
 	get_tree().quit()
@@ -89,7 +107,7 @@ func _on_new_game_back_button_clicked():
 
 func _load_game(save_name : String):
 	print("Loading "+save_name)
-	GameState.load_game_state(save_name)
+	(func() : GameState.load_game_state(save_name)).call_deferred()
 	get_tree().change_scene_to_file("res://scenes/main.tscn")
 	
 func _new_game(country_id : String):

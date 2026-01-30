@@ -67,8 +67,7 @@ func load_all() -> void:
 	print("Loading JSON data...")
 	countries = Utils.load_json_dict("res://data/countries.json")
 	provinces =  Utils.load_json_array("res://data/provinces.json")
-	terrain =  Utils.load_json_array("res://data/terrain.json")
-	government_types =  Utils.load_json_array("res://data/government_types.json")
+	_load_static_data()
 
 	_validate_data()
 	print("Successfully loaded JSON")
@@ -79,7 +78,11 @@ func load_all() -> void:
 	print("Indexes built")
 	is_loaded = true
 	emit_signal("data_loaded")
-	
+
+func _load_static_data() -> void:
+	terrain =  Utils.load_json_array("res://data/terrain.json")
+	government_types =  Utils.load_json_array("res://data/government_types.json")
+
 func _build_indexes() -> void:
 	# Country indexing
 	country_color.clear()
@@ -356,9 +359,15 @@ func clear_selection() -> void:
 func save_game_state(save_name: String) -> void:
 	if !isPaused: togglePause()
 	var save_metadata = {
+		# Authoritative data (must be reloaded)
 		"speed": speed,
-		"date": Time.get_unix_time_from_datetime_dict(current_date),
-		"player_tag": player_tag
+		"game_date": Time.get_unix_time_from_datetime_dict(current_date),
+		"player_tag": player_tag,
+
+		# Non-authoritative data (used by main menu)
+		"player_name_pretty": get_country_name_by_country_id(player_tag),
+		"player_color":Utils.color_to_rgb(get_country_color(player_tag)),
+		"save_date": Time.get_unix_time_from_system()
 	}
 	SaveLoadController.save_game(save_name, save_metadata, countries, non_existant_countries, provinces)
 
@@ -370,7 +379,7 @@ func load_game_state(save_name: String) -> void:
 	var save_metadata = data_arr[0]
 	print("METADATA "+str(save_metadata))
 	_set_speed(save_metadata["speed"])
-	_set_date(save_metadata["date"])
+	_set_date(save_metadata["game_date"])
 	player_tag = save_metadata["player_tag"]
 	
 	# Load world data
@@ -378,9 +387,9 @@ func load_game_state(save_name: String) -> void:
 	non_existant_countries = data_arr[2]
 	provinces = data_arr[3]
 	_validate_data()
-	print("Found " + str(provinces.size()) + " provinces from save game data")
-
+	_load_static_data()
 	print("Building indexes...")
 	_build_indexes()
 	print("Indexes built")
+	is_loaded = true
 	emit_signal("data_loaded")

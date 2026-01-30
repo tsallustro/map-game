@@ -26,7 +26,7 @@ func _on_selection_changed(province_id: String) -> void:
 		p_terrain_label.text = "Terrain: -"
 		return
 
-	var province_data := GameState.get_province_by_id(province_id)
+	var province_data : Dictionary = GameState.get_province_by_id(province_id)
 	var p_owner_id = province_data["owner"]
 	p_name_label.text = _build_p_name_label_text(province_id, p_owner_id, province_data)
 	p_infra_label.text = _build_p_infra_label_text(p_owner_id, province_data)

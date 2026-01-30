@@ -2,7 +2,7 @@ class_name SaveLoadController
 const save_dir = "user://savegames/"
 
 # Save format:
-# Metadata (speed, in-game date, player tag)
+# Metadata (see GameState.save_game_state)
 # Country data
 # Non-existant Country data
 # Province data
@@ -28,6 +28,7 @@ static func save_game(save_name: String, save_metadata: Dictionary, countries: D
 	# Write province data
 	var provinces_str = JSON.stringify(provinces)
 	save_file.store_line(provinces_str)
+	save_file.close()
 	print("Finished saving game")
 
 
@@ -50,8 +51,23 @@ static func load_game(save_name: String) -> Array:
 
 	# Read provinces
 	var provinces = JSON.parse_string(save_file.get_line())
+	
+	save_file.close()
 
 	return [save_metadata, countries, non_existant_countries, provinces]
+
+static func read_metadata(save_name : String) -> Dictionary:
+	var path = _path_from_save_name(save_name)
+	if not FileAccess.file_exists(path):
+		print("Save game %s not found" % [path])
+		return {}
+	
+	var save_file = FileAccess.open(path, FileAccess.READ)
+
+	# Read metadata
+	var save_metadata = JSON.parse_string(save_file.get_line())
+	save_file.close()
+	return save_metadata
 
 static func list_saves() -> Array:
 	var dir = DirAccess.open(save_dir)
@@ -68,6 +84,7 @@ static func list_saves() -> Array:
 		return []
 
 static func _path_from_save_name(save_name: String) -> String:
+	if save_name.ends_with(".save"): save_name = save_name.left(save_name.length()-5)
 	return "%s%s.save" % [save_dir,save_name]
 
 static func _create_savegame_dir_if_not_exists():

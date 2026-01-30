@@ -29,6 +29,13 @@ static func compare_date(date1: Dictionary, date2: Dictionary) -> int:
 static func rgb_to_color(rgb: Array) -> Color:
 	return Color(float(rgb[0]) / 255.0, float(rgb[1]) / 255.0, float(rgb[2]) / 255.0, 1.0)
 
+static func color_to_rgb(color: Color) -> Array:
+	return [
+		int(round(color.r * 255.0)),
+		int(round(color.g * 255.0)),
+		int(round(color.b * 255.0))
+	]
+
 static func load_json_dict(path: String) -> Dictionary:
 	var text := FileAccess.get_file_as_string(path)
 	var j := JSON.new()
@@ -46,3 +53,13 @@ static func load_json_array(path: String) -> Array:
 		push_error("JSON parse failed (" + path + "): " + j.get_error_message())
 		return []
 	return j.data as Array
+
+static func pretty_date_from_dict(date : Dictionary)-> String:
+	return "%d %s, %d" % [
+	date["day"],
+	Utils.get_month_name_from_int(date["month"]),
+	date["year"]
+	]
+
+static func pretty_date_from_unix(date : int)-> String:
+	return pretty_date_from_dict(Time.get_date_dict_from_unix_time(date))
