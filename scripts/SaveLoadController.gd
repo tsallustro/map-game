@@ -87,7 +87,7 @@ static func _path_from_save_name(save_name: String) -> String:
 	if save_name.ends_with(".save"): save_name = save_name.left(save_name.length() - 5)
 	return "%s%s.save" % [save_dir, save_name]
 
-static func _create_savegame_dir_if_not_exists():
+static func _create_savegame_dir_if_not_exists() -> void:
 	if !DirAccess.dir_exists_absolute(save_dir):
 		print("Making new savegame dir")
 		DirAccess.make_dir_absolute(save_dir)
