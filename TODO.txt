@@ -18,10 +18,15 @@ todo:
 		- Country flags
 		- Province flags
 	- Manas
+		- Government power(s)
 	- AI/Country Mechanics
 		- Basic AI
 		- Diplomacy
 			- War & peace
+	- Esc/options menu
+		- Save
+		- Exit
+	- Sounds
 	- Main menu
 		- Delete save button
 		- Sortable new game screen

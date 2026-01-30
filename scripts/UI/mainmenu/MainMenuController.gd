@@ -27,6 +27,7 @@ func _ready() -> void:
 
 
 func _on_new_game_button_clicked() -> void:
+	GameState.load_all()
 	initial_buttons.visible = false
 	new_game_screen.visible = true
 	for country_id in GameState.countries:
@@ -92,5 +93,4 @@ func _load_game(save_name : String):
 	
 func _new_game(country_id : String):
 	GameState.player_tag = country_id
-	GameState.load_all()
 	get_tree().change_scene_to_file("res://scenes/main.tscn")

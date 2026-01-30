@@ -48,8 +48,8 @@ var isPaused = true
 var is_loaded = false
 var player_tag = "NOTAG"
 func _ready() -> void:
-	call_deferred("load_all")
-
+	pass
+	
 func _process(delta: float) -> void:
 	if !isPaused:
 		# Typical delta: 0.00833333333333 | 120 deltas per second
@@ -160,7 +160,7 @@ func _on_tick_update(previous_date : Dictionary) -> void:
 	if(current_date["month"] != previous_date["month"]):
 		# Month tick
 		for country in countries:
-			money_by_country_id[country] = money_by_country_id[country] + total_infra_by_country_id[country]
+			add_money(country,total_infra_by_country_id[country])
 
 	emit_signal("date_changed", current_date)
 
@@ -221,7 +221,7 @@ func get_province_by_id(province_id: String) -> Dictionary:
 	var idx: int = province_index_by_id.get(province_id, -1)
 	if idx == -1:
 		return {}
-	return provinces[idx]
+	return provinces[idx].duplicate(true)
 
 func get_province_owner_id_by_pid(province_id: String) -> String:
 	var idx: int = province_index_by_id.get(province_id, -1)
