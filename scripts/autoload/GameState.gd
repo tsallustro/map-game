@@ -90,6 +90,7 @@ func _build_indexes() -> void:
 		total_infra_by_country_id[cid] = 0
 		money_by_country_id[cid] = countries[cid]["money"]
 		countries[cid]["stability"] = 0
+	
 	# Terrain color indexing
 	terrain_color.clear()
 	for t in range(terrain.size()):
@@ -135,7 +136,9 @@ func _build_indexes() -> void:
 	for country in countries:
 		if province_count_by_country_id[country] == 0:
 			_delete_country(country)
-
+	
+	print("Found %d extant countries, %d non-existant countries"%[countries.size(), non_existant_countries.size()])
+	print("Found %d provinces"%[provinces.size()])
 func _validate_data() -> void:
 	print("Validating province data...")
 	for i in range(provinces.size()):
