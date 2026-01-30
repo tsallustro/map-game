@@ -39,18 +39,19 @@ func _on_new_game_button_clicked() -> void:
 		var country_data = GameState.countries[country_id]
 		var country_name = country_data["name"]
 
+		# Color rectangle
 		var color_rect = ColorRect.new()
 		color_rect.custom_minimum_size = Vector2(120,80)
 		var color = Utils.rgb_to_color(country_data["color"])
 		color_rect.color = Utils.rgb_to_color(country_data["color"])
 		cont.add_child(color_rect)
 
+		# Name and data
 		var country_select_entry = Button.new()
 		country_select_entry.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		country_select_entry.text="%s | Total provinces: %d | Total infra: %d"%[country_name, GameState.province_count_by_country_id[country_id], GameState.total_infra_by_country_id[country_id]]
 		cont.add_child(country_select_entry)
 		country_select_entry.pressed.connect(func(): _new_game(country_id))
-
 
 
 func _on_load_game_button_clicked() -> void:

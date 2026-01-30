@@ -1,6 +1,12 @@
 class_name SaveLoadController
 const save_dir = "user://savegames/"
 
+# Save format:
+# Metadata (speed, in-game date, player tag)
+# Country data
+# Non-existant Country data
+# Province data
+
 static func save_game(save_name: String, save_metadata: Dictionary, countries: Dictionary, non_existant_countries: Dictionary, provinces: Array):
 	print("Saving as %s..." % [save_name])
 	_create_savegame_dir_if_not_exists()

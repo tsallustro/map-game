@@ -88,5 +88,15 @@
 		],
 		"type": "MONARCHY",
 		"money": 100
+	},
+	"LST":{
+		"name":"The Lost Kingdom",
+		"color":[
+			30.0,
+			140.0,
+			90.0
+		],
+		"type":"MONARCHY",
+		"money":0
 	}
 }
