@@ -20,6 +20,7 @@ grow_vertical = 2
 script = ExtResource("1_5mbse")
 
 [node name="InitialButtons" type="VBoxContainer" parent="BasePanel"]
+visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -95,7 +96,6 @@ theme_override_font_sizes/font_size = 24
 text = "Back"
 
 [node name="NewGameScreen" type="Control" parent="BasePanel"]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -110,6 +110,28 @@ offset_bottom = 67.0
 theme_override_font_sizes/font_size = 48
 text = "New Game"
 horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="BasePanel/NewGameScreen"]
+layout_mode = 0
+offset_top = 85.0
+offset_right = 1152.0
+offset_bottom = 127.0
+
+[node name="Label" type="Label" parent="BasePanel/NewGameScreen/HBoxContainer"]
+layout_mode = 2
+text = "Sort By: "
+
+[node name="NameSortButton" type="Button" parent="BasePanel/NewGameScreen/HBoxContainer"]
+layout_mode = 2
+text = "Name"
+
+[node name="ProvinceSortButton" type="Button" parent="BasePanel/NewGameScreen/HBoxContainer"]
+layout_mode = 2
+text = "Provinces"
+
+[node name="InfraSortButton" type="Button" parent="BasePanel/NewGameScreen/HBoxContainer"]
+layout_mode = 2
+text = "Infra"
 
 [node name="CountrySelectScroll" type="ScrollContainer" parent="BasePanel/NewGameScreen"]
 layout_mode = 1
