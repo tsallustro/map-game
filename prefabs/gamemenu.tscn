@@ -1,0 +1,99 @@
+[gd_scene load_steps=2 format=3 uid="uid://cvgymoqg5le7e"]
+
+[ext_resource type="Script" uid="uid://cjkbsvx6mr3jl" path="res://scripts/UI/prefab/GameMenuDisplayObj.gd" id="1_t4eb0"]
+
+[node name="Gamemenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_t4eb0")
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TabContainer" type="TabContainer" parent="CenterContainer"]
+layout_mode = 2
+current_tab = 0
+tabs_visible = false
+
+[node name="MainPanel" type="PanelContainer" parent="CenterContainer/TabContainer"]
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/TabContainer/MainPanel"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CenterContainer/TabContainer/MainPanel/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Menu"
+horizontal_alignment = 1
+
+[node name="SaveMenuButton" type="Button" parent="CenterContainer/TabContainer/MainPanel/VBoxContainer"]
+layout_mode = 2
+text = "Save"
+
+[node name="MainMenuButton" type="Button" parent="CenterContainer/TabContainer/MainPanel/VBoxContainer"]
+layout_mode = 2
+text = "Main menu"
+
+[node name="QuitButton" type="Button" parent="CenterContainer/TabContainer/MainPanel/VBoxContainer"]
+layout_mode = 2
+text = "Quit"
+
+[node name="SavePanel" type="PanelContainer" parent="CenterContainer/TabContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 1
+
+[node name="OrganizerVBox" type="VBoxContainer" parent="CenterContainer/TabContainer/SavePanel"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CenterContainer/TabContainer/SavePanel/OrganizerVBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Save"
+horizontal_alignment = 1
+
+[node name="ScrollContainer" type="ScrollContainer" parent="CenterContainer/TabContainer/SavePanel/OrganizerVBox"]
+custom_minimum_size = Vector2(0, 75)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ListExistingSavesVBox" type="VBoxContainer" parent="CenterContainer/TabContainer/SavePanel/OrganizerVBox/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="SaveNameContainer" type="HBoxContainer" parent="CenterContainer/TabContainer/SavePanel/OrganizerVBox"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CenterContainer/TabContainer/SavePanel/OrganizerVBox/SaveNameContainer"]
+layout_mode = 2
+text = "Save Name:"
+
+[node name="SaveNameBox" type="LineEdit" parent="CenterContainer/TabContainer/SavePanel/OrganizerVBox/SaveNameContainer"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+
+[node name="ButtonsContainer" type="HBoxContainer" parent="CenterContainer/TabContainer/SavePanel/OrganizerVBox"]
+layout_mode = 2
+
+[node name="CancelButton" type="Button" parent="CenterContainer/TabContainer/SavePanel/OrganizerVBox/ButtonsContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Cancel
+"
+
+[node name="SaveButton" type="Button" parent="CenterContainer/TabContainer/SavePanel/OrganizerVBox/ButtonsContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Save"

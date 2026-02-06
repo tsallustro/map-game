@@ -28,12 +28,12 @@ var province_terrain_by_id: Dictionary = {} # "p_yellow" -> Enums.TerrainType.DE
 var terrain_color: Dictionary = {} # Enums.TerrainType.DESERT -> color
 var government_type_color: Dictionary = {} # Enums.GovernmentType.TRIBAL -> color
 var province_infra_by_id: Dictionary = {} # "p_yellow" -> 2
-var province_count_by_country_id : Dictionary = {} # "NWT" -> 1
-var total_infra_by_country_id : Dictionary = {} # "NWT" -> 10
-var money_by_country_id : Dictionary = {} # "NWT" -> 100
+var province_count_by_country_id: Dictionary = {} # "NWT" -> 1
+var total_infra_by_country_id: Dictionary = {} # "NWT" -> 10
+var money_by_country_id: Dictionary = {} # "NWT" -> 100
 
-var flags : Dictionary = {
-	"global":[]
+var flags: Dictionary = {
+	"global": []
 }
 
 # Other common vars
@@ -66,9 +66,8 @@ func _process(delta: float) -> void:
 func load_all() -> void:
 	print("Loading JSON data...")
 	countries = Utils.load_json_dict("res://data/countries.json")
-	provinces =  Utils.load_json_array("res://data/provinces.json")
-	terrain =  Utils.load_json_array("res://data/terrain.json")
-	government_types =  Utils.load_json_array("res://data/government_types.json")
+	provinces = Utils.load_json_array("res://data/provinces.json")
+	_load_static_data()
 
 	_validate_data()
 	print("Successfully loaded JSON")
@@ -79,7 +78,11 @@ func load_all() -> void:
 	print("Indexes built")
 	is_loaded = true
 	emit_signal("data_loaded")
-	
+
+func _load_static_data() -> void:
+	terrain = Utils.load_json_array("res://data/terrain.json")
+	government_types = Utils.load_json_array("res://data/government_types.json")
+
 func _build_indexes() -> void:
 	# Country indexing
 	country_color.clear()
@@ -90,6 +93,7 @@ func _build_indexes() -> void:
 		total_infra_by_country_id[cid] = 0
 		money_by_country_id[cid] = countries[cid]["money"]
 		countries[cid]["stability"] = 0
+	
 	# Terrain color indexing
 	terrain_color.clear()
 	for t in range(terrain.size()):
@@ -135,7 +139,9 @@ func _build_indexes() -> void:
 	for country in countries:
 		if province_count_by_country_id[country] == 0:
 			_delete_country(country)
-
+	
+	print("Found %d extant countries, %d non-existant countries" % [countries.size(), non_existant_countries.size()])
+	print("Found %d provinces" % [provinces.size()])
 func _validate_data() -> void:
 	print("Validating province data...")
 	for i in range(provinces.size()):
@@ -156,11 +162,11 @@ func set_view_mode(mode: int) -> void:
 	emit_signal("view_mode_changed", view_mode)
 
 # Tick/time
-func _on_tick_update(previous_date : Dictionary) -> void:
-	if(current_date["month"] != previous_date["month"]):
+func _on_tick_update(previous_date: Dictionary) -> void:
+	if (current_date["month"] != previous_date["month"]):
 		# Month tick
 		for country in countries:
-			add_money(country,total_infra_by_country_id[country])
+			add_money(country, total_infra_by_country_id[country])
 
 	emit_signal("date_changed", current_date)
 
@@ -302,28 +308,28 @@ func _country_requires_deletion(country_id: String) -> bool:
 		if p["owner"] == country_id: return false
 	return true
 
-func add_money(country_id: String, amount: int)->void:
+func add_money(country_id: String, amount: int) -> void:
 	var new_amount = countries[country_id]["money"] + amount
 	countries[country_id]["money"] = new_amount
 	money_by_country_id[country_id] = new_amount
 	emit_signal("force_reload_TL_panel")
 
-func add_stability(country_id: String, amount: int)->void:
-	var new_amount = max(min(countries[country_id]["stability"]+amount, 5),-5)
+func add_stability(country_id: String, amount: int) -> void:
+	var new_amount = max(min(countries[country_id]["stability"] + amount, 5), -5)
 	countries[country_id]["stability"] = new_amount
 	emit_signal("force_reload_TL_panel")
 
-func manage_global_flag(flag_name : String, set_flag: bool)->void:
-	if(! set_flag ): 
+func manage_global_flag(flag_name: String, set_flag: bool) -> void:
+	if (!set_flag):
 		# Clear flag
 		if (!flag_name in flags["global"]):
-			print("WARN: Flag %s is not in list"%[flag_name])
+			print("WARN: Flag %s is not in list" % [flag_name])
 		else:
 			(flags["global"] as Array).erase(flag_name)
 	else:
 		# Set flag
 		if (flag_name in flags["global"]):
-			print("WARN: Flag %s already in list"%[flag_name])
+			print("WARN: Flag %s already in list" % [flag_name])
 		else:
 			(flags["global"] as Array).append(flag_name)
 
@@ -351,23 +357,30 @@ func clear_selection() -> void:
 
 # Save/Load wrappers
 func save_game_state(save_name: String) -> void:
+	if (save_name == null || save_name.strip_edges().is_empty()): print("WARN: invalid save name %s"%[save_name])
 	if !isPaused: togglePause()
 	var save_metadata = {
+		# Authoritative data (must be reloaded)
 		"speed": speed,
-		"date": Time.get_unix_time_from_datetime_dict(current_date),
-		"player_tag": player_tag
+		"game_date": Time.get_unix_time_from_datetime_dict(current_date),
+		"player_tag": player_tag,
+
+		# Non-authoritative data (used by main menu)
+		"player_name_pretty": get_country_name_by_country_id(player_tag),
+		"player_color": Utils.color_to_rgb(get_country_color(player_tag)),
+		"save_date": Time.get_unix_time_from_system()
 	}
-	SaveLoadController.save_game(save_name, save_metadata, countries, non_existant_countries, provinces)
+	SaveLoadUtils.save_game(save_name, save_metadata, countries, non_existant_countries, provinces)
 
 func load_game_state(save_name: String) -> void:
 	if !isPaused: togglePause()
-	var data_arr = SaveLoadController.load_game(save_name)
+	var data_arr = SaveLoadUtils.load_game(save_name)
 
 	# Process metadata
 	var save_metadata = data_arr[0]
-	print("METADATA "+str(save_metadata))
+	print("METADATA " + str(save_metadata))
 	_set_speed(save_metadata["speed"])
-	_set_date(save_metadata["date"])
+	_set_date(save_metadata["game_date"])
 	player_tag = save_metadata["player_tag"]
 	
 	# Load world data
@@ -375,9 +388,9 @@ func load_game_state(save_name: String) -> void:
 	non_existant_countries = data_arr[2]
 	provinces = data_arr[3]
 	_validate_data()
-	print("Found " + str(provinces.size()) + " provinces from save game data")
-
+	_load_static_data()
 	print("Building indexes...")
 	_build_indexes()
 	print("Indexes built")
+	is_loaded = true
 	emit_signal("data_loaded")

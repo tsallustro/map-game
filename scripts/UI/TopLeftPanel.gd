@@ -16,10 +16,10 @@ func _force_reload():
 
 func _on_new_tick(_new_time: Dictionary) -> void:
 	var money_amount = GameState.money_by_country_id[GameState.player_tag]
-	moneyLabel.text = "Money: %d"%[money_amount]
-	stabLabel.text="Stability: %d"%[GameState.countries[GameState.player_tag]["stability"]]
+	moneyLabel.text = "Money: %d" % [money_amount]
+	stabLabel.text = "Stability: %d" % [GameState.countries[GameState.player_tag]["stability"]]
 
 func _initialize():
-	playerTagLabel.text = "Player Tag: "+GameState.player_tag
+	playerTagLabel.text = "Player Tag: " + GameState.player_tag
 	_on_new_tick(GameState.current_date)
 	has_loaded = true

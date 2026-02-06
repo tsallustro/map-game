@@ -27,11 +27,7 @@ func _initialize():
 	has_loaded = true
 
 func _on_new_tick(new_date: Dictionary) -> void:
-	var date_str = "%d %s, %d" % [
-	new_date["day"],
-	Utils.get_month_name_from_int(new_date["month"]),
-	new_date["year"]
-	]
+	var date_str = Utils.pretty_date_from_dict(new_date)
 
 	dateLabel.text = "Date: " + date_str
 	
