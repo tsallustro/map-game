@@ -26,7 +26,6 @@ func _unhandled_input(event: InputEvent) -> void:
 
 	if event is InputEventMouseMotion and Input.is_mouse_button_pressed(MOUSE_BUTTON_MIDDLE):
 		_pan((event as InputEventMouseMotion).relative)
-
 func _province_key_at_world(world_pos: Vector2) -> String:
 	var x := int(floor(world_pos.x))
 	var y := int(floor(world_pos.y))

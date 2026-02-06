@@ -357,6 +357,7 @@ func clear_selection() -> void:
 
 # Save/Load wrappers
 func save_game_state(save_name: String) -> void:
+	if (save_name == null || save_name.strip_edges().is_empty()): print("WARN: invalid save name %s"%[save_name])
 	if !isPaused: togglePause()
 	var save_metadata = {
 		# Authoritative data (must be reloaded)
@@ -369,11 +370,11 @@ func save_game_state(save_name: String) -> void:
 		"player_color": Utils.color_to_rgb(get_country_color(player_tag)),
 		"save_date": Time.get_unix_time_from_system()
 	}
-	SaveLoadController.save_game(save_name, save_metadata, countries, non_existant_countries, provinces)
+	SaveLoadUtils.save_game(save_name, save_metadata, countries, non_existant_countries, provinces)
 
 func load_game_state(save_name: String) -> void:
 	if !isPaused: togglePause()
-	var data_arr = SaveLoadController.load_game(save_name)
+	var data_arr = SaveLoadUtils.load_game(save_name)
 
 	# Process metadata
 	var save_metadata = data_arr[0]

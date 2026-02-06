@@ -1,7 +1,8 @@
-[gd_scene load_steps=12 format=3 uid="uid://dwi8pqgrjflqx"]
+[gd_scene load_steps=13 format=3 uid="uid://dwi8pqgrjflqx"]
 
 [ext_resource type="Script" uid="uid://bghi1gxvig7dg" path="res://scripts/Main.gd" id="1_tipki"]
 [ext_resource type="Script" uid="uid://cv1uuktj52pfs" path="res://scripts/Map.gd" id="2_85g3d"]
+[ext_resource type="PackedScene" uid="uid://cvgymoqg5le7e" path="res://prefabs/gamemenu.tscn" id="2_eb6dy"]
 [ext_resource type="Texture2D" uid="uid://bndlwoxpv2bwu" path="res://assets/new_province_mask.png" id="3_choun"]
 [ext_resource type="Material" uid="uid://dp2p2fepnlpm5" path="res://shaders/province_highlight_material.tres" id="4_ya4ey"]
 [ext_resource type="Texture2D" uid="uid://c7qfy4w3sr2dk" path="res://assets/new_world_map.png" id="5_eb6dy"]
@@ -23,6 +24,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("1_tipki")
+gameMenuPrefab = ExtResource("2_eb6dy")
 
 [node name="MapLayer" type="Node2D" parent="."]
 script = ExtResource("2_85g3d")
@@ -37,6 +39,18 @@ centered = false
 
 [node name="MapRenderer" type="Node" parent="MapLayer"]
 script = ExtResource("6_trceg")
+
+[node name="MenuLayer" type="CanvasLayer" parent="."]
+layer = 2
+
+[node name="MenuDisplayControl" type="Control" parent="MenuLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
 
 [node name="UI" type="CanvasLayer" parent="."]
 

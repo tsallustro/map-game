@@ -10,7 +10,11 @@ extends Control
 @onready var gt_btn: Button = $UI/ViewButtons/HBoxContainer/GovTypeViewButton
 @onready var infra_btn: Button = $UI/ViewButtons/HBoxContainer/InfraViewButton
 
+@onready var menu_control: Control = $MenuLayer/MenuDisplayControl
+@export var gameMenuPrefab: PackedScene
 
+var menu_is_open = false;
+var menu = null
 func _ready() -> void:
 	# Buttons -> GameState
 	province_btn.pressed.connect(_on_province_view_pressed)
@@ -56,3 +60,15 @@ func _on_view_mode_changed(mode: int) -> void:
 	infra_btn.disabled = (mode == Enums.ViewMode.INFRA)
 
 	print("Set view mode: " + str(mode))
+
+# Handle hotkey presses
+func _unhandled_input(event: InputEvent) -> void:
+	if event is InputEventKey:
+		if event.pressed and event.keycode == KEY_ESCAPE:
+			if (!menu_is_open):
+				menu = gameMenuPrefab.instantiate()
+				menu_control.add_child(menu)
+				menu_is_open = true
+			else:
+				menu.queue_free()
+				menu_is_open = false

@@ -53,9 +53,6 @@ func _on_new_game_button_clicked() -> void:
 	new_game_screen.visible = true
 	_build_country_select_entries()
 	_sort_new_game_countries(SortMode.NAME)
-	for entry in country_select_entries:
-		country_select_container.add_child(entry["obj"])
-
 
 func _build_country_select_entries() -> void:
 	for country_id in GameState.countries:
@@ -120,11 +117,10 @@ func _on_load_game_button_clicked() -> void:
 	initial_buttons.visible = false
 	load_game_screen.visible = true
 
-	var save_games = SaveLoadController.list_saves()
-	print("Found %d saves" % [save_games.size()])
+	var save_games = SaveLoadUtils.list_saves()
 
 	for game_name: String in save_games:
-		var save_metadata = SaveLoadController.read_metadata(game_name)
+		var save_metadata = SaveLoadUtils.read_metadata(game_name)
 		var cont := HBoxContainer.new()
 		cont.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		cont.alignment = BoxContainer.ALIGNMENT_CENTER
@@ -157,7 +153,7 @@ func _on_exit_button_clicked() -> void:
 	get_tree().quit()
 
 func _on_delete_save_clicked(save_name: String, container_obj) -> void:
-	SaveLoadController.delete_save(save_name)
+	SaveLoadUtils.delete_save(save_name)
 	save_games_container.remove_child(container_obj)
 
 func _on_load_game_back_button_clicked():

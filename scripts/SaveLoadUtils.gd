@@ -1,4 +1,4 @@
-class_name SaveLoadController
+class_name SaveLoadUtils
 const save_dir = "user://savegames/"
 
 # Save format:
@@ -8,6 +8,7 @@ const save_dir = "user://savegames/"
 # Province data
 
 static func save_game(save_name: String, save_metadata: Dictionary, countries: Dictionary, non_existant_countries: Dictionary, provinces: Array):
+	save_name = save_name.strip_edges()
 	print("Saving as %s..." % [save_name])
 	_create_savegame_dir_if_not_exists()
 	# https://docs.godotengine.org/en/stable/tutorials/io/data_paths.html#doc-data-paths
@@ -35,6 +36,7 @@ static func save_game(save_name: String, save_metadata: Dictionary, countries: D
 # Returns [save_name: Dictionary, countries: Dictionary, non_existant_countries: Dictionary, provinces : Array]
 static func load_game(save_name: String) -> Array:
 	print("===LOADING GAME DATA===")
+	save_name = save_name.strip_edges()
 	var path = _path_from_save_name(save_name)
 	if not FileAccess.file_exists(path):
 		print("Save game %s not found" % [path])
@@ -78,6 +80,7 @@ static func list_saves() -> Array:
 		while file_name != "" && file_name.ends_with(".save"):
 			save_games.append(file_name)
 			file_name = dir.get_next()
+		print("Found %d saves"%[save_games.size()])
 		return save_games
 	else:
 		print("An error occurred when trying to access the path.")
@@ -95,3 +98,6 @@ static func _create_savegame_dir_if_not_exists() -> void:
 static func delete_save(save_name: String) -> void:
 	print("Deleting %s" % [save_name])
 	DirAccess.remove_absolute(_path_from_save_name(save_name))
+
+static func strip_suffix(save_name: String)-> String:
+	return save_name.left(save_name.length() - 5)
