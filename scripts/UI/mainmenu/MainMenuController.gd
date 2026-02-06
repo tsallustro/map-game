@@ -159,20 +159,17 @@ func _on_exit_button_clicked() -> void:
 func _on_delete_save_clicked(save_name: String, container_obj) -> void:
 	SaveLoadUtils.delete_save(save_name)
 	save_games_container.remove_child(container_obj)
-
+	container_obj.queue_free()
+	
 func _on_load_game_back_button_clicked():
 	load_game_screen.visible = false
-	for child in save_games_container.get_children():
-		save_games_container.remove_child(child)
-		child.queue_free()
+	Utils.remove_free_all_children(save_games_container)
 	save_games_container.size = Vector2(save_games_container.size.x, 0)
 	initial_buttons.visible = true
 
 func _on_new_game_back_button_clicked():
 	new_game_screen.visible = false
-	for child in country_select_container.get_children():
-		country_select_container.remove_child(child)
-		child.queue_free()
+	Utils.remove_free_all_children(country_select_container)
 	country_select_entries = []
 	country_select_container.size = Vector2(country_select_container.size.x, 0)
 	initial_buttons.visible = true

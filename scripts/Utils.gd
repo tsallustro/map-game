@@ -64,7 +64,7 @@ static func pretty_date_from_dict(date: Dictionary) -> String:
 static func pretty_date_from_unix(date: int) -> String:
 	return pretty_date_from_dict(Time.get_date_dict_from_unix_time(date))
 
-static func remove_free_all_children(node : Node):
+static func remove_free_all_children(node: Node):
 	for child in node.get_children():
 		node.remove_child(child)
 		child.queue_free()

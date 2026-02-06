@@ -19,7 +19,7 @@ func _ready() -> void:
 	save_cancel_btn.pressed.connect(_on_save_cancel)
 	save_btn.pressed.connect(_handle_save)
 
-func _on_save_clicked() ->void:
+func _on_save_clicked() -> void:
 	tab_container.current_tab = 1
 	var saves = SaveLoadUtils.list_saves()
 	for save_name in saves:
@@ -27,13 +27,11 @@ func _on_save_clicked() ->void:
 		var button = Button.new()
 		button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		button.text = formatted
-		button.pressed.connect(func():save_name_box.text=formatted)
+		button.pressed.connect(func(): save_name_box.text = formatted)
 		existing_saves.add_child(button)
 
 func _on_save_cancel() -> void:
-	for child in existing_saves.get_children():
-		existing_saves.remove_child(child)
-		child.queue_free()
+	Utils.remove_free_all_children(existing_saves)
 	tab_container.current_tab = 0
 
 func _handle_save():
