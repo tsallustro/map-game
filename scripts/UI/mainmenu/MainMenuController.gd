@@ -23,6 +23,8 @@ extends Panel
 @onready var load_game_screen: Control = $LoadGameScreen
 @onready var new_game_screen: Control = $NewGameScreen
 
+var loaded_starting_data = false
+
 # New Game Sort Logic
 enum SortMode {NAME, PROV, INFRA, UNSORTED}
 var sort_mode_to_buttons = {}
@@ -48,7 +50,9 @@ func _ready() -> void:
 	infra_sort_button.pressed.connect(func(): _sort_new_game_countries(SortMode.INFRA))
 
 func _on_new_game_button_clicked() -> void:
-	GameState.load_all()
+	if !loaded_starting_data:
+		GameState.load_all()
+		loaded_starting_data = true
 	initial_buttons.visible = false
 	new_game_screen.visible = true
 	_build_country_select_entries()
@@ -169,14 +173,17 @@ func _on_new_game_back_button_clicked():
 	for child in country_select_container.get_children():
 		country_select_container.remove_child(child)
 		child.queue_free()
+	country_select_entries = []
 	country_select_container.size = Vector2(country_select_container.size.x, 0)
 	initial_buttons.visible = true
 
 func _load_game(save_name: String):
 	print("Loading " + save_name)
 	(func(): GameState.load_game_state(save_name)).call_deferred()
+	loaded_starting_data = false
 	get_tree().change_scene_to_file("res://scenes/main.tscn")
 	
 func _new_game(country_id: String):
 	GameState.player_tag = country_id
+	loaded_starting_data = false
 	get_tree().change_scene_to_file("res://scenes/main.tscn")

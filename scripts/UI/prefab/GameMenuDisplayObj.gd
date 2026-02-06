@@ -4,6 +4,7 @@ extends Control
 # Main buttons
 @onready var save_menu_btn: Button = $CenterContainer/TabContainer/MainPanel/VBoxContainer/SaveMenuButton
 @onready var quit_btn: Button = $CenterContainer/TabContainer/MainPanel/VBoxContainer/QuitButton
+@onready var main_menu_btn: Button = $CenterContainer/TabContainer/MainPanel/VBoxContainer/MainMenuButton
 
 # Save menu features
 @onready var save_btn: Button = $CenterContainer/TabContainer/SavePanel/OrganizerVBox/ButtonsContainer/SaveButton
@@ -14,7 +15,7 @@ extends Control
 func _ready() -> void:
 	quit_btn.pressed.connect(func(): get_tree().quit())
 	save_menu_btn.pressed.connect(_on_save_clicked)
-
+	main_menu_btn.pressed.connect(func(): get_tree().change_scene_to_file("res://scenes/mainmenu.tscn"))
 	save_cancel_btn.pressed.connect(_on_save_cancel)
 	save_btn.pressed.connect(_handle_save)
 
