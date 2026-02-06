@@ -8,6 +8,7 @@ todo:
 	- Engine improvements
 		- Enhanced data validation
 		- Save backups?
+		- Save name validation in menu
 	- Events
 		- Conditions
 		- Trigger only once capability
