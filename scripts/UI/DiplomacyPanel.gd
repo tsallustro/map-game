@@ -1,6 +1,6 @@
 extends PanelContainer
 
-@onready var country_name_label: Label = $CountryNameLabel
+@onready var country_name_label: Label = $VBoxContainer/CountryNameLabel
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
