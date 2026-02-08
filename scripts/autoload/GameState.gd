@@ -94,6 +94,10 @@ func _build_indexes() -> void:
 		total_infra_by_country_id[cid] = 0
 		money_by_country_id[cid] = countries[cid]["money"]
 		countries[cid]["stability"] = 0
+		countries[cid]["diplomacy"]={}
+		for other_cid in countries.keys():
+			if cid == other_cid: continue
+			countries[cid]["diplomacy"][other_cid] = 0
 	
 	# Terrain color indexing
 	terrain_color.clear()

@@ -30,4 +30,6 @@ todo:
 		- Enhanced terrain/2.5D
 		- Fullscreen/viewport sizing
 		- National flags
+		- Mapmodes:
+			- Relations
 		
