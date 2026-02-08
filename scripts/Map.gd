@@ -18,6 +18,13 @@ func _unhandled_input(event: InputEvent) -> void:
 				GameState.select_province_by_maskkey(key)
 			else:
 				GameState.clear_selection()
+		elif mb.button_index == MOUSE_BUTTON_RIGHT:
+			var world_pos: Vector2 = get_viewport().get_canvas_transform().affine_inverse() * mb.position
+			var key: String = _province_key_at_world(world_pos)
+			if key != "":
+				GameState.select_country_by_province_maskkey(key)
+			else:
+				GameState.clear_selected_country()
 
 		if mb.button_index == MOUSE_BUTTON_WHEEL_DOWN:
 			_zoom(0.9)

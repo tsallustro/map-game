@@ -10,7 +10,7 @@ signal province_infrastructure_changed(province_id: String)
 signal pause_state_changed(isPaused: bool)
 
 signal force_reload_TL_panel()
-
+signal selected_country_changed(country_id: String)
 var view_mode: int = Enums.ViewMode.OWNER
 
 # Raw loaded data
@@ -39,6 +39,7 @@ var flags: Dictionary = {
 # Other common vars
 var INITIAL_DATE = Time.get_datetime_dict_from_datetime_string("1000-01-01T00:00:00", false)
 var selected_province_id: String = ""
+var selected_country_id: String = ""
 var current_date: Dictionary = INITIAL_DATE # { "year": 1000, "month": 1, "day": 2, "weekday": 4, "hour": 0, "minute": 0, "second": 0 }
 var timePerTick := 2 # In seconds
 var tickTimeRemaining := float(timePerTick)
@@ -354,7 +355,26 @@ func clear_selection() -> void:
 	selected_province_id = ""
 	emit_signal("selection_changed", selected_province_id)
 
+# Country info selection
+func select_country_by_province_maskkey(mask_key: String) -> void:
+	var idx: int = province_index_by_maskkey.get(mask_key, -1)
+	if idx == -1:
+		clear_selected_country()
+		return
+	var province_id: String = provinces[idx]["id"]
+	select_country(get_province_owner_id_by_pid(province_id))
 
+func select_country(country_id: String):
+	if selected_country_id == country_id:
+		return
+	selected_country_id = country_id
+	emit_signal("selected_country_changed", selected_country_id)
+
+func clear_selected_country():
+	if selected_country_id == "":
+		return
+	selected_country_id = ""
+	emit_signal("selected_country_changed", selected_country_id)
 # Save/Load wrappers
 func save_game_state(save_name: String) -> void:
 	if (save_name == null || save_name.strip_edges().is_empty()): print("WARN: invalid save name %s"%[save_name])
