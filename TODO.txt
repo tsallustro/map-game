@@ -32,4 +32,5 @@ todo:
 		- National flags
 		- Mapmodes:
 			- Relations
+		- Diplomacy panel static size
 		

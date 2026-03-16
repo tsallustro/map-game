@@ -159,7 +159,12 @@ func _validate_data() -> void:
 				print("WARN: Duplicate province key \"%s\"" % [provinceI["id"]])
 				# TODO validate colors
 				
-	# TODO validate country data
+	for i in range(countries.size()):
+		var countryI = countries[i]
+		for j in range(i + 1, countries.size()):
+			var countryJ = countries[j]
+			if (countryI == countryJ):
+				print("WARN: Duplicate country key \"%s\"" % [countryI])
 
 # View Modes
 func set_view_mode(mode: int) -> void:
