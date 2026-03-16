@@ -12,7 +12,7 @@ func _ready() -> void:
 	GameState.selected_country_changed.connect(_on_selected_country_changed)
 	invest_in_relations_button.pressed.connect(_on_invest_in_relations_button)
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if visible:
 		invest_in_relations_button.disabled = true if GameState.money_by_country_id[GameState.player_tag] < INVEST_IN_RELATIONS_BASE_COST else false
 
@@ -23,7 +23,7 @@ func _on_selected_country_changed(country_id: String):
 		visible = true
 		country_name_label.text = "%s (ID: %s)"%[GameState.get_country_name_by_country_id(country_id), country_id]
 		our_opinion_label.text = "Our opinion: %d"%[GameState.countries[GameState.player_tag]["diplomacy"][country_id]]
-		their_opinion_label.text = "Our opinion: %d"%[GameState.countries[country_id]["diplomacy"][GameState.player_tag]]
+		their_opinion_label.text = "Their opinion: %d"%[GameState.countries[country_id]["diplomacy"][GameState.player_tag]]
 		invest_in_relations_button.disabled = true if GameState.money_by_country_id[GameState.player_tag] < INVEST_IN_RELATIONS_BASE_COST else false
 
 func _on_invest_in_relations_button():

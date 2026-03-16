@@ -93,11 +93,13 @@ func _build_indexes() -> void:
 		province_count_by_country_id[cid] = 0
 		total_infra_by_country_id[cid] = 0
 		money_by_country_id[cid] = countries[cid]["money"]
-		countries[cid]["stability"] = 0
-		countries[cid]["diplomacy"]={}
-		for other_cid in countries.keys():
-			if cid == other_cid: continue
-			countries[cid]["diplomacy"][other_cid] = 0
+		if not "stability" in countries[cid]:
+			countries[cid]["stability"] = 0
+		if not "diplomacy" in countries[cid]:
+			countries[cid]["diplomacy"] = {}
+			for other_cid in countries.keys():
+				if cid == other_cid: continue
+				countries[cid]["diplomacy"][other_cid] = 0
 	
 	# Terrain color indexing
 	terrain_color.clear()
@@ -327,7 +329,7 @@ func add_stability(country_id: String, amount: int) -> void:
 func manage_global_flag(flag_name: String, set_flag: bool) -> void:
 	if (!set_flag):
 		# Clear flag
-		if (!flag_name in flags["global"]):
+		if (not (flag_name in flags["global"])):
 			print("WARN: Flag %s is not in list" % [flag_name])
 		else:
 			(flags["global"] as Array).erase(flag_name)

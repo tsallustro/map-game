@@ -142,7 +142,7 @@ func _on_load_game_button_clicked() -> void:
 		var country_name = save_metadata["player_name_pretty"]
 		var in_game_date = Utils.pretty_date_from_unix(save_metadata["game_date"])
 		var save_date = Utils.pretty_date_from_unix(save_metadata["save_date"])
-		load_game_btn.text = "%s %s | Last saved: %s" % [country_name, in_game_date, save_date]
+		load_game_btn.text = "%s | %s %s | Last saved: %s" % [game_name, country_name, in_game_date, save_date]
 		cont.add_child(load_game_btn)
 		load_game_btn.pressed.connect(func(): _load_game(game_name))
 

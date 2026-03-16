@@ -37,7 +37,7 @@ func _on_date_changed(_new_date: Dictionary) -> void:
 				if hit:
 					_fire_event(event_id, event_data, country_id)
 					break
-			pulse_countdown_days = PULSE_INTERVAL
+		pulse_countdown_days = PULSE_INTERVAL
 
 func _fire_event(event_id: String, event_data: Dictionary, country_id: String) -> void:
 	print("Firing event id %s" % [event_id])
