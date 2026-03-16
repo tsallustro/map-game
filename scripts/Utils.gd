@@ -68,3 +68,6 @@ static func remove_free_all_children(node: Node):
 	for child in node.get_children():
 		node.remove_child(child)
 		child.queue_free()
+
+static func min_max(value : int, minimum: int, maximum: int)->int:
+	return min(max(value, minimum),maximum)

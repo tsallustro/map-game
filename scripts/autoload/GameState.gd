@@ -159,12 +159,7 @@ func _validate_data() -> void:
 				print("WARN: Duplicate province key \"%s\"" % [provinceI["id"]])
 				# TODO validate colors
 				
-	for i in range(countries.size()):
-		var countryI = countries[i]
-		for j in range(i + 1, countries.size()):
-			var countryJ = countries[j]
-			if (countryI == countryJ):
-				print("WARN: Duplicate country key \"%s\"" % [countryI])
+	#TODO Country validation
 
 # View Modes
 func set_view_mode(mode: int) -> void:
@@ -386,6 +381,13 @@ func clear_selected_country():
 		return
 	selected_country_id = ""
 	emit_signal("selected_country_changed", selected_country_id)
+
+# Diplomacy
+func change_relations(source_country : String, target_country: String, delta : int):
+	var new_value = countries[source_country]["diplomacy"][target_country] + delta
+	var clamped_value = Utils.min_max(new_value, -100, 100)
+	countries[source_country]["diplomacy"][target_country] = clamped_value
+
 # Save/Load wrappers
 func save_game_state(save_name: String) -> void:
 	if (save_name == null || save_name.strip_edges().is_empty()): print("WARN: invalid save name %s"%[save_name])
