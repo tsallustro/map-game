@@ -9,7 +9,8 @@ var effect_handlers: Dictionary = {
 	"add_money": _handle_add_money,
 	"add_stability": _handle_add_stability,
 	"set_global_flag": _set_global_flag,
-	"clear_global_flag": _clear_global_flag
+	"clear_global_flag": _clear_global_flag,
+	"change_relations": _handle_change_relations
 }
 
 func _ready() -> void:
@@ -79,3 +80,7 @@ func _set_global_flag(_country_id: String, flag_name: String) -> void:
 func _clear_global_flag(_country_id: String, flag_name: String) -> void:
 	print("EVENT HANDLER: FLAG")
 	GameState.manage_global_flag(flag_name, false)
+
+func _handle_change_relations(country_id: String, data: Dictionary) -> void:
+	print("EVENT HANDLER: CHANGE RELATIONS")
+	GameState.change_relations(country_id, data["target"], data["amount"])

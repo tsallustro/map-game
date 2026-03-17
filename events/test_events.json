@@ -116,5 +116,30 @@
 				}
 			}
 		]
+	},
+	"e_test_relations": {
+		"name": "Test Relations Event",
+		"desc": "The Haerslean Kingdom is an up-and-coming realm based from Haersley Hold. One of their ministers has arrived at our doorstep seeking to build a working relationship with us. How should we respond?",
+		"MTTH": 10.0,
+		"options": [
+			{
+				"text": "Let's be friends!",
+				"effects":{
+					"change_relations":{
+						"target": "HRS",
+						"amount": 20
+					}
+				}
+			},
+			{
+				"text": "Throw him out on his rump!",
+				"effects":{
+					"change_relations":{
+						"target": "HRS",
+						"amount": -20
+					}
+				}
+			}
+		]
 	}
 }

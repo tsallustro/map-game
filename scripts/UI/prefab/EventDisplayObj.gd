@@ -8,7 +8,8 @@ var effect_names_pretty: Dictionary = {
 	"add_stability": "%+d stability",
 	"set_global_flag": "Flag %s is set",
 	"clear_global_flag": "Flag %s is cleared",
-	"message": "%s"
+	"message": "%s",
+	"change_relations": "Relations with %s: %+d"
 }
 
 func initialize(event_data: Dictionary) -> void:
@@ -26,7 +27,10 @@ func initialize(event_data: Dictionary) -> void:
 func _generate_tooltip_text(effects_dict: Dictionary) -> String:
 	var generated_tooltip_text: String = ""
 	for effect in effects_dict:
-		generated_tooltip_text = generated_tooltip_text + effect_names_pretty[effect] % [effects_dict[effect]] + "\n"
+		if effect not in effect_names_pretty: continue
+		var value = effects_dict[effect]
+		var fmt_args = value.values() if value is Dictionary else [value]
+		generated_tooltip_text += effect_names_pretty[effect] % fmt_args + "\n"
 	return generated_tooltip_text
 
 func _on_option_selected(option_data: Dictionary) -> void:
