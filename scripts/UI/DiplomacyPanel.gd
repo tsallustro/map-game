@@ -10,19 +10,23 @@ const INVEST_IN_RELATIONS_BASE_COST = 100
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	GameState.selected_country_changed.connect(_on_selected_country_changed)
+	GameState.force_diplomacy_panel_refresh.connect(_on_force_refresh)
 	invest_in_relations_button.pressed.connect(_on_invest_in_relations_button)
 
 func _process(_delta: float) -> void:
 		invest_in_relations_button.disabled = _improve_relations_button_enabled()
 
-func _on_selected_country_changed(country_id: String):
-	print("Selected "+country_id)
-	if country_id == "" || country_id==GameState.player_tag: visible = false
+func _on_force_refresh(selected_country_id: String):
+	_on_selected_country_changed(selected_country_id)
+
+func _on_selected_country_changed(selected_country_id: String):
+	print("Selected "+selected_country_id)
+	if selected_country_id == "" || selected_country_id==GameState.player_tag: visible = false
 	else:
 		visible = true
-		country_name_label.text = "%s (ID: %s)"%[GameState.get_country_name_by_country_id(country_id), country_id]
-		our_opinion_label.text = "Our opinion: %d"%[GameState.countries[GameState.player_tag]["diplomacy"][country_id]]
-		their_opinion_label.text = "Their opinion: %d"%[GameState.countries[country_id]["diplomacy"][GameState.player_tag]]
+		country_name_label.text = "%s (ID: %s)"%[GameState.get_country_name_by_country_id(selected_country_id), selected_country_id]
+		our_opinion_label.text = "Our opinion: %d"%[GameState.countries[GameState.player_tag]["diplomacy"][selected_country_id]]
+		their_opinion_label.text = "Their opinion: %d"%[GameState.countries[selected_country_id]["diplomacy"][GameState.player_tag]]
 		invest_in_relations_button.disabled = true if GameState.money_by_country_id[GameState.player_tag] < INVEST_IN_RELATIONS_BASE_COST else false
 
 func _on_invest_in_relations_button():

@@ -8,6 +8,7 @@ signal date_changed(new_date: int)
 signal speed_changed(speed: int)
 signal province_infrastructure_changed(province_id: String)
 signal pause_state_changed(isPaused: bool)
+signal force_diplomacy_panel_refresh(selected_country_id: String)
 
 signal force_reload_TL_panel()
 signal selected_country_changed(country_id: String)
@@ -174,7 +175,8 @@ func _on_tick_update(previous_date: Dictionary) -> void:
 		# Month tick
 		for country in countries:
 			add_money(country, total_infra_by_country_id[country])
-
+		perform_relations_decays()
+		
 	emit_signal("date_changed", current_date)
 
 func _set_date(date_as_unix_time: int) -> void:
@@ -388,6 +390,17 @@ func change_relations(source_country : String, target_country: String, delta : i
 	var clamped_value = Utils.min_max(new_value, Constants.RELATIONS_MIN, Constants.RELATIONS_MAX)
 	countries[source_country]["diplomacy"][target_country] = clamped_value
 
+func perform_relations_decays()->void:
+	# Decays by +/- 1 per month
+	for country in countries:
+		for other_country in countries:
+			if other_country == country: continue
+			else:
+				var current_relation = countries[country]["diplomacy"][other_country]
+				if current_relation != 0:
+					var new_relation = current_relation + (-1*signi(current_relation))
+					countries[country]["diplomacy"][other_country] = new_relation
+	emit_signal("force_diplomacy_panel_refresh", selected_country_id)
 # Save/Load wrappers
 func save_game_state(save_name: String) -> void:
 	if (save_name == null || save_name.strip_edges().is_empty()): print("WARN: invalid save name %s"%[save_name])
