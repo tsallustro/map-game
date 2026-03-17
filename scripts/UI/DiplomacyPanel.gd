@@ -14,7 +14,7 @@ func _ready() -> void:
 	invest_in_relations_button.pressed.connect(_on_invest_in_relations_button)
 
 func _process(_delta: float) -> void:
-		invest_in_relations_button.disabled = _improve_relations_button_enabled()
+		invest_in_relations_button.disabled = !_improve_relations_button_enabled()
 
 func _on_force_refresh(selected_country_id: String):
 	_on_selected_country_changed(selected_country_id)
@@ -37,4 +37,4 @@ func _on_invest_in_relations_button():
 	GameState.add_money(GameState.player_tag, -INVEST_IN_RELATIONS_BASE_COST)
 
 func _improve_relations_button_enabled()->bool:
-	return (GameState.money_by_country_id[GameState.player_tag] < INVEST_IN_RELATIONS_BASE_COST)
+	return GameState.selected_country_id != "" && (GameState.money_by_country_id[GameState.player_tag] >= INVEST_IN_RELATIONS_BASE_COST) && GameState.get_player_relation_of_selected_country() < Constants.RELATIONS_MAX

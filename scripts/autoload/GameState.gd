@@ -10,7 +10,7 @@ signal province_infrastructure_changed(province_id: String)
 signal pause_state_changed(isPaused: bool)
 signal force_diplomacy_panel_refresh(selected_country_id: String)
 
-signal force_reload_TL_panel()
+signal force_refresh_TL_panel()
 signal selected_country_changed(country_id: String)
 var view_mode: int = Enums.ViewMode.OWNER
 
@@ -176,7 +176,7 @@ func _on_tick_update(previous_date: Dictionary) -> void:
 		for country in countries:
 			add_money(country, total_infra_by_country_id[country])
 		perform_relations_decays()
-		
+
 	emit_signal("date_changed", current_date)
 
 func _set_date(date_as_unix_time: int) -> void:
@@ -321,12 +321,12 @@ func add_money(country_id: String, amount: int) -> void:
 	var new_amount = countries[country_id]["money"] + amount
 	countries[country_id]["money"] = new_amount
 	money_by_country_id[country_id] = new_amount
-	emit_signal("force_reload_TL_panel")
+	if country_id == player_tag: emit_signal("force_refresh_TL_panel")
 
 func add_stability(country_id: String, amount: int) -> void:
 	var new_amount = max(min(countries[country_id]["stability"] + amount, 5), -5)
 	countries[country_id]["stability"] = new_amount
-	emit_signal("force_reload_TL_panel")
+	emit_signal("force_refresh_TL_panel")
 
 func manage_global_flag(flag_name: String, set_flag: bool) -> void:
 	if (!set_flag):
@@ -385,6 +385,12 @@ func clear_selected_country():
 	emit_signal("selected_country_changed", selected_country_id)
 
 # Diplomacy
+func get_relations(source_country : String, target_country: String)->int:
+	return countries[source_country]["diplomacy"][target_country]
+
+func get_player_relation_of_selected_country()-> int:
+	return countries[player_tag]["diplomacy"][selected_country_id]
+
 func change_relations(source_country : String, target_country: String, delta : int):
 	var new_value = countries[source_country]["diplomacy"][target_country] + delta
 	var clamped_value = Utils.min_max(new_value, Constants.RELATIONS_MIN, Constants.RELATIONS_MAX)

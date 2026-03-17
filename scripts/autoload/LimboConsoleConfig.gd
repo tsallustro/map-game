@@ -43,8 +43,9 @@ func p_count(country_id: String) -> void:
 	LimboConsole.info(str(GameState.province_count_by_country_id[country_id]))
 
 func cash(country_id: String, amount: int) -> void:
-	if (GameState.country_id_exists(country_id)): GameState.money_by_country_id[country_id] = GameState.money_by_country_id[country_id] + amount
-
+	if (GameState.country_id_exists(country_id)): GameState.add_money(country_id, amount)
+	else: LimboConsole.error("%s doesn't exist." % [country_id])
+	
 func main_menu():
 	get_tree().change_scene_to_file("res://scenes/mainmenu.tscn")
 	
