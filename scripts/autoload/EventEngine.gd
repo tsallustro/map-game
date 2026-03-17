@@ -84,3 +84,4 @@ func _clear_global_flag(_country_id: String, flag_name: String) -> void:
 func _handle_change_relations(country_id: String, data: Dictionary) -> void:
 	print("EVENT HANDLER: CHANGE RELATIONS")
 	GameState.change_relations(country_id, data["target"], data["amount"])
+	emit_signal("force_diplomacy_panel_refresh", GameState.selected_country_id)
