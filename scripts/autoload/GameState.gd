@@ -385,7 +385,7 @@ func clear_selected_country():
 # Diplomacy
 func change_relations(source_country : String, target_country: String, delta : int):
 	var new_value = countries[source_country]["diplomacy"][target_country] + delta
-	var clamped_value = Utils.min_max(new_value, -100, 100)
+	var clamped_value = Utils.min_max(new_value, Constants.RELATIONS_MIN, Constants.RELATIONS_MAX)
 	countries[source_country]["diplomacy"][target_country] = clamped_value
 
 # Save/Load wrappers
