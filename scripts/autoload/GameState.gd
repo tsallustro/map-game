@@ -8,9 +8,10 @@ signal date_changed(new_date: int)
 signal speed_changed(speed: int)
 signal province_infrastructure_changed(province_id: String)
 signal pause_state_changed(isPaused: bool)
+signal force_diplomacy_panel_refresh(selected_country_id: String)
 
-signal force_reload_TL_panel()
-
+signal force_refresh_TL_panel()
+signal selected_country_changed(country_id: String)
 var view_mode: int = Enums.ViewMode.OWNER
 
 # Raw loaded data
@@ -39,6 +40,7 @@ var flags: Dictionary = {
 # Other common vars
 var INITIAL_DATE = Time.get_datetime_dict_from_datetime_string("1000-01-01T00:00:00", false)
 var selected_province_id: String = ""
+var selected_country_id: String = ""
 var current_date: Dictionary = INITIAL_DATE # { "year": 1000, "month": 1, "day": 2, "weekday": 4, "hour": 0, "minute": 0, "second": 0 }
 var timePerTick := 2 # In seconds
 var tickTimeRemaining := float(timePerTick)
@@ -92,7 +94,14 @@ func _build_indexes() -> void:
 		province_count_by_country_id[cid] = 0
 		total_infra_by_country_id[cid] = 0
 		money_by_country_id[cid] = countries[cid]["money"]
-		countries[cid]["stability"] = 0
+		if not "stability" in countries[cid]:
+			countries[cid]["stability"] = 0
+		if not "diplomacy" in countries[cid]:
+			countries[cid]["diplomacy"] = {}
+			countries[cid]["diplomacy"]["allies"]=[]
+			for other_cid in countries.keys():
+				if cid == other_cid: continue
+				countries[cid]["diplomacy"][other_cid] = 0
 	
 	# Terrain color indexing
 	terrain_color.clear()
@@ -152,7 +161,7 @@ func _validate_data() -> void:
 				print("WARN: Duplicate province key \"%s\"" % [provinceI["id"]])
 				# TODO validate colors
 				
-	# TODO validate country data
+	#TODO Country validation
 
 # View Modes
 func set_view_mode(mode: int) -> void:
@@ -167,6 +176,7 @@ func _on_tick_update(previous_date: Dictionary) -> void:
 		# Month tick
 		for country in countries:
 			add_money(country, total_infra_by_country_id[country])
+		perform_relations_decays()
 
 	emit_signal("date_changed", current_date)
 
@@ -312,17 +322,17 @@ func add_money(country_id: String, amount: int) -> void:
 	var new_amount = countries[country_id]["money"] + amount
 	countries[country_id]["money"] = new_amount
 	money_by_country_id[country_id] = new_amount
-	emit_signal("force_reload_TL_panel")
+	if country_id == player_tag: emit_signal("force_refresh_TL_panel")
 
 func add_stability(country_id: String, amount: int) -> void:
 	var new_amount = max(min(countries[country_id]["stability"] + amount, 5), -5)
 	countries[country_id]["stability"] = new_amount
-	emit_signal("force_reload_TL_panel")
+	emit_signal("force_refresh_TL_panel")
 
 func manage_global_flag(flag_name: String, set_flag: bool) -> void:
 	if (!set_flag):
 		# Clear flag
-		if (!flag_name in flags["global"]):
+		if (not (flag_name in flags["global"])):
 			print("WARN: Flag %s is not in list" % [flag_name])
 		else:
 			(flags["global"] as Array).erase(flag_name)
@@ -354,7 +364,73 @@ func clear_selection() -> void:
 	selected_province_id = ""
 	emit_signal("selection_changed", selected_province_id)
 
+# Country info selection
+func select_country_by_province_maskkey(mask_key: String) -> void:
+	var idx: int = province_index_by_maskkey.get(mask_key, -1)
+	if idx == -1:
+		clear_selected_country()
+		return
+	var province_id: String = provinces[idx]["id"]
+	select_country(get_province_owner_id_by_pid(province_id))
 
+func select_country(country_id: String):
+	if selected_country_id == country_id:
+		return
+	selected_country_id = country_id
+	emit_signal("selected_country_changed", selected_country_id)
+
+func clear_selected_country():
+	if selected_country_id == "":
+		return
+	selected_country_id = ""
+	emit_signal("selected_country_changed", selected_country_id)
+
+# Diplomacy
+func get_relations(source_country : String, target_country: String)->int:
+	return countries[source_country]["diplomacy"][target_country]
+
+func get_player_relation_of_selected_country()-> int:
+	return countries[player_tag]["diplomacy"][selected_country_id]
+
+func get_selected_country_relation_of_player()-> int:
+	return countries[selected_country_id]["diplomacy"][player_tag]
+
+func change_relations(source_country : String, target_country: String, delta : int):
+	var new_value = countries[source_country]["diplomacy"][target_country] + delta
+	var clamped_value = Utils.min_max(new_value, Constants.RELATIONS_MIN, Constants.RELATIONS_MAX)
+	countries[source_country]["diplomacy"][target_country] = clamped_value
+
+func change_bilateral_relations(source_country : String, target_country: String, delta : int):
+	change_relations(source_country, target_country, delta)
+	change_relations(target_country, source_country, delta)
+
+func perform_relations_decays()->void:
+	# Decays by +/- 1 per month
+	for country in countries:
+		for other_country in countries:
+			if other_country == country: continue
+			else:
+				var current_relation = countries[country]["diplomacy"][other_country]
+				if current_relation != 0:
+					var new_relation = current_relation + (-1*signi(current_relation))
+					countries[country]["diplomacy"][other_country] = new_relation
+	emit_signal("force_diplomacy_panel_refresh", selected_country_id)
+
+func manage_alliance(country1_id: String, country2_id: String, make_allied: bool)->void:
+	var is_currently_allied = is_allied(country1_id, country2_id)
+	if make_allied && !is_currently_allied:
+		countries[country1_id]["diplomacy"]["allies"].append(country2_id)
+		countries[country2_id]["diplomacy"]["allies"].append(country1_id)
+		emit_signal("force_diplomacy_panel_refresh", selected_country_id)
+
+	elif !make_allied && is_currently_allied:
+		countries[country1_id]["diplomacy"]["allies"].erase(country2_id)
+		countries[country2_id]["diplomacy"]["allies"].erase(country1_id)
+		emit_signal("force_diplomacy_panel_refresh", selected_country_id)
+
+
+func is_allied(country1_id: String, country2_id: String)->bool:
+	return country2_id in countries[country1_id]["diplomacy"]["allies"] && country1_id in countries[country2_id]["diplomacy"]["allies"]
 # Save/Load wrappers
 func save_game_state(save_name: String) -> void:
 	if (save_name == null || save_name.strip_edges().is_empty()): print("WARN: invalid save name %s"%[save_name])

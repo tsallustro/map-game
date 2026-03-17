@@ -20,7 +20,7 @@ func initialize(event_data: Dictionary) -> void:
 		btn.text = option["text"]
 		btn.pressed.connect(func(): _on_option_selected(option))
 		btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		btn.tooltip_text = _generate_tooltip_text(option["effects"])
+		if "effects" in option: btn.tooltip_text = _generate_tooltip_text(option["effects"])
 		optionsContainer.add_child(btn)
 
 func _generate_tooltip_text(effects_dict: Dictionary) -> String:

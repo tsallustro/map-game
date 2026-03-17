@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://dwi8pqgrjflqx"]
+[gd_scene load_steps=14 format=3 uid="uid://dwi8pqgrjflqx"]
 
 [ext_resource type="Script" uid="uid://bghi1gxvig7dg" path="res://scripts/Main.gd" id="1_tipki"]
 [ext_resource type="Script" uid="uid://cv1uuktj52pfs" path="res://scripts/Map.gd" id="2_85g3d"]
@@ -11,6 +11,7 @@
 [ext_resource type="Script" uid="uid://by54nke7cd4xi" path="res://scripts/UI/TopPanel.gd" id="7_a8y0u"]
 [ext_resource type="Script" uid="uid://0h1v0m5v5ish" path="res://scripts/UI/InfoPanel.gd" id="8_jkv2x"]
 [ext_resource type="Script" uid="uid://bqyhc6oh3oc7v" path="res://scripts/UI/EventDisplayController.gd" id="10_choun"]
+[ext_resource type="Script" uid="uid://y4ri8sa7ha2l" path="res://scripts/UI/DiplomacyPanel.gd" id="10_trceg"]
 [ext_resource type="PackedScene" uid="uid://40sbsdyourda" path="res://prefabs/event_display.tscn" id="10_ya4ey"]
 
 [node name="Main" type="Control"]
@@ -109,6 +110,58 @@ text = "-"
 [node name="PlayPauseButton" type="Button" parent="UI/TimePanel/DateTimeHBoxContainer/SpeedHBoxContainer"]
 layout_mode = 2
 text = "PAUSED"
+
+[node name="DiplomacyPanel" type="PanelContainer" parent="UI"]
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -20.0
+offset_right = 40.0
+offset_bottom = 20.0
+grow_vertical = 2
+script = ExtResource("10_trceg")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/DiplomacyPanel"]
+layout_mode = 2
+
+[node name="CountryNameLabel" type="Label" parent="UI/DiplomacyPanel/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "CountryName (ID: ABC)"
+
+[node name="HSplitContainer" type="HSplitContainer" parent="UI/DiplomacyPanel/VBoxContainer"]
+layout_mode = 2
+dragging_enabled = false
+
+[node name="DiploInfoVBox" type="VBoxContainer" parent="UI/DiplomacyPanel/VBoxContainer/HSplitContainer"]
+layout_mode = 2
+
+[node name="InfoLabel" type="Label" parent="UI/DiplomacyPanel/VBoxContainer/HSplitContainer/DiploInfoVBox"]
+layout_mode = 2
+text = "Info"
+
+[node name="OurOpinionLabel" type="Label" parent="UI/DiplomacyPanel/VBoxContainer/HSplitContainer/DiploInfoVBox"]
+layout_mode = 2
+text = "Our opinion: 0"
+
+[node name="TheirOpinionLabel" type="Label" parent="UI/DiplomacyPanel/VBoxContainer/HSplitContainer/DiploInfoVBox"]
+layout_mode = 2
+text = "Their opinion: 0"
+
+[node name="ActionsVBox" type="VBoxContainer" parent="UI/DiplomacyPanel/VBoxContainer/HSplitContainer"]
+layout_mode = 2
+
+[node name="ActionsLabel" type="Label" parent="UI/DiplomacyPanel/VBoxContainer/HSplitContainer/ActionsVBox"]
+layout_mode = 2
+text = "Diplmatic Actions"
+
+[node name="InvestInRelationsButton" type="Button" parent="UI/DiplomacyPanel/VBoxContainer/HSplitContainer/ActionsVBox"]
+layout_mode = 2
+text = "Invest in relations"
+
+[node name="AllianceButton" type="Button" parent="UI/DiplomacyPanel/VBoxContainer/HSplitContainer/ActionsVBox"]
+layout_mode = 2
+text = "Form alliance"
 
 [node name="InfoPanel" type="PanelContainer" parent="UI"]
 anchors_preset = 2
