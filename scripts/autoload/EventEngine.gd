@@ -44,7 +44,8 @@ func _fire_event(event_id: String, event_data: Dictionary, country_id: String) -
 	print("Firing event id %s" % [event_id])
 	if country_id == GameState.player_tag:
 		GameState.pause()
-		emit_signal("player_event_fired", event_data)
+		var new_event_data = _resolve_all_vars(event_data, country_id)
+		emit_signal("player_event_fired", new_event_data)
 	else:
 		pass
 		# process_effects(event_data["effects"],event_data["hidden_effects"],country_id)
@@ -53,35 +54,60 @@ func _fire_event(event_id: String, event_data: Dictionary, country_id: String) -
 func fire_event_by_id(event_id: String, country_id: String) -> void:
 	_fire_event(event_id, events_list[event_id], country_id)
 
-func process_effects(effects: Dictionary, hidden_effects: Dictionary, country_id: String) -> void:
-	for effect in effects:
-		if (effect != "message"):
-			var value = effects[effect]
-			var handler = effect_handlers[effect] as Callable
-			handler.call(country_id, value)
-	for hidden_effect in hidden_effects:
-		var value = hidden_effects[hidden_effect]
-		var handler = effect_handlers[hidden_effect] as Callable
-		handler.call(country_id, value)
+func _resolve_all_vars(event_data: Dictionary, country_id: String) -> Dictionary:
+	# TODO: process vars in event name, desc
+	var new_data = event_data.duplicate(true)
+	for i in event_data["options"].size():
+		new_data["options"][i]["effects"]=[]
+		if "effects" in event_data["options"][i]:
+			for j in event_data["options"][i]["effects"].size():
+				var existing_effect_data = event_data["options"][i]["effects"][j]
+				var new_value = _resolve_effect_vars(existing_effect_data, country_id)
+				new_data["options"][i]["effects"].append(new_value)
+		if "hidden_effects" in event_data["options"][i]:
+			for k in event_data["options"][i]["hidden_effects"].size():
+				var existing_hidden_effect_data = event_data["options"][i]["hidden_effects"][k]
+				var new_value = _resolve_effect_vars(existing_hidden_effect_data, country_id)
+				new_data["options"][i]["hidden_effects"].append(new_value)
+	return new_data
+
+func _resolve_effect_vars(effects_dict: Dictionary, country_id: String) -> Dictionary:
+	var new_effects = effects_dict.duplicate(true)
+	for effect_param in effects_dict:
+		var value = effects_dict[effect_param]
+		if value is String:
+			if value == "$THIS": new_effects[effect_param] = country_id
+			if value == "$PLAYER": new_effects[effect_param] =  GameState.player_tag
+	return new_effects
+
+
+func process_effects(effects: Array, hidden_effects: Array, country_id: String) -> void:
+	for element in effects:
+		var type: String = element["type"]
+		if type == "message": continue
+		(effect_handlers[type] as Callable).call(country_id, element)
+	for element in hidden_effects:
+		var type: String = element["type"]
+		(effect_handlers[type] as Callable).call(country_id, element)
 
 # Effects
-func _handle_add_money(country_id: String, amount: int) -> void:
+func _handle_add_money(country_id: String, data: Dictionary) -> void:
 	print("EVENT HANDLER: MONEY")
-	GameState.add_money(country_id, amount)
+	GameState.add_money(country_id if "target" not in data else data["target"], data["value"])
 	
-func _handle_add_stability(country_id: String, amount: int) -> void:
+func _handle_add_stability(country_id: String, data: Dictionary) -> void:
 	print("EVENT HANDLER: STAB")
-	GameState.add_stability(country_id, amount)
+	GameState.add_stability(country_id if "target" not in data else data["target"], data["value"])
 
-func _set_global_flag(_country_id: String, flag_name: String) -> void:
+func _set_global_flag(_country_id: String, data: Dictionary) -> void:
 	print("EVENT HANDLER: FLAG")
-	GameState.manage_global_flag(flag_name, true)
+	GameState.manage_global_flag(data["value"], true)
 
-func _clear_global_flag(_country_id: String, flag_name: String) -> void:
+func _clear_global_flag(_country_id: String, data: Dictionary) -> void:
 	print("EVENT HANDLER: FLAG")
-	GameState.manage_global_flag(flag_name, false)
+	GameState.manage_global_flag(data["value"], false)
 
-func _handle_change_relations(country_id: String, data: Dictionary) -> void:
+func _handle_change_relations(_country_id: String, data: Dictionary) -> void:
 	print("EVENT HANDLER: CHANGE RELATIONS")
-	GameState.change_relations(country_id, data["target"], data["amount"])
+	GameState.change_relations(data["source"], data["target"], data["value"])
 	GameState.force_diplomacy_panel_refresh.emit(GameState.selected_country_id)

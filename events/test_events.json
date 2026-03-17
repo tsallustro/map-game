@@ -19,9 +19,12 @@
 		"options": [
 			{
 				"text": "Neat",
-				"effects": {
-					"add_money": 100.0
-				}
+				"effects": [
+					{
+						"type": "add_money",
+						"value": 100.0
+					}
+				]
 			}
 		]
 	},
@@ -32,35 +35,44 @@
 		"options": [
 			{
 				"text": "Aww man",
-				"effects": {
-					"add_money": -10.0
-				}
+				"effects": [
+					{
+						"type": "add_money",
+						"value": -10.0
+					}
+				]
 			}
 		]
 	},
 	"e_test_gain_stab": {
 		"name": "Test Gain stability Event",
-		"desc": "This event tests adding money! :D",
+		"desc": "This event tests adding stability! :D",
 		"MTTH": 30.0,
 		"options": [
 			{
 				"text": "Hooray!",
-				"effects": {
-					"add_stability": 1.0
-				}
+				"effects": [
+					{
+						"type": "add_stability",
+						"value": 1.0
+					}
+				]
 			}
 		]
 	},
 	"e_test_lose_stab": {
 		"name": "Test Lose stability Event",
-		"desc": "This event tests losing money! D:",
+		"desc": "This event tests losing stability! D:",
 		"MTTH": 30.0,
 		"options": [
 			{
 				"text": "Aww shucks!",
-				"effects": {
-					"add_stability": -1.0
-				}
+				"effects": [
+					{
+						"type": "add_stability",
+						"value": -1.0
+					}
+				]
 			}
 		]
 	},
@@ -71,9 +83,12 @@
 		"options": [
 			{
 				"text": "Now you see me...",
-				"effects": {
-					"set_global_flag": "test_global_flag"
-				}
+				"effects": [
+					{
+						"type": "set_global_flag",
+						"value": "test_global_flag"
+					}
+				]
 			}
 		]
 	},
@@ -84,9 +99,12 @@
 		"options": [
 			{
 				"text": "...now you don't!",
-				"effects": {
-					"clear_global_flag": "test_global_flag"
-				}
+				"effects": [
+					{
+						"type": "clear_global_flag",
+						"value": "test_global_flag"
+					}
+				]
 			}
 		]
 	},
@@ -97,23 +115,41 @@
 		"options": [
 			{
 				"text": "Set the flag!",
-				"effects": {
-					"add_money": 1.0,
-					"message": "This will set the flag test_hidden_effect"
-				},
-				"hidden_effects": {
-					"set_global_flag": "test_hidden_effect"
-				}
+				"effects": [
+					{
+						"type": "add_money",
+						"value": 1.0
+					},
+					{
+						"type": "message",
+						"value": "This will set the flag test_hidden_effect"
+					}
+				],
+				"hidden_effects": [
+					{
+						"type": "set_global_flag",
+						"value": "test_hidden_effect"
+					}
+				]
 			},
 			{
 				"text": "Clear the flag!",
-				"effects": {
-					"add_money": -1.0,
-					"message": "This will clear the flag test_hidden_effect"
-				},
-				"hidden_effects": {
-					"clear_global_flag": "test_hidden_effect"
-				}
+				"effects": [
+					{
+						"type": "add_money",
+						"value": -1.0
+					},
+					{
+						"type": "message",
+						"value": "This will clear the flag test_hidden_effect"
+					}
+				],
+				"hidden_effects": [
+					{
+						"type": "clear_global_flag",
+						"value": "test_hidden_effect"
+					}
+				]
 			}
 		]
 	},
@@ -124,21 +160,37 @@
 		"options": [
 			{
 				"text": "Let's be friends!",
-				"effects": {
-					"change_relations": {
+				"effects": [
+					{
+						"type": "change_relations",
+						"source": "HRS",
+						"target": "$THIS",
+						"amount": 20
+					},
+					{
+						"type": "change_relations",
+						"source": "$THIS",
 						"target": "HRS",
-						"amount": 20.0
+						"amount": 20
 					}
-				}
+				]
 			},
 			{
 				"text": "Throw him out on his rump!",
-				"effects": {
-					"change_relations": {
+				"effects": [
+					{
+						"type": "change_relations",
+						"source": "HRS",
+						"target": "$THIS",
+						"amount": -20
+					},
+					{
+						"type": "change_relations",
+						"source": "$THIS",
 						"target": "HRS",
-						"amount": -20.0
+						"amount": -20
 					}
-				}
+				]
 			}
 		]
 	}
