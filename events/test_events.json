@@ -124,19 +124,19 @@
 		"options": [
 			{
 				"text": "Let's be friends!",
-				"effects":{
-					"change_relations":{
+				"effects": {
+					"change_relations": {
 						"target": "HRS",
-						"amount": 20
+						"amount": 20.0
 					}
 				}
 			},
 			{
 				"text": "Throw him out on his rump!",
-				"effects":{
-					"change_relations":{
+				"effects": {
+					"change_relations": {
 						"target": "HRS",
-						"amount": -20
+						"amount": -20.0
 					}
 				}
 			}
