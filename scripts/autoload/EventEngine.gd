@@ -58,13 +58,14 @@ func _resolve_all_vars(event_data: Dictionary, country_id: String) -> Dictionary
 	# TODO: process vars in event name, desc
 	var new_data = event_data.duplicate(true)
 	for i in event_data["options"].size():
-		new_data["options"][i]["effects"]=[]
 		if "effects" in event_data["options"][i]:
+			new_data["options"][i]["effects"]=[]
 			for j in event_data["options"][i]["effects"].size():
 				var existing_effect_data = event_data["options"][i]["effects"][j]
 				var new_value = _resolve_effect_vars(existing_effect_data, country_id)
 				new_data["options"][i]["effects"].append(new_value)
 		if "hidden_effects" in event_data["options"][i]:
+			new_data["options"][i]["hidden_effects"]=[]
 			for k in event_data["options"][i]["hidden_effects"].size():
 				var existing_hidden_effect_data = event_data["options"][i]["hidden_effects"][k]
 				var new_value = _resolve_effect_vars(existing_hidden_effect_data, country_id)

@@ -165,13 +165,13 @@
 						"type": "change_relations",
 						"source": "HRS",
 						"target": "$THIS",
-						"amount": 20
+						"value": 20
 					},
 					{
 						"type": "change_relations",
 						"source": "$THIS",
 						"target": "HRS",
-						"amount": 20
+						"value": 20
 					}
 				]
 			},
@@ -182,13 +182,13 @@
 						"type": "change_relations",
 						"source": "HRS",
 						"target": "$THIS",
-						"amount": -20
+						"value": -20
 					},
 					{
 						"type": "change_relations",
 						"source": "$THIS",
 						"target": "HRS",
-						"amount": -20
+						"value": -20
 					}
 				]
 			}

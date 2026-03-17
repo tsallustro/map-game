@@ -29,12 +29,9 @@ func _generate_tooltip_text(effects: Array) -> String:
 	for element in effects:
 		var type: String = element["type"]
 		if type not in effect_names_pretty: continue
-		var value = element.get("value", null)
-		if value == null:
-			var data = element.duplicate()
-			data.erase("type")
-			value = data
-		var fmt_args = value.values() if value is Dictionary else [value]
+		var data = element.duplicate()
+		data.erase("type")
+		var fmt_args = data.values() if data is Dictionary else [data]
 		generated_tooltip_text += effect_names_pretty[type] % fmt_args + "\n"
 	return generated_tooltip_text
 
