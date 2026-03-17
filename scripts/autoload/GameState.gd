@@ -98,6 +98,7 @@ func _build_indexes() -> void:
 			countries[cid]["stability"] = 0
 		if not "diplomacy" in countries[cid]:
 			countries[cid]["diplomacy"] = {}
+			countries[cid]["diplomacy"]["allies"]=[]
 			for other_cid in countries.keys():
 				if cid == other_cid: continue
 				countries[cid]["diplomacy"][other_cid] = 0
@@ -391,10 +392,17 @@ func get_relations(source_country : String, target_country: String)->int:
 func get_player_relation_of_selected_country()-> int:
 	return countries[player_tag]["diplomacy"][selected_country_id]
 
+func get_selected_country_relation_of_player()-> int:
+	return countries[selected_country_id]["diplomacy"][player_tag]
+
 func change_relations(source_country : String, target_country: String, delta : int):
 	var new_value = countries[source_country]["diplomacy"][target_country] + delta
 	var clamped_value = Utils.min_max(new_value, Constants.RELATIONS_MIN, Constants.RELATIONS_MAX)
 	countries[source_country]["diplomacy"][target_country] = clamped_value
+
+func change_bilateral_relations(source_country : String, target_country: String, delta : int):
+	change_relations(source_country, target_country, delta)
+	change_relations(target_country, source_country, delta)
 
 func perform_relations_decays()->void:
 	# Decays by +/- 1 per month
@@ -407,6 +415,22 @@ func perform_relations_decays()->void:
 					var new_relation = current_relation + (-1*signi(current_relation))
 					countries[country]["diplomacy"][other_country] = new_relation
 	emit_signal("force_diplomacy_panel_refresh", selected_country_id)
+
+func manage_alliance(country1_id: String, country2_id: String, make_allied: bool)->void:
+	var is_currently_allied = is_allied(country1_id, country2_id)
+	if make_allied && !is_currently_allied:
+		countries[country1_id]["diplomacy"]["allies"].append(country2_id)
+		countries[country2_id]["diplomacy"]["allies"].append(country1_id)
+		emit_signal("force_diplomacy_panel_refresh", selected_country_id)
+
+	elif !make_allied && is_currently_allied:
+		countries[country1_id]["diplomacy"]["allies"].erase(country2_id)
+		countries[country2_id]["diplomacy"]["allies"].erase(country1_id)
+		emit_signal("force_diplomacy_panel_refresh", selected_country_id)
+
+
+func is_allied(country1_id: String, country2_id: String)->bool:
+	return country2_id in countries[country1_id]["diplomacy"]["allies"] && country1_id in countries[country2_id]["diplomacy"]["allies"]
 # Save/Load wrappers
 func save_game_state(save_name: String) -> void:
 	if (save_name == null || save_name.strip_edges().is_empty()): print("WARN: invalid save name %s"%[save_name])
