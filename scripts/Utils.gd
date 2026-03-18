@@ -43,6 +43,7 @@ static func load_json_dict(path: String) -> Dictionary:
 	if err != OK:
 		push_error("JSON parse failed (" + path + "): " + j.get_error_message())
 		return {}
+	j.data.erase("$schema") # Remove the schema entry, since it's not actually part of the data
 	return j.data as Dictionary
 
 static func load_json_array(path: String) -> Array:
@@ -52,6 +53,7 @@ static func load_json_array(path: String) -> Array:
 	if err != OK:
 		push_error("JSON parse failed (" + path + "): " + j.get_error_message())
 		return []
+	j.data.erase("$schema") # Remove the schema entry, since it's not actually part of the data
 	return j.data as Array
 
 static func pretty_date_from_dict(date: Dictionary) -> String:

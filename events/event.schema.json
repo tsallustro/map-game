@@ -30,6 +30,10 @@
           "exclusiveMinimum": 0,
           "description": "Mean Time To Happen in days. Lower values fire more frequently."
         },
+        "conditions": {
+          "description": "All conditions must pass for this event to be eligible to fire. If omitted, the event is always eligible.",
+          "$ref": "#/definitions/condition_list"
+        },
         "options": {
           "type": "array",
           "minItems": 1,
@@ -59,6 +63,118 @@
     "effect_list": {
       "type": "array",
       "items": { "$ref": "#/definitions/effect" }
+    },
+    "condition_list": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/condition" }
+    },
+    "condition": {
+      "oneOf": [
+        { "$ref": "#/definitions/condition_has_global_flag" },
+        { "$ref": "#/definitions/condition_not_global_flag" },
+        { "$ref": "#/definitions/condition_money_above" },
+        { "$ref": "#/definitions/condition_money_below" },
+        { "$ref": "#/definitions/condition_stability_above" },
+        { "$ref": "#/definitions/condition_stability_below" },
+        { "$ref": "#/definitions/condition_relations_above" },
+        { "$ref": "#/definitions/condition_relations_below" },
+        { "$ref": "#/definitions/condition_NOT" },
+        { "$ref": "#/definitions/condition_OR" }
+      ]
+    },
+    "condition_has_global_flag": {
+      "type": "object",
+      "description": "Passes if the named global flag is currently set.",
+      "required": ["type", "value"],
+      "properties": {
+        "type":  { "type": "string", "const": "has_global_flag" },
+        "value": { "type": "string", "description": "Flag name to check." }
+      }
+    },
+    "condition_not_global_flag": {
+      "type": "object",
+      "description": "Passes if the named global flag is NOT set.",
+      "required": ["type", "value"],
+      "properties": {
+        "type":  { "type": "string", "const": "not_global_flag" },
+        "value": { "type": "string", "description": "Flag name to check." }
+      }
+    },
+    "condition_money_above": {
+      "type": "object",
+      "description": "Passes if the firing country's money is strictly greater than value.",
+      "required": ["type", "value"],
+      "properties": {
+        "type":  { "type": "string", "const": "money_above" },
+        "value": { "type": "number" }
+      }
+    },
+    "condition_money_below": {
+      "type": "object",
+      "description": "Passes if the firing country's money is strictly less than value.",
+      "required": ["type", "value"],
+      "properties": {
+        "type":  { "type": "string", "const": "money_below" },
+        "value": { "type": "number" }
+      }
+    },
+    "condition_stability_above": {
+      "type": "object",
+      "description": "Passes if the firing country's stability is strictly greater than value.",
+      "required": ["type", "value"],
+      "properties": {
+        "type":  { "type": "string", "const": "stability_above" },
+        "value": { "type": "number" }
+      }
+    },
+    "condition_stability_below": {
+      "type": "object",
+      "description": "Passes if the firing country's stability is strictly less than value.",
+      "required": ["type", "value"],
+      "properties": {
+        "type":  { "type": "string", "const": "stability_below" },
+        "value": { "type": "number" }
+      }
+    },
+    "condition_relations_above": {
+      "type": "object",
+      "description": "Passes if source's opinion of target is strictly greater than value. source defaults to the firing country.",
+      "required": ["type", "target", "value"],
+      "properties": {
+        "type":   { "type": "string", "const": "relations_above" },
+        "source": { "$ref": "#/definitions/country_ref" },
+        "target": { "$ref": "#/definitions/country_ref" },
+        "value":  { "type": "number" }
+      }
+    },
+    "condition_relations_below": {
+      "type": "object",
+      "description": "Passes if source's opinion of target is strictly less than value. source defaults to the firing country.",
+      "required": ["type", "target", "value"],
+      "properties": {
+        "type":   { "type": "string", "const": "relations_below" },
+        "source": { "$ref": "#/definitions/country_ref" },
+        "target": { "$ref": "#/definitions/country_ref" },
+        "value":  { "type": "number" }
+      }
+    },
+    "condition_NOT": {
+      "type": "object",
+      "description": "Passes if ALL nested conditions fail (logical NOR). Typically used with a single child.",
+      "required": ["type", "conditions"],
+      "properties": {
+        "type":       { "type": "string", "const": "NOT" },
+        "conditions": { "$ref": "#/definitions/condition_list" }
+      }
+    },
+    "condition_OR": {
+      "type": "object",
+      "description": "Passes if ANY nested condition passes.",
+      "required": ["type", "conditions"],
+      "properties": {
+        "type":       { "type": "string", "const": "OR" },
+        "conditions": { "$ref": "#/definitions/condition_list" }
+      }
     },
     "effect": {
       "oneOf": [
