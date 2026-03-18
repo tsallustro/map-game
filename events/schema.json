@@ -1,0 +1,132 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Events File",
+  "type": "object",
+  "properties": {
+    "$schema": { "type": "string" }
+  },
+  "additionalProperties": {
+    "$ref": "#/definitions/event"
+  },
+  "definitions": {
+    "country_ref": {
+      "type": "string",
+      "description": "A country tag or variable. Supported variables: $THIS (firing country), $PLAYER (player country)."
+    },
+    "event": {
+      "type": "object",
+      "required": ["name", "desc", "MTTH", "options"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Display name of the event, shown as the title in the event popup."
+        },
+        "desc": {
+          "type": "string",
+          "description": "Flavour text shown in the body of the event popup."
+        },
+        "MTTH": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "description": "Mean Time To Happen in days. Lower values fire more frequently."
+        },
+        "options": {
+          "type": "array",
+          "minItems": 1,
+          "description": "Player choices shown as buttons in the event popup. At least one option is required.",
+          "items": { "$ref": "#/definitions/option" }
+        }
+      }
+    },
+    "option": {
+      "type": "object",
+      "required": ["text"],
+      "properties": {
+        "text": {
+          "type": "string",
+          "description": "Button label shown to the player."
+        },
+        "effects": {
+          "description": "Effects applied when the player selects this option. Shown in the button tooltip.",
+          "$ref": "#/definitions/effect_list"
+        },
+        "hidden_effects": {
+          "description": "Effects applied silently when the player selects this option. Not shown in the tooltip.",
+          "$ref": "#/definitions/effect_list"
+        }
+      }
+    },
+    "effect_list": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/effect" }
+    },
+    "effect": {
+      "oneOf": [
+        { "$ref": "#/definitions/effect_add_money" },
+        { "$ref": "#/definitions/effect_add_stability" },
+        { "$ref": "#/definitions/effect_set_global_flag" },
+        { "$ref": "#/definitions/effect_clear_global_flag" },
+        { "$ref": "#/definitions/effect_message" },
+        { "$ref": "#/definitions/effect_change_relations" }
+      ]
+    },
+    "effect_add_money": {
+      "type": "object",
+      "description": "Adds or subtracts money from a country. Defaults to the firing country if target is omitted.",
+      "required": ["type", "value"],
+      "properties": {
+        "type":   { "type": "string", "const": "add_money" },
+        "value":  { "type": "number", "description": "Amount of money to add. Use a negative number to subtract." },
+        "target": { "$ref": "#/definitions/country_ref", "description": "Country to receive the money. Defaults to the firing country." }
+      }
+    },
+    "effect_add_stability": {
+      "type": "object",
+      "description": "Adds or subtracts stability from a country. Defaults to the firing country if target is omitted.",
+      "required": ["type", "value"],
+      "properties": {
+        "type":   { "type": "string", "const": "add_stability" },
+        "value":  { "type": "number", "description": "Amount of stability to add. Use a negative number to subtract." },
+        "target": { "$ref": "#/definitions/country_ref", "description": "Country to receive the stability change. Defaults to the firing country." }
+      }
+    },
+    "effect_set_global_flag": {
+      "type": "object",
+      "description": "Sets a global flag that can be checked by event conditions.",
+      "required": ["type", "value"],
+      "properties": {
+        "type":  { "type": "string", "const": "set_global_flag" },
+        "value": { "type": "string", "description": "Name of the global flag to set." }
+      }
+    },
+    "effect_clear_global_flag": {
+      "type": "object",
+      "description": "Clears a global flag.",
+      "required": ["type", "value"],
+      "properties": {
+        "type":  { "type": "string", "const": "clear_global_flag" },
+        "value": { "type": "string", "description": "Name of the global flag to clear." }
+      }
+    },
+    "effect_message": {
+      "type": "object",
+      "description": "Display-only. Shown in the option tooltip; not processed as a game effect.",
+      "required": ["type", "value"],
+      "properties": {
+        "type":  { "type": "string", "const": "message" },
+        "value": { "type": "string", "description": "Text to display in the tooltip." }
+      }
+    },
+    "effect_change_relations": {
+      "type": "object",
+      "description": "Changes the opinion of source toward target by the given value. Note: this is one-directional; add a second effect for bilateral changes.",
+      "required": ["type", "source", "target", "value"],
+      "properties": {
+        "type":   { "type": "string", "const": "change_relations" },
+        "source": { "$ref": "#/definitions/country_ref", "description": "Country whose opinion is being changed." },
+        "target": { "$ref": "#/definitions/country_ref", "description": "Country that is the subject of the opinion change." },
+        "value":  { "type": "number", "description": "Amount to change the opinion by. Clamped to [-100, 100]." }
+      }
+    }
+  }
+}
