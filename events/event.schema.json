@@ -79,7 +79,8 @@
         { "$ref": "#/definitions/condition_relations_above" },
         { "$ref": "#/definitions/condition_relations_below" },
         { "$ref": "#/definitions/condition_NOT" },
-        { "$ref": "#/definitions/condition_OR" }
+        { "$ref": "#/definitions/condition_OR" },
+        { "$ref": "#/definitions/condition_is_country" }
       ]
     },
     "condition_has_global_flag": {
@@ -174,6 +175,15 @@
       "properties": {
         "type":       { "type": "string", "const": "OR" },
         "conditions": { "$ref": "#/definitions/condition_list" }
+      }
+    },
+     "condition_is_country": {
+      "type": "object",
+      "description": "Passes if the firing country is the specified country.",
+      "required": ["type", "value"],
+      "properties": {
+        "type":  { "type": "string", "const": "is_country" },
+        "value": { "type": "string" }
       }
     },
     "effect": {

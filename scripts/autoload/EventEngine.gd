@@ -32,6 +32,7 @@ var condition_handlers: Dictionary = {
 	"stability_below": _cond_stability_below,
 	"relations_above": _cond_relations_above,
 	"relations_below": _cond_relations_below,
+	"is_country": _cond_is_country
 }
 
 func _ready() -> void:
@@ -45,7 +46,7 @@ func _ready() -> void:
 	_init_events()
 
 func _init_events() -> void:
-	events_list = Utils.load_json_dict("res://events/test_events.json")
+	events_list = Utils.load_json_dict(Constants.EVENTS_FILE)
 	_build_dependency_indexes()
 
 func _on_data_loaded() -> void:
@@ -272,3 +273,6 @@ func _cond_relations_below(country_id: String, data: Dictionary) -> bool:
 	var source: String = data.get("source", country_id)
 	var target: String = data["target"]
 	return GameState.countries[source]["diplomacy"][target] < data["value"]
+
+func _cond_is_country(country_id: String, data: Dictionary) -> bool:
+	return country_id == data["value"]

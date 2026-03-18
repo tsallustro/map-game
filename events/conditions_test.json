@@ -31,5 +31,21 @@
 				"text": "Wow!"
 			}
 		]
+	},
+	"e_condition_test3": {
+		"name": "Emberfall Event",
+		"desc": "This event only fires for Emberfall.",
+		"MTTH": 1.0,
+		"conditions": [
+			{ "type": "is_country", "value": "EMB" }
+		],
+		"options": [
+			{
+				"text": "Hooray for Emberfall!",
+				"effects": [
+					{"type":"add_stability", "value": 1}
+				]
+			}
+		]
 	}
 }
