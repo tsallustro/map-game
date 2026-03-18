@@ -15,11 +15,8 @@
   - [ ] Rivers
 
 ## Events
-- [ ] Conditions
 - [ ] Trigger-once capability
-- [ ] Separate tick types
-  - [ ] Monthly
-  - [ ] MTTH (Mean Time To Happen)
+- [ ] Separate pulse types
 - [ ] Relative effects (e.g. current stability × 10)
 - [ ] Improved tooltips
 - [ ] Country flags

@@ -1,0 +1,51 @@
+{
+	"$schema": "./event.schema.json",
+	"e_condition_test": {
+		"name": "Test Event 1",
+		"desc": "This is the description for the test event.",
+		"MTTH": 10.0,
+		"conditions": [
+			{ "type": "money_below", "value": 101 }
+		],
+		"options": [
+			{
+				"text": "Ok"
+			},
+			{
+				"text": "Wow!"
+			}
+		]
+	},
+	"e_condition_test2": {
+		"name": "Test Event 2",
+		"desc": "This is the description for the test event.",
+		"MTTH": 10.0,
+		"conditions": [
+			{ "type": "money_above", "value": 101 }
+		],
+		"options": [
+			{
+				"text": "Ok"
+			},
+			{
+				"text": "Wow!"
+			}
+		]
+	},
+	"e_condition_test3": {
+		"name": "Emberfall Event",
+		"desc": "This event only fires for Emberfall.",
+		"MTTH": 1.0,
+		"conditions": [
+			{ "type": "is_country", "value": "EMB" }
+		],
+		"options": [
+			{
+				"text": "Hooray for Emberfall!",
+				"effects": [
+					{"type":"add_stability", "value": 1}
+				]
+			}
+		]
+	}
+}

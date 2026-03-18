@@ -9,9 +9,12 @@ signal speed_changed(speed: int)
 signal province_infrastructure_changed(province_id: String)
 signal pause_state_changed(isPaused: bool)
 signal force_diplomacy_panel_refresh(selected_country_id: String)
-
 signal force_refresh_TL_panel()
 signal selected_country_changed(country_id: String)
+signal global_flag_changed(flag_name: String, is_set: bool)
+signal money_changed(country_id: String, new_value: float)
+signal stability_changed(country_id: String, new_value: int)
+signal relations_changed(source: String, target: String, new_value: int)
 var view_mode: int = Enums.ViewMode.OWNER
 
 # Raw loaded data
@@ -323,11 +326,13 @@ func add_money(country_id: String, amount: int) -> void:
 	countries[country_id]["money"] = new_amount
 	money_by_country_id[country_id] = new_amount
 	if country_id == player_tag: emit_signal("force_refresh_TL_panel")
+	emit_signal("money_changed", country_id, new_amount)
 
 func add_stability(country_id: String, amount: int) -> void:
 	var new_amount = max(min(countries[country_id]["stability"] + amount, 5), -5)
 	countries[country_id]["stability"] = new_amount
 	emit_signal("force_refresh_TL_panel")
+	emit_signal("stability_changed", country_id, new_amount)
 
 func manage_global_flag(flag_name: String, set_flag: bool) -> void:
 	if (!set_flag):
@@ -336,12 +341,14 @@ func manage_global_flag(flag_name: String, set_flag: bool) -> void:
 			print("WARN: Flag %s is not in list" % [flag_name])
 		else:
 			(flags["global"] as Array).erase(flag_name)
+			emit_signal("global_flag_changed", flag_name, false)
 	else:
 		# Set flag
 		if (flag_name in flags["global"]):
 			print("WARN: Flag %s already in list" % [flag_name])
 		else:
 			(flags["global"] as Array).append(flag_name)
+			emit_signal("global_flag_changed", flag_name, true)
 
 # Province selection/highlight
 func select_province_by_maskkey(mask_key: String) -> void:
@@ -399,6 +406,7 @@ func change_relations(source_country : String, target_country: String, delta : i
 	var new_value = countries[source_country]["diplomacy"][target_country] + delta
 	var clamped_value = Utils.min_max(new_value, Constants.RELATIONS_MIN, Constants.RELATIONS_MAX)
 	countries[source_country]["diplomacy"][target_country] = clamped_value
+	emit_signal("relations_changed", source_country, target_country, clamped_value)
 
 func change_bilateral_relations(source_country : String, target_country: String, delta : int):
 	change_relations(source_country, target_country, delta)

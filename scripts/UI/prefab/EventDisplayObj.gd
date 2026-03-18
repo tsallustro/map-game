@@ -8,7 +8,8 @@ var effect_names_pretty: Dictionary = {
 	"add_stability": "%+d stability",
 	"set_global_flag": "Flag %s is set",
 	"clear_global_flag": "Flag %s is cleared",
-	"message": "%s"
+	"message": "%s",
+	"change_relations": "Relations between %s and %s: %+d"
 }
 
 func initialize(event_data: Dictionary) -> void:
@@ -23,14 +24,19 @@ func initialize(event_data: Dictionary) -> void:
 		if "effects" in option: btn.tooltip_text = _generate_tooltip_text(option["effects"])
 		optionsContainer.add_child(btn)
 
-func _generate_tooltip_text(effects_dict: Dictionary) -> String:
+func _generate_tooltip_text(effects: Array) -> String:
 	var generated_tooltip_text: String = ""
-	for effect in effects_dict:
-		generated_tooltip_text = generated_tooltip_text + effect_names_pretty[effect] % [effects_dict[effect]] + "\n"
+	for element in effects:
+		var type: String = element["type"]
+		if type not in effect_names_pretty: continue
+		var data = element.duplicate()
+		data.erase("type")
+		var fmt_args = data.values() if data is Dictionary else [data]
+		generated_tooltip_text += effect_names_pretty[type] % fmt_args + "\n"
 	return generated_tooltip_text
 
 func _on_option_selected(option_data: Dictionary) -> void:
 	queue_free()
-	var effects: Dictionary = option_data["effects"] if "effects" in option_data else {}
-	var hidden_effects: Dictionary = option_data["hidden_effects"] if "hidden_effects" in option_data else {}
+	var effects: Array = option_data["effects"] if "effects" in option_data else []
+	var hidden_effects: Array = option_data["hidden_effects"] if "hidden_effects" in option_data else []
 	EventEngine.process_effects(effects, hidden_effects, GameState.player_tag)

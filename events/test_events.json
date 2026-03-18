@@ -1,4 +1,5 @@
 {
+	"$schema": "./event.schema.json",
 	"e_test": {
 		"name": "Test Event",
 		"desc": "This is the description for the test event. This text is super long, to test layout stuff. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
@@ -16,12 +17,18 @@
 		"name": "Test Gain Money Event",
 		"desc": "This event tests adding money! :D",
 		"MTTH": 30.0,
+		"conditions": [
+			{ "type": "money_below", "value": 500 }
+		],
 		"options": [
 			{
 				"text": "Neat",
-				"effects": {
-					"add_money": 100.0
-				}
+				"effects": [
+					{
+						"type": "add_money",
+						"value": 100.0
+					}
+				]
 			}
 		]
 	},
@@ -32,35 +39,44 @@
 		"options": [
 			{
 				"text": "Aww man",
-				"effects": {
-					"add_money": -10.0
-				}
+				"effects": [
+					{
+						"type": "add_money",
+						"value": -10.0
+					}
+				]
 			}
 		]
 	},
 	"e_test_gain_stab": {
 		"name": "Test Gain stability Event",
-		"desc": "This event tests adding money! :D",
+		"desc": "This event tests adding stability! :D",
 		"MTTH": 30.0,
 		"options": [
 			{
 				"text": "Hooray!",
-				"effects": {
-					"add_stability": 1.0
-				}
+				"effects": [
+					{
+						"type": "add_stability",
+						"value": 1.0
+					}
+				]
 			}
 		]
 	},
 	"e_test_lose_stab": {
 		"name": "Test Lose stability Event",
-		"desc": "This event tests losing money! D:",
+		"desc": "This event tests losing stability! D:",
 		"MTTH": 30.0,
 		"options": [
 			{
 				"text": "Aww shucks!",
-				"effects": {
-					"add_stability": -1.0
-				}
+				"effects": [
+					{
+						"type": "add_stability",
+						"value": -1.0
+					}
+				]
 			}
 		]
 	},
@@ -71,9 +87,12 @@
 		"options": [
 			{
 				"text": "Now you see me...",
-				"effects": {
-					"set_global_flag": "test_global_flag"
-				}
+				"effects": [
+					{
+						"type": "set_global_flag",
+						"value": "test_global_flag"
+					}
+				]
 			}
 		]
 	},
@@ -81,12 +100,18 @@
 		"name": "Test Clear G Flag Event",
 		"desc": "This event tests clearing a global flag",
 		"MTTH": 30.0,
+		"conditions": [
+			{ "type": "has_global_flag", "value": "test_global_flag" }
+		],
 		"options": [
 			{
 				"text": "...now you don't!",
-				"effects": {
-					"clear_global_flag": "test_global_flag"
-				}
+				"effects": [
+					{
+						"type": "clear_global_flag",
+						"value": "test_global_flag"
+					}
+				]
 			}
 		]
 	},
@@ -97,23 +122,82 @@
 		"options": [
 			{
 				"text": "Set the flag!",
-				"effects": {
-					"add_money": 1.0,
-					"message": "This will set the flag test_hidden_effect"
-				},
-				"hidden_effects": {
-					"set_global_flag": "test_hidden_effect"
-				}
+				"effects": [
+					{
+						"type": "add_money",
+						"value": 1.0
+					},
+					{
+						"type": "message",
+						"value": "This will set the flag test_hidden_effect"
+					}
+				],
+				"hidden_effects": [
+					{
+						"type": "set_global_flag",
+						"value": "test_hidden_effect"
+					}
+				]
 			},
 			{
 				"text": "Clear the flag!",
-				"effects": {
-					"add_money": -1.0,
-					"message": "This will clear the flag test_hidden_effect"
-				},
-				"hidden_effects": {
-					"clear_global_flag": "test_hidden_effect"
-				}
+				"effects": [
+					{
+						"type": "add_money",
+						"value": -1.0
+					},
+					{
+						"type": "message",
+						"value": "This will clear the flag test_hidden_effect"
+					}
+				],
+				"hidden_effects": [
+					{
+						"type": "clear_global_flag",
+						"value": "test_hidden_effect"
+					}
+				]
+			}
+		]
+	},
+	"e_test_relations": {
+		"name": "Test Relations Event",
+		"desc": "The Haerslean Kingdom is an up-and-coming realm based from Haersley Hold. One of their ministers has arrived at our doorstep seeking to build a working relationship with us. How should we respond?",
+		"MTTH": 10.0,
+		"options": [
+			{
+				"text": "Let's be friends!",
+				"effects": [
+					{
+						"type": "change_relations",
+						"source": "HRS",
+						"target": "$THIS",
+						"value": 20
+					},
+					{
+						"type": "change_relations",
+						"source": "$THIS",
+						"target": "HRS",
+						"value": 20
+					}
+				]
+			},
+			{
+				"text": "Throw him out on his rump!",
+				"effects": [
+					{
+						"type": "change_relations",
+						"source": "HRS",
+						"target": "$THIS",
+						"value": -20
+					},
+					{
+						"type": "change_relations",
+						"source": "$THIS",
+						"target": "HRS",
+						"value": -20
+					}
+				]
 			}
 		]
 	}
